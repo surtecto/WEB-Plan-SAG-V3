@@ -822,6 +822,32 @@ footer.site-footer::after {
 .r-campo { --bar: var(--loes); background: var(--bar); color: var(--tierra) !important; animation-delay: .5s !important; }
 .reparto-barra .r-pueblos, .reparto-barra .r-campo { padding: 0 8px; }
 @keyframes crecer { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.reparto-fila { display: grid; grid-template-columns: 52px 1fr; align-items: center; gap: 12px; margin-bottom: 8px; }
+.reparto-anio { font: 600 1.25rem var(--f-cifra); letter-spacing: .02em; }
+.reparto-previo .reparto-barra { height: 30px; opacity: .62; }
+.reparto-previo .reparto-barra span { font-size: .8rem; }
+.reparto-previo .reparto-barra span b { font-size: .95rem; }
+.reparto-nota { margin: 10px 0 0 64px; font: italic 400 .86rem var(--f-texto); color: var(--texto-3); max-width: 74ch; }
+
+/* ---------- Censo 2022 ---------- */
+.censo22 { display: grid; grid-template-columns: 1fr 1.15fr; gap: 40px; align-items: start; margin-top: 52px; padding-top: 40px; border-top: 1px solid var(--linea-fuerte); }
+.censo22 h3 { font: 400 clamp(1.8rem, 3vw, 2.4rem)/1.1 var(--f-titulo); margin: 8px 0 12px; }
+.censo22-texto > p { color: var(--texto-2); max-width: 54ch; }
+.censo22-cifras { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 24px; margin: 24px 0 18px; }
+.censo22-cifras div { border-top: 2px solid var(--tierra); padding-top: 8px; }
+.censo22-cifras dt { font: 600 2.6rem/1 var(--f-cifra); color: var(--loes-osc); }
+.censo22-cifras dd { margin: 6px 0 0; font-size: .95rem; line-height: 1.35; color: var(--texto-2); }
+.censo22-fuente { font: 400 .72rem/1.5 var(--f-mono); color: var(--texto-3); letter-spacing: .02em; }
+.censo22-mapa { margin: 0; border: 1px solid var(--tierra); background: var(--tierra); }
+.censo22-mapa img { display: block; width: 100%; height: auto; }
+.censo22-mapa figcaption { font: 400 .72rem var(--f-mono); color: var(--viento); padding: 8px 12px; letter-spacing: .04em; }
+@media (max-width: 760px) {
+  .censo22 { grid-template-columns: 1fr; gap: 26px; margin-top: 40px; padding-top: 30px; }
+  .censo22-cifras { grid-template-columns: 1fr; }
+  .reparto-fila { grid-template-columns: 1fr; gap: 2px; margin-bottom: 14px; }
+  .reparto-previo .reparto-barra { height: auto; }
+  .reparto-nota { margin-left: 0; }
+}
 
 /* ---------- De la recta a la senda ---------- */
 .malla { display: grid; grid-template-columns: 1.1fr 1fr; gap: 44px; align-items: center; }

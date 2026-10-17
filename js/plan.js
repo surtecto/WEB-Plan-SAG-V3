@@ -70,7 +70,7 @@ window.PLAN_SAG = {
       capitulo: "Capítulo VI",
       rumbo: "Concebir el territorio no como un espacio a ocupar, sino como un entorno integral del cual somos parte.",
       texto: "Al menos desde mediados del siglo XIX, las zonas rurales fueron pensadas solo en términos de producción y no del habitar como totalidad. Hoy hay gente que vive del campo y gente que quiere vivir en el campo.",
-      dato: { num: "18 %", label: "de viviendas vacías en el Partido (Censo 2010), mientras 1.291 familias figuraban en el Registro Municipal de Vivienda (2020)" },
+      dato: { num: "1.684", label: "viviendas deshabitadas en el Partido según el Censo 2022 (15,3 %), mientras 1.291 familias figuraban en el Registro Municipal de Vivienda (2020)" },
       ocasiones: [
         { t: "Acceso a la vivienda", d: "El Estado construyó apenas 660 viviendas en 80 años. Se propone construir, acompañar, apoyar y regular: asistencia total o de materiales, cooperativas, compras conjuntas de tierra, alquileres y materiales abundantes como el adobe." },
         { t: "Puestos", d: "Un nuevo modo de habitar la ruralidad, con el nombre de nuestra tradición: agrupamientos de muy baja densidad (5 a 30 hab/ha, art. 31 del Decreto-Ley 8912), gestión comunitaria y prioridad al sol." },

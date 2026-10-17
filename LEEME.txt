@@ -17,3 +17,10 @@ Para activar el Buzón Ciudadano:
   1. Crear una Hoja de cálculo > Extensiones > Apps Script > pegar apps-script/Codigo.gs
   2. Implementar como Aplicación web (acceso: cualquier usuario) y copiar la URL /exec
   3. Pegarla en js/config.js → OPINIONES_URL: "https://script.google.com/.../exec"
+
+Actualización 17-10-2026 · Censo 2022
+  - "¿Dónde vivimos?": barras 2022 (73,9 / 13,8 / 12,3 %, cálculo CMDOT sobre radios
+    urbanos) y 2010 (77,6 / 10,3 / 12 %) con nota de método.
+  - Nuevo bloque "Lo que cambió en doce años" con cifras INDEC 2022 y el mapa
+    img/censo.webp (población por radio censal 2022).
+  - Senda del Habitar: dato de viviendas deshabitadas actualizado a 2022.
