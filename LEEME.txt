@@ -1,0 +1,19 @@
+PLAN SAG 2020-2030 · Sitio público (versión rediseñada, octubre 2026)
+====================================================================
+Estructura (se mantiene la del sitio WEB 2026):
+  index.html        página única organizada según el Plan: De la recta a la senda,
+                    las 4 Sendas con sus Ocasiones, los Pueblos, las 46 Líneas,
+                    Espacio Educativo, Documentos y Buzón
+  css/styles.css    identidad pampeana: paleta, tipografías, animaciones
+  js/plan.js        contenidos del Plan (Sendas, Ocasiones, Pueblos, Líneas): editar acá
+  js/app.js         menú, secciones activas, sendas, pueblos, líneas, glosario, acordeón, buzón
+  js/config.js      OPINIONES_URL del buzón (vacía = el buzón avisa que no envía)
+  apps-script/      receptor del buzón hacia una Hoja de cálculo de Google
+  fonts/            tipografías alojadas en el sitio (licencia SIL OFL)
+  img/              cartografías del Plan (CMDOT 2023) en webp, versión escritorio y -m móvil
+  favicon.svg
+
+Para activar el Buzón Ciudadano:
+  1. Crear una Hoja de cálculo > Extensiones > Apps Script > pegar apps-script/Codigo.gs
+  2. Implementar como Aplicación web (acceso: cualquier usuario) y copiar la URL /exec
+  3. Pegarla en js/config.js → OPINIONES_URL: "https://script.google.com/.../exec"
