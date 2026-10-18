@@ -69,98 +69,15 @@ footer{margin-top:40px;border-top:1px solid var(--line);padding-top:14px;font-si
 <p class="sub">Población, hogares y viviendas en los 91 radios censales del partido</p>
 <div class="kp"><div><b>91</b><span>radios censales con datos de 2022</span></div><div><b>71</b><span>variables del cuestionario por radio</span></div><div><b>73,3 %</b><span>de la población vive en la cabecera</span></div><div><b>36 %</b><span>de las viviendas del campo sin personas</span></div></div>
 
-<h1>1 Qué había y qué faltaba</h1>
-<p>El pedido fue reunir todas las tablas con datos por radio censal de
-la provincia y, en particular, las de Giles. La búsqueda en las carpetas
-del Plan arrojó un resultado claro: <strong>había geometría de 2022 y
-datos de 2010, pero ninguna tabla con datos de 2022 por radio</strong>.
-Las dos cosas no se pueden cruzar sin más, porque el INDEC rehízo la
-división: el partido pasó de 77 a 91 radios.</p>
-<div class='tw'><table>
-<colgroup>
-<col />
-</colgroup>
-<tbody>
-<tr class="odd">
-<td><p><strong>ADVERTENCIA SOBRE UN ARCHIVO</strong></p>
-<p>El archivo <strong>RadiosCensalesSAG2022.json</strong> y la capa
-<strong>Censo2022_SAGPob_RC</strong> (carpeta CENSO 2022) tienen 77
-radios que suman 23.027 habitantes, 7.284 hogares y 8.565 viviendas
-particulares: son exactamente los totales del <strong>Censo
-2010</strong>. Conviene renombrarlos o reemplazarlos por la capa que
-acompaña este informe antes de usarlos en mapas o textos.</p></td>
-</tr>
-</tbody>
-</table></div>
-<p><strong>Tabla 1.</strong> Tablas con datos por radio censal
-encontradas en las carpetas del Plan.</p>
-<div class='tw'><table>
-<colgroup>
-<col />
-<col />
-<col />
-<col />
-</colgroup>
-<thead>
-<tr class="header">
-<th><strong>Archivo</strong></th>
-<th><strong>Año</strong></th>
-<th><strong>Ámbito</strong></th>
-<th><strong>Contenido</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Buenos_Aires_con_datos.shp</td>
-<td>2010</td>
-<td>Provincia (19.577 radios)</td>
-<td>Población, hogares, viviendas</td>
-</tr>
-<tr class="even">
-<td><strong>RadiosCensalesSAG2022.json /
-Censo2022_SAGPob_RC.shp</strong></td>
-<td>2010</td>
-<td>Giles (77)</td>
-<td>Varones, mujeres, población, hogares, viviendas</td>
-</tr>
-<tr class="odd">
-<td>Censo2010RadioHog.dbf</td>
-<td>2010</td>
-<td>Giles (77)</td>
-<td>≈150 columnas de hogares sin diccionario (F2…F154)</td>
-</tr>
-<tr class="even">
-<td>Radios SAG HOGARES.dbf</td>
-<td>—</td>
-<td>Giles</td>
-<td>Estructura sin registros</td>
-</tr>
-<tr class="odd">
-<td>PreCenso2020.xlsx / .dbf</td>
-<td>2020</td>
-<td>Cabecera (28)</td>
-<td>Indicadores del Precenso de Viviendas</td>
-</tr>
-<tr class="even">
-<td>radios-censales-Prov BA.kml</td>
-<td>2022</td>
-<td>Provincia</td>
-<td>Sólo geometría y códigos</td>
-</tr>
-<tr class="odd">
-<td>INDEC 2022 (planos de fracción)</td>
-<td>2022</td>
-<td>Giles</td>
-<td>Planos operativos en PDF, sin datos</td>
-</tr>
-</tbody>
-</table></div>
-<p><em>Fuente: relevamiento de las carpetas «Modificación PLAN 2020»,
-«CENSO 2022», «INDEC 2022», «SIG SAG» y «SHP».</em></p>
-<p>Fuera de las carpetas, las fuentes con datos de 2022 por radio son
+<h1>1 De dónde salen los datos</h1>
+<p>Hasta este trabajo, para Giles había geometría de los radios de 2022
+y datos por radio de 2010, pero ninguna tabla pública con datos de 2022
+por radio. Las dos cosas no se pueden cruzar sin más, porque el INDEC
+rehízo la división: el partido pasó de 77 a 91 radios.</p>
+<p>Las fuentes con datos de 2022 por radio son
 tres. La <strong>capa de radios 2022 de Datos Abiertos de la
 Provincia</strong> se descargó y se revisó: trae sólo geometría y
-códigos, igual que el KML que ya estaba en la carpeta. Los
+códigos. Los
 <strong>GeoPackages de la Universidad Nacional de Córdoba</strong>
 (Boccolini, 2026, licencia CC BY 4.0) traen población, viviendas,
 viviendas vacías por motivo y grandes grupos de edad para todo el país,
@@ -207,7 +124,7 @@ title="c22_pueblos.png"
 alt="c22_pueblos.png" /></p>
 <p><strong>Figura 2.</strong> Población por localidad, excluidas la
 cabecera y la población rural dispersa.</p>
-<p><strong>Tabla 2.</strong> Indicadores por localidad. 2022.</p>
+<p><strong>Tabla 1.</strong> Indicadores por localidad. 2022.</p>
 <div class='tw'><table>
 <colgroup>
 <col />
@@ -542,8 +459,8 @@ extiende más rápido que la red?</p></li>
 censos por radio debe preguntarse primero si cambió el territorio o
 cambió la forma de cortarlo.</p></li>
 </ul>
-<h1>Anexo. Autocorrelación espacial y archivos entregados</h1>
-<p><strong>Tabla 3.</strong> I de Moran global por indicador. 91 radios,
+<h1>Anexo. Autocorrelación espacial</h1>
+<p><strong>Tabla 2.</strong> I de Moran global por indicador. 91 radios,
 contigüidad tipo reina, 999 permutaciones.</p>
 <div class='tw'><table>
 <colgroup>
@@ -657,23 +574,6 @@ contigüidad tipo reina, 999 permutaciones.</p>
 Población, Hogares y Viviendas 2022, procesado con Redatam 7. Los
 valores de p iguales a 0,001 son el mínimo posible con 999
 permutaciones.</em></p>
-<h2>Archivos</h2>
-<p>En la carpeta <strong>CENSO 2022 › Radios 2022</strong> quedan:</p>
-<ul>
-<li><p><strong>radios2022_giles_censo2022.gpkg</strong> (EPSG 22183),
-<strong>.geojson</strong> (WGS 84) y <strong>.csv</strong>: los 91
-radios con localidad, ámbito, superficie y 90 campos de conteos e
-indicadores (población por sexo y edad, hogares, viviendas por condición
-de ocupación y motivo, servicios, tenencia, NBI, privación material,
-educación, trabajo y migración).</p></li>
-<li><p><strong>redatam_giles_radios2022.json</strong>: la salida
-completa de las 71 variables del Redatam, con todas sus categorías, por
-radio y para el partido.</p></li>
-<li><p><strong>radios2022c_vivVacias.gpkg</strong> y
-<strong>radios2022_envejecimiento.gpkg</strong> (UNC, Boccolini 2026, CC
-BY 4.0): radios de todo el país con densidad mayor a 1 hab/ha, útiles
-para comparar Giles con otros partidos.</p></li>
-</ul>
 <p>Para citar los datos: «Fuente: elaboración propia con base en datos
 del INDEC, Censo Nacional de Población, Hogares y Viviendas 2022,
 procesado con Redatam 7».</p>
