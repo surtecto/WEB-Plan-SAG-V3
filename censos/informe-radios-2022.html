@@ -29,8 +29,41 @@ ul{padding-left:20px}
 li{margin-bottom:6px}
 footer{margin-top:40px;border-top:1px solid var(--line);padding-top:14px;font-size:13px;color:var(--muted)}
 .firma{text-align:right;margin-top:40px}
-</style></head><body><div class="wrap">
-<div class="top"><a href="./">← Giles en sus censos</a><span>CMDOT · Plan de Ordenamiento Territorial · San Andrés de Giles</span></div>
+.firma-img{margin:28px 0 0}.firma-img img{margin:0 0 -8px;display:block;width:190px;max-width:50%;height:auto;border:0;background:none;mix-blend-mode:multiply}
+@media (prefers-color-scheme:dark){.firma-img img{mix-blend-mode:normal;filter:invert(1) brightness(1.6)}}
+
+/* Barra de retorno al Plan SAG */
+.leaflet-container{isolation:isolate;z-index:0}
+:root{--pbh:44px}
+.planbar{position:sticky;top:0;z-index:40;background:#1C1A14;color:#F4F0E6;border-bottom:3px solid #4A7C3F;font:500 14px/1 'Barlow',system-ui,sans-serif}
+.pb-in{max-width:1320px;margin:0 auto;height:calc(var(--pbh) - 3px);display:flex;align-items:center;gap:4px;padding:0 max(16px,env(safe-area-inset-left,0px));overflow-x:auto;scrollbar-width:none;white-space:nowrap}
+.pb-in::-webkit-scrollbar{display:none}
+.planbar a{color:#F4F0E6;text-decoration:none;padding:7px 10px;border-radius:3px;flex:none}
+.planbar a:hover{background:rgba(244,240,230,.12)}
+.planbar a:focus-visible{outline:2px solid #C8973A;outline-offset:1px}
+.planbar a.pb-home{background:#C8973A;color:#1C1A14;font-weight:600;padding:7px 12px}
+.planbar a.pb-home:hover{background:#D9AA4E}
+.planbar a[aria-current=page]{box-shadow:inset 0 -2px 0 #7BAF5E;font-weight:600}
+.pb-sep{flex:none;width:1px;height:20px;background:rgba(244,240,230,.3);margin:0 6px}
+.pb-plan{display:flex;gap:2px;margin-left:auto;flex:none}
+.pb-plan a{color:#CFC8B4}
+.pbfoot{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;border-top:3px solid var(--fg,#1C1A14);margin-top:36px;padding:16px 0 4px;font:600 15px 'Barlow',system-ui,sans-serif}
+.pbfoot a{color:var(--accent,#4A7C3F);text-decoration:none}
+.pbfoot a:hover{text-decoration:underline}
+.pbfoot a.pb-volver{background:var(--fg,#1C1A14);color:var(--bg,#F4F0E6);padding:10px 16px;border-radius:3px}
+.pbfoot a.pb-volver:hover{text-decoration:none;opacity:.9}
+@media (max-width:820px){.pb-plan{display:none}}
+@media (max-width:700px){:root{--pbh:40px}.planbar{position:relative;font-size:13px}.planbar a{padding:6px 8px}}
+@media (max-width:700px){.ruler{top:env(safe-area-inset-top,0px)!important}}
+</style></head><body id="top">
+<nav class="planbar" aria-label="Volver al Plan SAG"><div class="pb-in">
+  <a class="pb-home" href="../">← Plan SAG 2020–2030</a>
+  <span class="pb-sep" aria-hidden="true"></span>
+  <a href="./">Giles en sus censos</a>
+  <a href="informe-radios-2022.html" aria-current="page">Informe Censo 2022</a>
+  <span class="pb-plan"><a href="../#sendas">Sendas</a><a href="../#pueblos">Pueblos</a><a href="../#educacion">Espacio Educativo</a><a href="../#documentos">Documentos</a><a href="../#participacion">Participar</a></span>
+</div></nav>
+<div class="wrap">
 <div class="eyebrow">Informe · octubre de 2026</div>
 <div class="title">Los radios del Censo 2022</div>
 <p class="sub">Población, hogares y viviendas en los 91 radios censales del partido</p>
@@ -644,7 +677,7 @@ para comparar Giles con otros partidos.</p></li>
 <p>Para citar los datos: «Fuente: elaboración propia con base en datos
 del INDEC, Censo Nacional de Población, Hogares y Viviendas 2022,
 procesado con Redatam 7».</p>
-<p><img loading="lazy" src="img/inf22-ba70fe7b6e.webp"
+<p class="firma-img"><img loading="lazy" src="img/inf22-ba70fe7b6e.webp"
 title="Firma"
 alt="Firma manuscrita" /></p>
 <p><strong>Arq. Juan Patricio Addesso – Mat. CAPBA 020811</strong></p>
@@ -652,5 +685,6 @@ alt="Firma manuscrita" /></p>
 Andrés de Giles</p>
 <p>San Andrés de Giles, octubre de 2026</p>
 
+<nav class="pbfoot" aria-label="Seguir navegando"><a class="pb-volver" href="../">← Volver al Plan SAG</a><a href="./">Volver al explorador «Giles en sus censos»</a><a href="../#educacion">Espacio Educativo</a><a href="../#participacion">Sumar un aporte</a><a href="#top">↑ Arriba</a></nav>
 <footer>Dirección de Planeamiento y Obras Particulares · Municipio de San Andrés de Giles. Fuente: elaboración propia con base en datos del INDEC, Censo Nacional de Población, Hogares y Viviendas 2022, procesado con Redatam 7.</footer>
 </div></body></html>

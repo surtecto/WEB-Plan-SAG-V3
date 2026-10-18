@@ -46,7 +46,7 @@ function initMobileNav() {
 
 /* 2. Sección activa en el menú */
 function initScrollSpy() {
-  const links = [...document.querySelectorAll(".main-nav .nav-link")];
+  const links = [...document.querySelectorAll('.main-nav .nav-link[href^="#"]')];
   const sections = links.map(l => document.querySelector(l.getAttribute("href"))).filter(Boolean);
   if (!("IntersectionObserver" in window) || !sections.length) return;
 
