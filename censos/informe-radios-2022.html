@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Los radios del Censo 2022</title><link rel="icon" href="../favicon.svg">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=Barlow+Condensed:wght@600&display=swap">
+<style>
+:root{--bg:#F4F0E6;--surface:#FBF8F1;--fg:#1C1A14;--muted:#5F5B4F;--line:#D8D0BA;--accent:#4A7C3F;--hi:#C8973A;--hi-strong:#8E6620;--alert:#8B2020}
+@media (prefers-color-scheme:dark){:root{--bg:#1C1A14;--surface:#24221B;--fg:#F4F0E6;--muted:#B5AE9C;--line:#3E3A2E;--accent:#7BAF5E;--hi:#D9AE5C;--hi-strong:#E6C98B;--alert:#D9776B}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 'Barlow',system-ui,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:28px max(16px,env(safe-area-inset-left)) 60px}
+.top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px}
+.top a{color:var(--accent);font-weight:600;text-decoration:none}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-top:22px}
+.title{font:700 clamp(36px,6vw,58px)/1.02 'EB Garamond',Garamond,serif;margin:6px 0}
+.sub{color:var(--muted);font-size:18px;margin:0 0 18px}
+.kp{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;border-top:3px solid var(--fg);padding-top:12px;margin-bottom:30px}
+.kp b{display:block;font:600 40px/1 'Barlow Condensed',sans-serif;color:var(--hi-strong)}
+.kp span{font-size:13px;color:var(--muted)}
+h1{font:700 32px/1.15 'EB Garamond',serif;border-bottom:2px solid var(--hi);padding-bottom:6px;margin:44px 0 14px}
+h2{font:700 23px/1.2 'EB Garamond',serif;margin:28px 0 8px;color:var(--accent)}
+p{margin:0 0 12px}
+img{max-width:100%;height:auto;display:block;margin:18px auto 6px;background:#fff;border:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;font-variant-numeric:tabular-nums;margin:10px 0}
+.tw{overflow-x:auto}
+th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+thead th, tr.header th{background:var(--fg);color:var(--bg)}
+blockquote{margin:16px 0;padding:10px 16px;border-left:3px solid var(--hi);background:var(--surface)}
+ul{padding-left:20px}
+li{margin-bottom:6px}
+footer{margin-top:40px;border-top:1px solid var(--line);padding-top:14px;font-size:13px;color:var(--muted)}
+.firma{text-align:right;margin-top:40px}
+</style></head><body><div class="wrap">
+<div class="top"><a href="./">← Giles en sus censos</a><span>CMDOT · Plan de Ordenamiento Territorial · San Andrés de Giles</span></div>
+<div class="eyebrow">Informe · octubre de 2026</div>
+<div class="title">Los radios del Censo 2022</div>
+<p class="sub">Población, hogares y viviendas en los 91 radios censales del partido</p>
+<div class="kp"><div><b>91</b><span>radios censales con datos de 2022</span></div><div><b>71</b><span>variables del cuestionario por radio</span></div><div><b>73,3 %</b><span>de la población vive en la cabecera</span></div><div><b>36 %</b><span>de las viviendas del campo sin personas</span></div></div>
+
+<h1>1 Qué había y qué faltaba</h1>
+<p>El pedido fue reunir todas las tablas con datos por radio censal de
+la provincia y, en particular, las de Giles. La búsqueda en las carpetas
+del Plan arrojó un resultado claro: <strong>había geometría de 2022 y
+datos de 2010, pero ninguna tabla con datos de 2022 por radio</strong>.
+Las dos cosas no se pueden cruzar sin más, porque el INDEC rehízo la
+división: el partido pasó de 77 a 91 radios.</p>
+<div class='tw'><table>
+<colgroup>
+<col />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><p><strong>ADVERTENCIA SOBRE UN ARCHIVO</strong></p>
+<p>El archivo <strong>RadiosCensalesSAG2022.json</strong> y la capa
+<strong>Censo2022_SAGPob_RC</strong> (carpeta CENSO 2022) tienen 77
+radios que suman 23.027 habitantes, 7.284 hogares y 8.565 viviendas
+particulares: son exactamente los totales del <strong>Censo
+2010</strong>. Conviene renombrarlos o reemplazarlos por la capa que
+acompaña este informe antes de usarlos en mapas o textos.</p></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Tabla 1.</strong> Tablas con datos por radio censal
+encontradas en las carpetas del Plan.</p>
+<div class='tw'><table>
+<colgroup>
+<col />
+<col />
+<col />
+<col />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Archivo</strong></th>
+<th><strong>Año</strong></th>
+<th><strong>Ámbito</strong></th>
+<th><strong>Contenido</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Buenos_Aires_con_datos.shp</td>
+<td>2010</td>
+<td>Provincia (19.577 radios)</td>
+<td>Población, hogares, viviendas</td>
+</tr>
+<tr class="even">
+<td><strong>RadiosCensalesSAG2022.json /
+Censo2022_SAGPob_RC.shp</strong></td>
+<td>2010</td>
+<td>Giles (77)</td>
+<td>Varones, mujeres, población, hogares, viviendas</td>
+</tr>
+<tr class="odd">
+<td>Censo2010RadioHog.dbf</td>
+<td>2010</td>
+<td>Giles (77)</td>
+<td>≈150 columnas de hogares sin diccionario (F2…F154)</td>
+</tr>
+<tr class="even">
+<td>Radios SAG HOGARES.dbf</td>
+<td>—</td>
+<td>Giles</td>
+<td>Estructura sin registros</td>
+</tr>
+<tr class="odd">
+<td>PreCenso2020.xlsx / .dbf</td>
+<td>2020</td>
+<td>Cabecera (28)</td>
+<td>Indicadores del Precenso de Viviendas</td>
+</tr>
+<tr class="even">
+<td>radios-censales-Prov BA.kml</td>
+<td>2022</td>
+<td>Provincia</td>
+<td>Sólo geometría y códigos</td>
+</tr>
+<tr class="odd">
+<td>INDEC 2022 (planos de fracción)</td>
+<td>2022</td>
+<td>Giles</td>
+<td>Planos operativos en PDF, sin datos</td>
+</tr>
+</tbody>
+</table></div>
+<p><em>Fuente: relevamiento de las carpetas «Modificación PLAN 2020»,
+«CENSO 2022», «INDEC 2022», «SIG SAG» y «SHP».</em></p>
+<p>Fuera de las carpetas, las fuentes con datos de 2022 por radio son
+tres. La <strong>capa de radios 2022 de Datos Abiertos de la
+Provincia</strong> se descargó y se revisó: trae sólo geometría y
+códigos, igual que el KML que ya estaba en la carpeta. Los
+<strong>GeoPackages de la Universidad Nacional de Córdoba</strong>
+(Boccolini, 2026, licencia CC BY 4.0) traen población, viviendas,
+viviendas vacías por motivo y grandes grupos de edad para todo el país,
+pero sólo para los radios con más de un habitante por hectárea: en Giles
+cubren 39 de los 91 radios (22.934 habitantes, el 86,9 % de la población
+en viviendas particulares) y dejan afuera todo el campo. La fuente
+completa es la <strong>base Redatam del INDEC</strong>, que permite
+procesar el cuestionario entero por radio.</p>
+<h2>Cómo se obtuvieron los datos</h2>
+<p>Se consultó el servidor Redatam del INDEC (Censo 2022, base de
+viviendas particulares) seleccionando el departamento 06728 y pidiendo
+la salida por radio. Se procesaron <strong>71 variables</strong>: 10 de
+vivienda, 29 de hogar y 32 de persona, más un cruce de localidad por
+grandes grupos de edad. Cada tabla trae los 91 radios y un resumen del
+partido.</p>
+<p><strong>Validación.</strong> Los resúmenes coinciden con los cuadros
+publicados por el INDEC: 10.988 viviendas particulares, 9.304 con
+personas presentes, 1.684 sin personas, 9.387 hogares y 26.399 personas
+en viviendas particulares (las 111 restantes hasta los 26.510 habitantes
+viven en viviendas colectivas o en situación de calle, que la base por
+radio no incluye). En los 39 radios que comparten con la base de la UNC,
+población, viviendas y viviendas vacías coinciden <strong>radio por
+radio</strong>, sin una sola diferencia.</p>
+<p><strong>Límites.</strong> Los porcentajes de radios con muy pocos
+habitantes son inestables: en el campo hay radios con 3 a 20 personas,
+donde una sola casa cambia el valor en decenas de puntos. Por eso, el
+índice de envejecimiento sólo se mapea en radios con 60 habitantes o
+más, y las lecturas se apoyan en los agregados por ámbito y en los
+estadísticos espaciales, no en el valor aislado de un radio rural.</p>
+<h1>2 Tres territorios</h1>
+<p>Cada radio pertenece a una sola localidad. Eso permite, por primera
+vez con datos del propio censo, repartir la población entre la ciudad
+cabecera (30 radios), los pueblos (11 radios en siete localidades) y el
+campo (50 radios de población rural dispersa).</p>
+<p><img loading="lazy" src="img/inf22-90a9d0b2e7.webp"
+title="c22_reparto.png"
+alt="c22_reparto.png" /></p>
+<p><strong>Figura 1.</strong> Población en viviendas particulares por
+ámbito, 1991–2022.</p>
+<p>La cabecera reúne <strong>19.362 personas (73,3 %)</strong>, los pueblos <strong>3.727 (14,1 %)</strong> y el campo <strong>3.310 (12,5 %)</strong>. La serie de las localidades censales del INDEC muestra un desplazamiento sostenido: en 1991 el campo reunía el 27,7 % de la población, en 2001 el 21,8 %, en 2010 el 18,2 % y en 2022 el 12,5 %. La cabecera pasó del 62,0 % al 73,3 % y los pueblos, estables alrededor del 11 % entre 1991 y 2010, subieron al 14,1 % en 2022.</p>
+<p><em>Corrección:</em> una versión anterior de este informe y de las webs del Plan citaba para 2010 un reparto de 77,6 / 10,3 / 12,0 %. El Redatam del INDEC da, por localidad, 70,5 / 11,2 / 18,2 %, que es el valor que se usa aquí.</p>
+<p><img loading="lazy" src="img/inf22-a24477c6a6.webp"
+title="c22_pueblos.png"
+alt="c22_pueblos.png" /></p>
+<p><strong>Figura 2.</strong> Población por localidad, excluidas la
+cabecera y la población rural dispersa.</p>
+<p><strong>Tabla 2.</strong> Indicadores por localidad. 2022.</p>
+<div class='tw'><table>
+<colgroup>
+<col />
+<col />
+<col />
+<col />
+<col />
+<col />
+<col />
+<col />
+<col />
+<col />
+<col />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Localidad</strong></th>
+<th><strong>Radios</strong></th>
+<th><strong>Población</strong></th>
+<th><strong>Hogares</strong></th>
+<th><strong>Viviendas</strong></th>
+<th><strong>% sin personas</strong></th>
+<th><strong>Índ. env.</strong></th>
+<th><strong>% cloaca</strong></th>
+<th><strong>% gas red</strong></th>
+<th><strong>% alquila</strong></th>
+<th><strong>% NBI</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Cabecera</strong></td>
+<td>30</td>
+<td>19.362</td>
+<td>6.983</td>
+<td>7.613</td>
+<td>9,0</td>
+<td>55</td>
+<td>58,3</td>
+<td>64,5</td>
+<td>23,1</td>
+<td>3,9</td>
+</tr>
+<tr class="even">
+<td>Solís</td>
+<td>2</td>
+<td>1.645</td>
+<td>567</td>
+<td>610</td>
+<td>8,4</td>
+<td>40</td>
+<td>1,1</td>
+<td>0,4</td>
+<td>16,0</td>
+<td>6,9</td>
+</tr>
+<tr class="odd">
+<td>Cucullú</td>
+<td>2</td>
+<td>692</td>
+<td>216</td>
+<td>261</td>
+<td>18,0</td>
+<td>40</td>
+<td>9,7</td>
+<td>7,4</td>
+<td>10,6</td>
+<td>6,0</td>
+</tr>
+<tr class="even">
+<td>Villa Ruiz</td>
+<td>3</td>
+<td>453</td>
+<td>162</td>
+<td>341</td>
+<td>52,5</td>
+<td>46</td>
+<td>1,2</td>
+<td>1,9</td>
+<td>9,9</td>
+<td>7,4</td>
+</tr>
+<tr class="odd">
+<td>Villa Espil</td>
+<td>1</td>
+<td>411</td>
+<td>133</td>
+<td>135</td>
+<td>3,0</td>
+<td>35</td>
+<td>26,3</td>
+<td>20,3</td>
+<td>16,5</td>
+<td>9,0</td>
+</tr>
+<tr class="even">
+<td>Azcuénaga</td>
+<td>1</td>
+<td>389</td>
+<td>140</td>
+<td>178</td>
+<td>22,5</td>
+<td>52</td>
+<td>0,0</td>
+<td>0,0</td>
+<td>15,0</td>
+<td>5,0</td>
+</tr>
+<tr class="odd">
+<td>Franklin</td>
+<td>1</td>
+<td>72</td>
+<td>27</td>
+<td>38</td>
+<td>28,9</td>
+<td>35</td>
+<td>0,0</td>
+<td>0,0</td>
+<td>7,4</td>
+<td>3,7</td>
+</tr>
+<tr class="even">
+<td>Chacras de Villa Espil</td>
+<td>1</td>
+<td>65</td>
+<td>23</td>
+<td>55</td>
+<td>58,2</td>
+<td>38</td>
+<td>4,3</td>
+<td>8,7</td>
+<td>4,3</td>
+<td>0,0</td>
+</tr>
+<tr class="odd">
+<td>Rural disperso</td>
+<td>50</td>
+<td>3.310</td>
+<td>1.136</td>
+<td>1.757</td>
+<td>36,0</td>
+<td>42</td>
+<td>1,1</td>
+<td>1,9</td>
+<td>6,1</td>
+<td>5,6</td>
+</tr>
+</tbody>
+</table></div>
+<p><em>Fuente: elaboración propia con base en INDEC, Censo Nacional de
+Población, Hogares y Viviendas 2022, procesado con Redatam 7. Índice de
+envejecimiento: 65 y más por cada 100 de 0 a 14.</em></p>
+<h1>3 Densidad y concentración</h1>
+<p><img loading="lazy" src="img/inf22-87f3cd34e0.webp"
+title="m22_densidad.png"
+alt="m22_densidad.png" /></p>
+<p><strong>Figura 3.</strong> Densidad de población por radio censal. A
+la derecha, la planta urbana de la cabecera.</p>
+<p>La mitad de los radios tiene 115 habitantes o menos, y el más
+poblado, 1.530 (el núcleo de Solís). La densidad va de menos de 1
+hab/km² en el campo a más de 6.000 en el centro de la cabecera (radio
+067281709: 6.257 hab/km²). La curva de concentración resume esa
+distancia: <strong>el 86,0 % de la población vive en el 1 % del
+territorio</strong>, con un Gini espacial de 0,944 y un índice de Hoover
+de 0,871: más de cuatro de cada cinco habitantes deberían cambiar de
+radio para que la densidad fuera pareja.</p>
+<p><img loading="lazy" src="img/inf22-2263b5c6ce.webp"
+title="c22_lorenz.png"
+alt="c22_lorenz.png" /></p>
+<p><strong>Figura 4.</strong> Curva de concentración de la población
+según superficie, radios 2010 y 2022.</p>
+<p>En 2010 los mismos indicadores daban 79,2 % de la población en el 1 %
+del territorio y un Gini de 0,917. La concentración parece haber
+aumentado, pero <strong>parte de ese aumento es un efecto de la
+grilla</strong>: con 91 radios en lugar de 77, los radios urbanos son
+más chicos y la curva se empina aunque nadie se haya mudado. Es el
+problema de la unidad espacial modificable, y obliga a no leer la
+diferencia como una tendencia. Lo que sí es robusto es la forma: un
+núcleo compacto rodeado de un territorio casi vacío, con autocorrelación
+espacial muy alta (I de Moran = 0,73, p = 0,001; en 2010, 0,74).</p>
+<p><img loading="lazy" src="img/inf22-9585e34a88.webp"
+title="m22_lisa_dens.png"
+alt="m22_lisa_dens.png" /></p>
+<p><strong>Figura 5.</strong> Agrupamientos locales de la densidad
+(LISA).</p>
+<h1>4 La vivienda sin gente</h1>
+<p>El 15,3 % de las viviendas particulares del partido no tenía personas
+presentes el día del censo. Con los datos por radio, ese promedio se
+descompone en tres realidades muy distintas: <strong>9,0 % en la
+cabecera, 22,5 % en los pueblos y 36,0 % en el campo</strong>.</p>
+<p><img loading="lazy" src="img/inf22-ea2f04dab1.webp"
+title="m22_sinpers.png"
+alt="m22_sinpers.png" /></p>
+<p><strong>Figura 6.</strong> Porcentaje de viviendas sin personas
+presentes por radio censal.</p>
+<p><img loading="lazy" src="img/inf22-e7355abd75.webp"
+title="c22_motivos.png"
+alt="c22_motivos.png" /></p>
+<p><strong>Figura 7.</strong> Viviendas sin personas presentes según
+motivo y ámbito.</p>
+<p>Los motivos dibujan la diferencia. En la cabecera, la vivienda sin
+gente es sobre todo <strong>vivienda en tránsito</strong>: en
+construcción (194), en alquiler o venta (166) o usada como oficina o
+comercio (110); el uso temporal apenas suma 60. En los pueblos y en el
+campo domina la <strong>vivienda de fin de semana</strong>: 204 y 354
+viviendas de uso temporal, respectivamente. De las 618 viviendas de uso
+temporal del partido, el 57 % está en radios rurales y el 33 % en los
+pueblos.</p>
+<p><img loading="lazy" src="img/inf22-903619f914.webp"
+title="m22_temporal.png"
+alt="m22_temporal.png" /></p>
+<p><strong>Figura 8.</strong> Viviendas de uso temporal sobre el total
+de viviendas, por radio.</p>
+<p>Villa Ruiz es el caso extremo: 179 de sus 341 viviendas (52 %)
+estaban sin personas, 98 de ellas de uso temporal. Chacras de Villa
+Espil llega al 58 %. En el otro extremo, Villa Espil (3 %) y Solís (8 %)
+se comportan como pueblos de residencia permanente. El patrón está
+espacialmente agrupado (I de Moran = 0,46, p = 0,001): los agrupamientos
+«alto-alto» se concentran en 12 radios rurales y 3 de Villa Ruiz, y los
+«bajo-bajo» en 22 radios de la cabecera.</p>
+<p><img loading="lazy" src="img/inf22-21e82f641b.webp"
+title="m22_lisa_sinpers.png"
+alt="m22_lisa_sinpers.png" /></p>
+<p><strong>Figura 9.</strong> Agrupamientos locales del porcentaje de
+viviendas sin personas (LISA).</p>
+<div class='tw'><table>
+<colgroup>
+<col />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><p><strong>LO QUE ESTO CORRIGE</strong></p>
+<p>Con los radios de 2010 se había estimado una desocupación de 12,6 %
+en los radios densos y 28,6 % en el resto, y se advirtió que la
+comparación con el 15,3 % de 2022 no permitía saber si la vivienda vacía
+había crecido o disminuido. Los datos de 2022 por radio confirman que
+<strong>el fenómeno es de los bordes, no del centro</strong>, y agregan
+lo que faltaba: el motivo. La vivienda vacía de la cabecera es mercado e
+inversión en curso; la del campo y los pueblos es segunda
+residencia.</p></td>
+</tr>
+</tbody>
+</table></div>
+<h1>5 Cómo se habita</h1>
+<p><img loading="lazy" src="img/inf22-7b68345bc6.webp"
+title="c22_servicios.png"
+alt="c22_servicios.png" /></p>
+<p><strong>Figura 10.</strong> Servicios, tenencia y privación material
+por ámbito, % de hogares.</p>
+<p>Las redes terminan donde termina la cabecera. Allí el 89,4 % de los
+hogares toma agua de red, el 64,5 % cocina con gas de red y el 58,3 %
+desagota a cloaca. En los pueblos, el agua de red llega al 43,8 %, pero
+el gas y la cloaca casi no existen (3,9 % y 5,1 %). Son los dos
+indicadores con mayor autocorrelación espacial de todo el conjunto (I de
+Moran de 0,85 para el gas y 0,76 para la cloaca): no hay transiciones,
+hay bordes de red.</p>
+<p><img loading="lazy" src="img/inf22-562a94de40.webp"
+title="m22_cloaca.png"
+alt="m22_cloaca.png" /></p>
+<p><strong>Figura 11.</strong> Hogares con desagüe a red pública
+(cloaca), % por radio.</p>
+<p><img loading="lazy" src="img/inf22-f542785103.webp"
+title="m22_gas.png"
+alt="m22_gas.png" /></p>
+<p><strong>Figura 12.</strong> Hogares que cocinan con gas de red, % por
+radio.</p>
+<h2>Tenencia: alquiler en el centro, vivienda cedida en el campo</h2>
+<p>El 23,1 % de los hogares de la cabecera alquila, y en tres radios
+centrales de alta densidad supera el 31 %. En el campo, en cambio, el
+56,1 % de los hogares vive en una vivienda <strong>cedida por trabajo o
+prestada</strong>: la casa del puesto, del casero, del encargado. Sólo
+el 35,2 % es propietario. Es una forma de habitar que no aparece en el
+promedio del partido y que ata la residencia al empleo.</p>
+<p><img loading="lazy" src="img/inf22-8712b9413a.webp"
+title="m22_alquiler.png"
+alt="m22_alquiler.png" /></p>
+<p><strong>Figura 13.</strong> Hogares inquilinos, % por radio.</p>
+<p><img loading="lazy" src="img/inf22-b74f94890c.webp"
+title="m22_cedida.png"
+alt="m22_cedida.png" /></p>
+<p><strong>Figura 14.</strong> Hogares en vivienda cedida por trabajo o
+prestada, % por radio.</p>
+<h2>Privación y edad: un centro que envejece, una periferia joven</h2>
+<p>La privación material convergente (hogares que carecen a la vez de
+recursos corrientes y patrimoniales) alcanza al 4,5 % de los hogares de
+la cabecera y a más del 10 % en pueblos y campo. Dentro de la cabecera,
+los valores más altos están en radios del borde: 067281712 (14,2 % de
+privación convergente y 18,2 % de hogares con NBI) y 067280904 (13,8
+%).</p>
+<p><img loading="lazy" src="img/inf22-c504b71085.webp"
+title="m22_ipmh.png"
+alt="m22_ipmh.png" /></p>
+<p><strong>Figura 15.</strong> Hogares con privación material
+convergente, % por radio.</p>
+<p>Esos mismos radios son los más jóvenes del partido: tienen 7 personas
+de 65 años o más por cada 100 menores de 15. En el centro de la cabecera
+la relación se invierte y supera las 100 (130 en el radio 067281705, 123
+en el 067281004). El envejecimiento no muestra autocorrelación espacial
+significativa a escala del partido (I de Moran = −0,07, p = 0,11),
+porque en el campo y los pueblos los valores son intermedios y
+heterogéneos; la oposición es interna a la cabecera: un centro con más
+mayores, más inquilinos y mejores servicios, y bordes con más niños, más
+privación y redes incompletas.</p>
+<p><img loading="lazy" src="img/inf22-5d135d811b.webp"
+title="m22_envejec.png"
+alt="m22_envejec.png" /></p>
+<p><strong>Figura 16.</strong> Índice de envejecimiento por radio
+(radios con 60 habitantes o más).</p>
+<h1>6 Preguntas que quedan abiertas</h1>
+<ul>
+<li><p><strong>¿La vivienda de fin de semana es reserva o
+retirada?</strong> Las 558 viviendas de uso temporal de pueblos y campo
+pueden leerse como un capital residencial disponible para el arraigo o
+como el síntoma de un territorio que se usa sin habitarse. El Plan
+necesita saber cuál de las dos cosas está ocurriendo en Villa Ruiz antes
+de decidir si se densifica o se protege.</p></li>
+<li><p><strong>¿Cuánto del crecimiento de los pueblos es elección y
+cuánto expulsión?</strong> Si los pueblos ganan peso mientras el centro
+de la cabecera alquila y envejece, cabe preguntarse si la gente llega a
+los pueblos atraída por el suelo barato o empujada por el precio del
+alquiler urbano.</p></li>
+<li><p><strong>¿Qué significa «propiedad» en el campo?</strong> Con más
+de la mitad de los hogares rurales en vivienda cedida o prestada, una
+política de vivienda rural pensada desde la propiedad individual dejaría
+afuera a la mayoría.</p></li>
+<li><p><strong>¿Dónde termina la ciudad?</strong> El borde de las redes
+de gas y cloaca coincide con el borde de la privación y de la población
+joven. ¿Es la red la que sigue a la ciudad, o la ciudad la que se
+extiende más rápido que la red?</p></li>
+<li><p><strong>¿Cuánto mide lo que medimos?</strong> La concentración
+«aumentó» en parte porque cambió la grilla. Toda comparación entre
+censos por radio debe preguntarse primero si cambió el territorio o
+cambió la forma de cortarlo.</p></li>
+</ul>
+<h1>Anexo. Autocorrelación espacial y archivos entregados</h1>
+<p><strong>Tabla 3.</strong> I de Moran global por indicador. 91 radios,
+contigüidad tipo reina, 999 permutaciones.</p>
+<div class='tw'><table>
+<colgroup>
+<col />
+<col />
+<col />
+<col />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Indicador</strong></th>
+<th><strong>I de Moran</strong></th>
+<th><strong>z</strong></th>
+<th><strong>p</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Densidad de población (log)</td>
+<td>0,73</td>
+<td>11,4</td>
+<td>0,001</td>
+</tr>
+<tr class="even">
+<td>Gas de red (% hogares)</td>
+<td>0,85</td>
+<td>13,6</td>
+<td>0,001</td>
+</tr>
+<tr class="odd">
+<td>Cloaca (% hogares)</td>
+<td>0,76</td>
+<td>11,9</td>
+<td>0,001</td>
+</tr>
+<tr class="even">
+<td>Vivienda cedida o prestada</td>
+<td>0,57</td>
+<td>9,0</td>
+<td>0,001</td>
+</tr>
+<tr class="odd">
+<td>Inquilinos</td>
+<td>0,52</td>
+<td>8,4</td>
+<td>0,001</td>
+</tr>
+<tr class="even">
+<td>Viviendas sin personas</td>
+<td>0,46</td>
+<td>7,3</td>
+<td>0,001</td>
+</tr>
+<tr class="odd">
+<td>Viviendas de uso temporal</td>
+<td>0,35</td>
+<td>5,8</td>
+<td>0,001</td>
+</tr>
+<tr class="even">
+<td>Clima educativo alto o muy alto</td>
+<td>0,35</td>
+<td>5,7</td>
+<td>0,001</td>
+</tr>
+<tr class="odd">
+<td>Privación convergente</td>
+<td>0,33</td>
+<td>5,4</td>
+<td>0,001</td>
+</tr>
+<tr class="even">
+<td>Residía en otro lugar hace 5 años</td>
+<td>0,21</td>
+<td>3,6</td>
+<td>0,002</td>
+</tr>
+<tr class="odd">
+<td>Ocupados sin aportes</td>
+<td>0,15</td>
+<td>2,5</td>
+<td>0,012</td>
+</tr>
+<tr class="even">
+<td>Personas por hogar</td>
+<td>0,13</td>
+<td>2,2</td>
+<td>0,018</td>
+</tr>
+<tr class="odd">
+<td>Hogares con NBI</td>
+<td>0,06</td>
+<td>1,2</td>
+<td>0,117</td>
+</tr>
+<tr class="even">
+<td>Población de 65 y más</td>
+<td>-0,03</td>
+<td>-0,3</td>
+<td>0,380</td>
+</tr>
+<tr class="odd">
+<td>Índice de envejecimiento</td>
+<td>-0,07</td>
+<td>-1,1</td>
+<td>0,109</td>
+</tr>
+</tbody>
+</table></div>
+<p><em>Fuente: elaboración propia con base en INDEC, Censo Nacional de
+Población, Hogares y Viviendas 2022, procesado con Redatam 7. Los
+valores de p iguales a 0,001 son el mínimo posible con 999
+permutaciones.</em></p>
+<h2>Archivos</h2>
+<p>En la carpeta <strong>CENSO 2022 › Radios 2022</strong> quedan:</p>
+<ul>
+<li><p><strong>radios2022_giles_censo2022.gpkg</strong> (EPSG 22183),
+<strong>.geojson</strong> (WGS 84) y <strong>.csv</strong>: los 91
+radios con localidad, ámbito, superficie y 90 campos de conteos e
+indicadores (población por sexo y edad, hogares, viviendas por condición
+de ocupación y motivo, servicios, tenencia, NBI, privación material,
+educación, trabajo y migración).</p></li>
+<li><p><strong>redatam_giles_radios2022.json</strong>: la salida
+completa de las 71 variables del Redatam, con todas sus categorías, por
+radio y para el partido.</p></li>
+<li><p><strong>radios2022c_vivVacias.gpkg</strong> y
+<strong>radios2022_envejecimiento.gpkg</strong> (UNC, Boccolini 2026, CC
+BY 4.0): radios de todo el país con densidad mayor a 1 hab/ha, útiles
+para comparar Giles con otros partidos.</p></li>
+</ul>
+<p>Para citar los datos: «Fuente: elaboración propia con base en datos
+del INDEC, Censo Nacional de Población, Hogares y Viviendas 2022,
+procesado con Redatam 7».</p>
+<p><img loading="lazy" src="img/inf22-ba70fe7b6e.webp"
+title="Firma"
+alt="Firma manuscrita" /></p>
+<p><strong>Arq. Juan Patricio Addesso – Mat. CAPBA 020811</strong></p>
+<p>Director de Planeamiento y Obras Particulares · Municipio de San
+Andrés de Giles</p>
+<p>San Andrés de Giles, octubre de 2026</p>
+
+<footer>Dirección de Planeamiento y Obras Particulares · Municipio de San Andrés de Giles. Fuente: elaboración propia con base en datos del INDEC, Censo Nacional de Población, Hogares y Viviendas 2022, procesado con Redatam 7.</footer>
+</div></body></html>

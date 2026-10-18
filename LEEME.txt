@@ -24,3 +24,13 @@ Actualización 17-10-2026 · Censo 2022
   - Nuevo bloque "Lo que cambió en doce años" con cifras INDEC 2022 y el mapa
     img/censo.webp (población por radio censal 2022).
   - Senda del Habitar: dato de viviendas deshabitadas actualizado a 2022.
+
+Actualización 18-10-2026 · Giles en sus censos
+  - Nueva sección censos/ (censos/index.html): consulta de los censos 1980–2022 por radio
+    censal (1991, 2001, 2010, 2022) sobre imagen satelital, informe de cada censo y
+    comparación con los partidos vecinos. Datos: INDEC Redatam; cartografía corregida de
+    radios (Rodríguez, CONICET 2025); microdatos de hogares 1991 y 2001 (Boccolini, 2026).
+  - censos/informe-radios-2022.html: informe «Los radios del Censo 2022» en HTML.
+  - "¿Dónde vivimos?" corregido con datos de localidad del INDEC: 2022 73,3/14,1/12,5 %;
+    2010 70,5/11,2/18,2 % (la cifra anterior de 2010, 77,6/10,3/12 %, era incorrecta).
+  - Viviendas sin personas: 15,3 % (2022), 17,8 % (2010) y 17,2 % (2001), mismo criterio.
