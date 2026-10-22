@@ -1058,3 +1058,233 @@ footer.site-footer::after {
   .nav-link.nav-datos { padding: 8px 8px; margin-left: 4px; }
   .nav-link.nav-cta { padding: 9px 12px; margin-left: 6px; }
 }
+
+/* ===== Estudio de los pueblos (portado de la web «Plan SAG · Pueblos», CMDOT 2026) ===== */
+.pueblos-hallazgos { max-width: 920px; margin: 8px 0 34px; }
+.pueblos-intro { font-size: 1.08rem; color: var(--texto-2); margin-bottom: 14px; }
+.pueblos-hallazgos ul { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 28px; }
+.pueblos-hallazgos li { border-left: 3px solid var(--arroyo); padding: 4px 0 4px 14px; color: var(--texto-2); font-size: 1rem; line-height: 1.45; }
+.pueblos-hallazgos li b { color: var(--tierra); display: block; font-weight: 600; }
+.pueblos-mapa-fig { margin: 0 0 40px; background: var(--viento); border: 1px solid var(--linea-fuerte); }
+.pueblos-mapa { height: 520px; background: var(--tierra-2); }
+.pueblos-mapa-leyenda { display: flex; flex-wrap: wrap; gap: 6px 8px; padding: 12px 14px 4px; align-items: center; }
+.pm-filtro { font: 500 .82rem var(--f-texto); display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border: 1px solid var(--linea-fuerte); background: transparent; color: var(--texto-2); cursor: pointer; opacity: .45; }
+.pm-filtro.activo { opacity: 1; background: #fff; }
+.pm-filtro i, .pm-nota i { width: 11px; height: 11px; border-radius: 50%; display: inline-block; border: 1px solid rgba(0,0,0,.25); }
+.pm-nota { font-size: .8rem; color: var(--texto-3); margin-left: 4px; display: inline-flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.pm-nota .pm-mens { border-radius: 2px; background: rgba(200,151,58,.35); }
+.pm-nota .pm-radio { border-radius: 2px; background: rgba(200,151,58,.85); }
+.pueblos-mapa-fig figcaption { padding: 6px 14px 14px; font-size: .88rem; color: var(--texto-3); }
+.pueblos-mapa-fig figcaption a { color: var(--arroyo); font-weight: 600; }
+.pm-etiqueta span { display: inline-block; transform: translate(-50%, -150%); white-space: nowrap; font: 600 .8rem var(--f-texto); color: var(--tierra); background: rgba(244,240,230,.92); padding: 2px 7px; border: 1px solid var(--tierra); cursor: pointer; letter-spacing: .02em; }
+.pm-etiqueta span:hover { background: var(--tierra); color: var(--viento); }
+.leaflet-popup-content { font: .9rem/1.4 var(--f-texto); color: var(--texto); margin: 12px 14px; }
+.leaflet-popup-content b { display: block; font-size: 1rem; margin: 2px 0 4px; }
+.leaflet-popup-content p { margin: 0 0 6px; color: var(--texto-2); }
+.leaflet-popup-content small { color: var(--texto-3); font-size: .78rem; }
+.pm-tipo { font: 500 .7rem var(--f-mono); letter-spacing: .08em; text-transform: uppercase; }
+.pm-error { color: var(--viento); padding: 24px; }
+.pueblo-panel { align-items: start; }
+.pueblo-datos { display: grid; gap: 10px; margin: 20px 0 6px; padding: 14px 0; border-top: 1px solid var(--linea); border-bottom: 1px solid var(--linea); }
+.pueblo-datos div { display: grid; gap: 2px; }
+.pueblo-datos dt { font: 500 .7rem var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--texto-3); }
+.pueblo-datos dd { font: 600 1.2rem var(--f-cifra); color: var(--tierra); }
+.pueblo-datos dd small { font: 500 .9rem var(--f-cifra); color: var(--pastizal-osc); }
+.pueblo-sindatos { margin: 18px 0 4px; font-size: .9rem; color: var(--texto-3); font-style: italic; }
+.pueblo-suelo { margin-top: 8px; font-size: .95rem; color: var(--texto-2); line-height: 1.5; }
+.pueblo-cuerpo { display: grid; gap: 26px; }
+.pueblo-historia { font-size: 1.06rem; line-height: 1.6; color: var(--texto); }
+.pueblo-decenio ul, .pueblo-lineas ul { list-style: none; }
+.pueblo-decenio li { padding: 7px 0 7px 18px; position: relative; border-bottom: 1px dashed var(--linea); color: var(--texto-2); font-size: 1rem; }
+.pueblo-decenio li::before { content: ""; position: absolute; left: 2px; top: 15px; width: 7px; height: 7px; background: var(--loes); transform: rotate(45deg); }
+#pueblos .pueblo-decenio h5 { border-color: var(--loes); color: var(--loes-osc); }
+#pueblos .pueblo-lineas h5 { border-color: var(--pastizal); color: var(--pastizal-osc); }
+.pueblo-lineas h5 span { font: 500 .66rem var(--f-mono); letter-spacing: .06em; color: var(--texto-3); margin-left: 8px; text-transform: none; }
+.pueblo-lineas li { display: grid; grid-template-columns: 74px 1fr; gap: 10px; padding: 9px 0; border-bottom: 1px dashed var(--linea); color: var(--texto-2); font-size: .98rem; }
+#pueblos .pueblo-lineas li::before { content: none; }
+.pueblo-lineas li { counter-increment: none; }
+.pueblo-lineas .codigo { font: 600 .82rem var(--f-mono); color: var(--pastizal-osc); padding-top: 2px; }
+.pueblo-lineas strong { color: var(--tierra); font-weight: 600; }
+.pueblo-pregunta { border: 1px solid var(--arroyo); background: rgba(42,92,126,.06); padding: 14px 16px; font-family: var(--f-titulo); font-style: italic; font-size: 1.12rem; line-height: 1.45; color: var(--tierra); }
+.pueblo-pregunta span { display: block; font: 500 .7rem var(--f-mono); font-style: normal; letter-spacing: .1em; text-transform: uppercase; color: var(--arroyo); margin-bottom: 6px; }
+@media (max-width: 760px) {
+  .pueblos-hallazgos ul { grid-template-columns: 1fr; }
+  .pueblos-mapa { height: 420px; }
+  .pueblo-lineas li { grid-template-columns: 1fr; gap: 2px; }
+}
+#pueblos .localidades-nav { grid-template-columns: repeat(9, 1fr); }
+@media (max-width: 760px) { #pueblos .localidades-nav { display: flex; } }
+
+#pueblos .pueblo-fuente { font-size: .78rem; line-height: 1.4; opacity: .75; margin: .4rem 0 1rem; }
+#pueblos .pueblos-fuentes { margin: 2rem 0 1rem; padding: 1rem 1.25rem; border-left: 3px solid var(--arroyo); background: color-mix(in srgb, var(--arroyo) 6%, transparent); border-radius: 4px; }
+#pueblos .pueblos-fuentes summary { cursor: pointer; font-family: var(--f-titulo); font-size: 1.05rem; }
+#pueblos .pueblos-fuentes ul { margin: .75rem 0 .5rem 1.1rem; padding: 0; }
+#pueblos .pueblos-fuentes li { margin-bottom: .45rem; line-height: 1.5; }
+#pueblos .pueblos-fuentes p { font-size: .9rem; opacity: .85; margin: .5rem 0 0; }
+.pueblo-datos dd.pueblo-red { font: 600 1rem var(--f-cifra); line-height: 1.3; }
+#pueblos .pm-dir { font-size: .78rem; opacity: .75; margin: .15rem 0 .3rem; }
+
+/* ===== Edición 2026: logo, escudo, tomos, mapa y pestañas ===== */
+.brand-group { gap: 10px; }
+.brand-escudo { height: 58px; width: auto; flex: none; }
+.brand-logo { height: 54px; width: auto; flex: none; border-radius: 6px; }
+@media (max-width: 760px) {
+  .brand-escudo { height: 44px; }
+  .brand-logo { height: 40px; }
+}
+@media (max-width: 380px) { .brand-logo { height: 31px; } }
+@media (min-width: 981px) and (max-width: 1240px) {
+  .brand-escudo { height: 48px; }
+  .brand-logo { height: 44px; }
+  .nav-link { padding-inline: 8px; }
+}
+
+.footer-insignias { display: flex; align-items: center; gap: 18px; margin-bottom: 22px; }
+.footer-logo { width: min(320px, 72%); height: auto; border-radius: 8px; background: #fff; }
+.footer-escudo { height: 92px; width: auto; filter: drop-shadow(0 2px 6px rgba(0,0,0,.35)); }
+
+/* Tomos */
+.tomo-slot { margin-top: 26px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; font-size: .98rem; color: var(--texto-2); }
+.tomo-slot:empty { display: none; }
+.tomo-pre { font-family: var(--f-titulo); font-style: italic; font-size: 1.08rem; }
+#fundamentos .tomo-slot, #mapa .tomo-slot { color: #DDD6C2; }
+.senda-tomo { margin: 0; padding: 16px 40px 22px; border-top: 1px dashed var(--linea); }
+.tomo-btn {
+  display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  padding: 10px 16px; min-height: 44px; text-decoration: none;
+  font: 600 .98rem var(--f-texto); color: var(--viento);
+  background: var(--pastizal); border: 1.5px solid var(--pastizal);
+  transition: background .25s, border-color .25s;
+}
+.tomo-btn small { font: .72rem var(--f-mono); letter-spacing: .04em; color: #F3D99C; }
+.tomo-btn:hover, .tomo-btn:focus-visible { background: var(--pastizal-osc); border-color: var(--pastizal-osc); color: var(--viento); }
+.tomo-btn .ico-inline { transition: transform .3s var(--curva); }
+.tomo-btn:hover .ico-inline { transform: translateY(2px); }
+#fundamentos .tomo-btn, #mapa .tomo-btn { background: var(--loes); border-color: var(--loes); color: var(--tierra); }
+#fundamentos .tomo-btn small, #mapa .tomo-btn small { color: var(--tierra); }
+.tomo-falta { background: transparent; color: var(--texto-3); border-style: dashed; border-color: var(--linea-fuerte); cursor: not-allowed; }
+.tomo-falta em { font: italic .9rem var(--f-titulo); }
+
+.biblioteca { list-style: none; margin: 8px 0 18px; border-top: 1px solid var(--tierra); }
+.tomo-item { display: grid; grid-template-columns: 56px 1fr auto; gap: 18px; align-items: center; padding: 16px 0; border-bottom: 1px dashed var(--linea-fuerte); }
+.tomo-n { font: 600 1.6rem var(--f-cifra); color: var(--loes-osc); border: 1.5px solid var(--loes-osc); border-radius: 50%; width: 48px; height: 48px; display: grid; place-items: center; }
+.tomo-tit em { display: block; font: .68rem var(--f-mono); font-style: normal; letter-spacing: .08em; text-transform: uppercase; color: var(--texto-3); }
+.tomo-tit strong { display: block; font-family: var(--f-titulo); font-weight: 400; font-size: 1.3rem; color: var(--tierra); line-height: 1.15; }
+.tomo-tit span { display: block; font-size: .95rem; color: var(--texto-2); margin-top: 3px; max-width: 62ch; }
+.tomo-tit small { display: block; font: .72rem var(--f-mono); color: var(--texto-3); margin-top: 4px; }
+.tomo-item .tomo-btn { padding: 8px 16px; }
+@media (max-width: 760px) {
+  .senda-tomo { padding: 14px 20px 18px; }
+  .tomo-item { grid-template-columns: 48px 1fr; gap: 12px; }
+  .tomo-item .tomo-btn { grid-column: 1 / -1; justify-content: center; }
+  .tomo-slot .tomo-btn { width: 100%; justify-content: center; }
+}
+
+/* Fundamentos: cómo existen en el tiempo */
+.tiempo-plan { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 42px; border: 1px solid rgba(244,240,230,.35); }
+.tiempo-col { padding: 26px 30px; }
+.tiempo-col + .tiempo-col { border-left: 1px solid rgba(244,240,230,.35); }
+.tiempo-col h4 { font-family: var(--f-titulo); font-weight: 400; font-size: 1.5rem; color: var(--viento); margin-bottom: 12px; }
+.tiempo-col p, .tiempo-col li { color: #DDD6C2; font-size: 1.02rem; line-height: 1.5; }
+.tiempo-col ul { list-style: none; display: grid; gap: 10px; }
+.tiempo-col b { color: var(--loes); font-weight: 600; }
+.tres-condiciones { list-style: none; counter-reset: c; display: grid; gap: 10px; margin-top: 10px; }
+.tres-condiciones li { counter-increment: c; position: relative; padding-left: 34px; }
+.tres-condiciones li::before { content: counter(c); position: absolute; left: 0; top: -4px; font: 600 1.5rem var(--f-cifra); color: var(--loes); }
+@media (max-width: 760px) {
+  .tiempo-plan { grid-template-columns: 1fr; }
+  .tiempo-col + .tiempo-col { border-left: 0; border-top: 1px solid rgba(244,240,230,.35); }
+  .tiempo-col { padding: 22px 20px; }
+}
+
+/* Censo: pregunta abierta */
+.censo22-pregunta { margin-top: 16px; font-family: var(--f-titulo); font-style: italic; font-size: 1.2rem; color: var(--tierra); border-left: 3px solid var(--loes); padding-left: 14px; }
+.censo22-pregunta span, .senda-pregunta span, .linea-pregunta span, .pueblo-rasgos span, .familia-pregunta em {
+  display: block; font: 500 .7rem var(--f-mono); font-style: normal; letter-spacing: .1em; text-transform: uppercase; color: var(--loes-osc); margin-bottom: 4px;
+}
+
+/* Sendas: Pagos y pregunta */
+.senda-pagos { padding: 6px 40px 10px; }
+.senda-pagos h5 { font: 500 .78rem var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--c, var(--toro)); margin-bottom: 10px; }
+.senda-pagos ul { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 26px; }
+.senda-pagos li { padding: 10px 0; border-top: 1px dashed var(--linea); font-size: .95rem; color: var(--texto-2); line-height: 1.4; }
+.senda-pagos b { display: block; font-family: var(--f-versal); font-weight: 400; font-size: 1.02rem; color: var(--tierra); }
+.senda-pregunta { margin: 10px 40px 18px; padding: 14px 18px; border: 1px solid var(--c, var(--loes)); font-family: var(--f-titulo); font-style: italic; font-size: 1.15rem; line-height: 1.45; color: var(--tierra); background: color-mix(in srgb, var(--c, var(--loes)) 7%, transparent); }
+.senda-pregunta span { color: var(--c, var(--loes-osc)); }
+.senda-mapa { padding: 0 40px 6px; }
+.senda-mapa a { color: var(--arroyo); font-weight: 600; text-decoration-thickness: 1px; text-underline-offset: 3px; display: inline-flex; gap: 6px; align-items: center; min-height: 44px; }
+@media (max-width: 980px) { .senda-pagos ul { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 760px) {
+  .senda-pagos { padding: 6px 20px 10px; }
+  .senda-pagos ul { grid-template-columns: 1fr; }
+  .senda-pregunta { margin: 10px 20px 16px; }
+  .senda-mapa { padding: 0 20px 6px; }
+}
+
+/* Líneas: nudos y pregunta abierta */
+.linea-card h5 small { display: block; font: 500 .8rem var(--f-mono); letter-spacing: .04em; color: var(--pastizal-osc); margin-top: 4px; }
+.linea-mas { margin-top: 12px; border-top: 1px dashed var(--linea); padding-top: 8px; }
+.linea-mas summary { cursor: pointer; font: 600 .9rem var(--f-texto); color: var(--arroyo); min-height: 36px; display: flex; align-items: center; list-style: none; }
+.linea-mas summary::-webkit-details-marker { display: none; }
+.linea-mas summary::before { content: "+"; font: 600 1.1rem var(--f-mono); width: 20px; }
+.linea-mas[open] summary::before { content: "–"; }
+.linea-nudos { font-size: .92rem; margin-top: 4px; }
+.linea-nudos b { font: 500 .7rem var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--texto-3); margin-right: 4px; }
+.linea-card .linea-pregunta { margin-top: 10px; font-family: var(--f-titulo); font-style: italic; font-size: 1.05rem; line-height: 1.45; color: var(--tierra); }
+.lineas-familia-texto strong { font-style: normal; font-family: var(--f-versal); font-weight: 400; color: var(--tierra); }
+.familia-pregunta { display: block; margin-top: 10px; padding-left: 14px; border-left: 3px solid var(--loes); font-size: 1.05rem; }
+
+/* Mapa de Ocasiones */
+.seccion-mapa { background-color: var(--tierra); color: var(--viento); background-image: var(--cuadricula); background-size: 64px 64px; background-blend-mode: normal; }
+.seccion-mapa { --linea: rgba(244,240,230,.06); }
+.mapa-ocasiones { margin: 0; border: 1px solid rgba(244,240,230,.3); background: var(--tierra-2); }
+.mapa-barra { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px; border-bottom: 1px solid rgba(244,240,230,.18); }
+.mapa-filtro { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 6px 12px; font: 600 .92rem var(--f-texto); color: var(--viento); background: transparent; border: 1.5px solid var(--c); cursor: pointer; opacity: .5; transition: opacity .2s, background .2s; }
+.mapa-filtro i { width: 12px; height: 12px; border-radius: 50%; background: var(--c); border: 1.5px solid var(--viento); }
+.mapa-filtro small { font: .72rem var(--f-mono); opacity: .8; }
+.mapa-filtro[aria-pressed="true"] { opacity: 1; background: color-mix(in srgb, var(--c) 28%, transparent); }
+.mapa-lienzo { position: relative; }
+.mapa-leaflet { height: min(72vh, 640px); min-height: 420px; background: #2c2a22; }
+.mapa-opacidad { position: absolute; left: 12px; bottom: 34px; z-index: 500; background: rgba(28,26,20,.86); color: var(--viento); padding: 8px 12px 6px; border: 1px solid rgba(244,240,230,.35); display: grid; gap: 2px; font: .78rem var(--f-texto); }
+.mapa-opacidad label { display: flex; justify-content: space-between; gap: 12px; font-weight: 600; }
+.mapa-opacidad output { font-family: var(--f-mono); color: var(--loes); }
+.mapa-opacidad input { width: 160px; accent-color: var(--loes); }
+.mapa-leyenda { display: flex; flex-wrap: wrap; gap: 8px 22px; padding: 12px 14px 4px; font-size: .86rem; color: #DDD6C2; }
+.mapa-leyenda span { display: inline-flex; align-items: center; gap: 8px; }
+.ly-pin { width: 14px; height: 14px; border-radius: 50%; background: var(--c); border: 2px solid var(--viento); opacity: var(--t, 1); }
+.ly-plaza { width: 22px; height: 14px; background: var(--pastizal); border: 1.5px solid var(--viento); }
+.ly-linea { width: 26px; height: 0; border-top: 3px var(--d, solid) var(--c); }
+.mapa-ocasiones figcaption { padding: 6px 14px 14px; font-size: .84rem; color: #BDB6A3; }
+.oc-pin-wrap { background: none; border: 0; }
+.oc-pin { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--c); border: 2.5px solid var(--viento); box-shadow: 0 1px 4px rgba(0,0,0,.5); font: 700 .78rem var(--f-mono); color: var(--viento); }
+.oc-plaza { display: grid; place-items: center; width: 30px; height: 20px; background: var(--pastizal); border: 1.5px solid var(--viento); font: 600 .66rem var(--f-mono); color: var(--viento); box-shadow: 0 1px 3px rgba(0,0,0,.45); }
+.pm-ir { margin-top: 4px; font: 600 .86rem var(--f-texto); color: var(--arroyo); background: none; border: 0; padding: 6px 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.leaflet-container { font-family: var(--f-texto); }
+.leaflet-control-layers-expanded { font: .86rem var(--f-texto); }
+@media (max-width: 760px) {
+  .mapa-leaflet { height: 58vh; min-height: 360px; }
+  .mapa-opacidad { left: 8px; bottom: 30px; padding: 6px 10px; }
+  .mapa-opacidad input { width: 120px; }
+  .mapa-filtro { flex: 1 1 calc(50% - 8px); justify-content: flex-start; }
+}
+
+/* Pueblos: dos miradas en pestañas */
+.pueblos-vistas { display: flex; gap: 0; margin: 4px 0 30px; border-bottom: 2px solid var(--tierra); }
+.vista-btn { display: grid; text-align: left; gap: 2px; padding: 12px 22px 12px 18px; background: transparent; border: 1.5px solid transparent; border-bottom: 0; cursor: pointer; color: var(--texto-2); margin-bottom: -2px; min-height: 56px; }
+.vista-n { font: 500 .7rem var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--texto-3); }
+.vista-t { font-family: var(--f-titulo); font-size: 1.35rem; line-height: 1.1; }
+.vista-btn[aria-selected="true"] { background: var(--viento); border-color: var(--tierra); border-bottom: 2px solid var(--viento); color: var(--tierra); }
+.vista-btn[aria-selected="true"] .vista-n { color: var(--arroyo); }
+.vista-btn:hover .vista-t { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.pueblos-censo { max-width: 920px; font-size: 1.08rem; line-height: 1.55; color: var(--texto-2); margin-bottom: 26px; border-left: 3px solid var(--arroyo); padding-left: 16px; }
+.estudio-aviso { max-width: 920px; font-family: var(--f-titulo); font-style: italic; font-size: 1.12rem; line-height: 1.5; color: var(--texto-2); margin-bottom: 22px; }
+.pueblo-rasgos { border-top: 1px solid var(--linea); padding-top: 14px; font-size: 1.04rem; line-height: 1.6; color: var(--texto); }
+.pueblo-rasgos span { color: var(--arroyo); }
+.enlace-boton { background: none; border: 0; padding: 8px 0; font: 600 .98rem var(--f-texto); color: var(--arroyo); cursor: pointer; text-align: left; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.pm-nota .pm-ramal { border-radius: 0; height: 0; width: 18px; border: 0; border-top: 3px dashed var(--tierra); }
+.pueblos-mapa-fig .mapa-opacidad { bottom: 28px; }
+@media (max-width: 760px) {
+  .vista-btn { flex: 1; padding: 10px 12px; }
+  .vista-t { font-size: 1.1rem; }
+}
+@media print { #mapa, .pueblos-vistas, .mapa-opacidad { display: none !important; } #panel-estudio { display: block !important; } }

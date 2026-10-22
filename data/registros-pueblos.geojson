@@ -1,0 +1,2722 @@
+{
+"type": "FeatureCollection",
+"name": "Registros Pueblos SAG (borrador CMDOT 10-2026, ubicaciones verificadas 20-10-2026)",
+"features": [
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3753075,
+-34.3667338
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "patrimonio",
+"nombre": "Estación Azcuénaga (FC Oeste, 1880)",
+"dato": "Sin pasajeros; edificio ocupado; predio sede de fiestas · Patrimonio municipal: Lugar Histórico, Ord. 119/88",
+"fuente": "Wikipedia; Garay 2020; Registro Oficial del Patrimonio Cultural (Ord. 2182/19)",
+"precision": "google",
+"direccion": "Estación Azcuénaga",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3867,
+-34.3472
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "patrimonio",
+"nombre": "Casco Estancia La Paloma (Cunningham)",
+"dato": "Mensuras 1854 y 1878; donación de unas 16 manzanas",
+"fuente": "Atlas de Mensuras; Garay 2020",
+"precision": "exacta",
+"direccion": "",
+"fuente_ubicacion": ""
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3719881,
+-34.3658029
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "patrimonio",
+"nombre": "Capilla N. S. del Rosario y plaza Miguel de Azcuénaga",
+"dato": "Piedra 1902, primera misa 1907; colectividad irlandesa · Patrimonio municipal, Ord. 119/88",
+"fuente": "Wikipedia; Garay 2020; Registro Oficial del Patrimonio Cultural (Ord. 2182/19)",
+"precision": "google",
+"direccion": "Capilla de Azcuénaga",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3741439,
+-34.3668397
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "patrimonio",
+"nombre": "Casa Terrén (1885) y mural de adobe",
+"dato": "Almacén de ramos generales; mural de interés cultural · Casa Terrén: Ord. 20/93; Mural de Adobes: Ord. 929/04 (primer mural de adobe de Latinoamérica)",
+"fuente": "Sitio municipal, circuitos; Registro Oficial del Patrimonio Cultural (Ord. 2182/19)",
+"precision": "google",
+"direccion": "Av. Pedro Terrén (mural de adobe, junto a la Casa Terrén)",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3730918,
+-34.3657158
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "institucion",
+"nombre": "EP N.º 4 · JI 909 · EES N.º 10",
+"dato": "Secundaria independiente desde 2023",
+"fuente": "Noticias Gilenses",
+"precision": "google",
+"direccion": "Elena Ham (EP N.º 4)",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3743,
+-34.3664
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "institucion",
+"nombre": "CAPS y Delegación",
+"dato": "Av. P. Terrén y J. Vildósola",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "estimada",
+"direccion": "Av. P. Terrén y Julia Vildósola (intersección estimada)",
+"fuente_ubicacion": "estimada a partir de Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3750427,
+-34.3656099
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "institucion",
+"nombre": "Club Recreativo Apolo (1920)",
+"dato": "Pileta, camping, bochas · Edificio patrimonial (Av. Terrén y El Ombú), Ord. 1223/07",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos); Registro Oficial del Patrimonio Cultural (Ord. 2182/19)",
+"precision": "google",
+"direccion": "Club Recreativo Apolo",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3770323,
+-34.3635571
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "trabajo",
+"nombre": "CETASA y parque solar",
+"dato": "Cooperativa de 1965; parque fotovoltaico 2022 · Edificio de la Cooperativa (1888), patrimonio municipal, Ord. 688/01",
+"fuente": "Noticias Gilenses; Registro Oficial del Patrimonio Cultural (Ord. 2182/19)",
+"precision": "google",
+"direccion": "Av. Pedro Terrén (CETASA)",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3748722,
+-34.3657096
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "trabajo",
+"nombre": "Panadería La Moderna (1917)",
+"dato": "Horno a leña; galleta de campo · Patrimonio municipal (Av. Terrén y El Ombú), Ord. 1851/15",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos); Registro Oficial del Patrimonio Cultural (Ord. 2182/19)",
+"precision": "google",
+"direccion": "Av. Pedro Terrén, frente al Club Apolo",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3746486,
+-34.3659498
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "gastronomia",
+"nombre": "La Porteña",
+"dato": "Listado municipal 2026 · Funciona en la antigua Sastrería La Porteña (Capecci, c. 1920), patrimonio municipal, Ord. 1851/15",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos); Registro Oficial del Patrimonio Cultural (Ord. 2182/19)",
+"precision": "google",
+"direccion": "Av. Pedro Terrén 426",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3755723,
+-34.3649351
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "gastronomia",
+"nombre": "Le Four",
+"dato": "Listado municipal 2026",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "Av. Pedro Terrén 314",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3739916,
+-34.3668288
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "gastronomia",
+"nombre": "Almacén CT&Cía",
+"dato": "Listado municipal 2026",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "Av. Pedro Terrén 504",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3771675,
+-34.3620198
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "gastronomia",
+"nombre": "Lo de Vero",
+"dato": "Listado municipal 2026",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "Parador Lo de Vero",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3757391,
+-34.3650527
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "gastronomia",
+"nombre": "Sitio Azcuénaga",
+"dato": "Listado municipal 2026",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "Av. Pedro Terrén 314 (Sitio)",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3758096,
+-34.3650996
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "gastronomia",
+"nombre": "Cucina De Santo",
+"dato": "Listado municipal 2026",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "Av. Pedro Terrén 255",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3733462,
+-34.3657925
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "gastronomia",
+"nombre": "Posta Azcuénaga (2024)",
+"dato": "Listado municipal 2026",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "Julia Vildósola 92",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3750427,
+-34.3656099
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "gastronomia",
+"nombre": "Buffet Club Apolo",
+"dato": "Listado municipal 2026",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "Club Recreativo Apolo",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3749458,
+-34.360089
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "alojamiento",
+"nombre": "Posada La Magnolia",
+"dato": "A 300 m del acceso; plazas sin dato",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "RP 193 y La Olvidada",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3742162,
+-34.3663601
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "alojamiento",
+"nombre": "La Casona de Toto",
+"dato": "Registro anterior: 1 hab., 4 plazas · Probable edificio del Restaurante «La Casona» (ex almacén Picchi, 1888), patrimonio municipal, Ord. 1851/15",
+"fuente": "Sec. Producción y Turismo; Registro Oficial del Patrimonio Cultural (Ord. 2182/19)",
+"precision": "google",
+"direccion": "Av. Pedro Terrén",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3753075,
+-34.3667338
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "fiesta",
+"nombre": "Fiesta de la Galleta de Campo",
+"dato": "Septiembre; 7.ª edición en 2024",
+"fuente": "Noticias Gilenses",
+"precision": "google",
+"direccion": "Predio de la estación",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3719881,
+-34.3658029
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "fiesta",
+"nombre": "Fundación (abril) · Patronal del Rosario (octubre)",
+"dato": "Calendario municipal",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "Sede: capilla y plaza",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.405,
+-34.395
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "obra",
+"nombre": "Camino 094-01 Giles–Azcuénaga–Solís",
+"dato": "Emergencia vial (HCD, 2025); plan de obras 2026",
+"fuente": "Noticias Gilenses",
+"precision": "estimada",
+"direccion": "",
+"fuente_ubicacion": ""
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3715,
+-34.3605
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "ambiental",
+"nombre": "Loteo de 70 ha (calle La Olvidada)",
+"dato": "2020: acarreo de tosca; ampliación por convenio urbanístico (2017)",
+"fuente": "Noticias Gilenses; Gestión de suelo",
+"precision": "estimada",
+"direccion": "Calle La Olvidada (borde norte del pueblo)",
+"fuente_ubicacion": "estimada a partir de Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.4055307,
+-34.327989
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "patrimonio",
+"nombre": "Posta de Figueroa (s. XVIII)",
+"dato": "Monumento histórico; a unos 8 km · Monumento Histórico Nacional (Decreto 616/2021); Ley 10.965; Ord. 49/88",
+"fuente": "Garay 2020; Wikipedia; Registro Oficial del Patrimonio Cultural (Ord. 2182/19)",
+"precision": "google",
+"direccion": "La Posta de Figueroa",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.2628288,
+-34.4335824
+]
+},
+"properties": {
+"pueblo": "Villa Ruiz",
+"tipo": "patrimonio",
+"nombre": "Estación Ruiz (Tramway Lacroze, 1889)",
+"dato": "Museo y centro cultural · Registro Preventivo, Ord. 2698/24",
+"fuente": "GeoNames; C5N; Registro Oficial del Patrimonio Cultural (Ord. 2182/19)",
+"precision": "google",
+"direccion": "Bernardino Rivadavia 16",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.2608485,
+-34.4315447
+]
+},
+"properties": {
+"pueblo": "Villa Ruiz",
+"tipo": "patrimonio",
+"nombre": "Plaza, capilla de la Asunción (1960), panadería La Emilia (1914), almacén Lapegüe",
+"dato": "Circuito municipal",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "Capilla N. S. de la Asunción, frente a la plaza",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.2606078,
+-34.4341604
+]
+},
+"properties": {
+"pueblo": "Villa Ruiz",
+"tipo": "institucion",
+"nombre": "EP N.º 10 (1902) · JI 907",
+"dato": "",
+"fuente": "Wikipedia",
+"precision": "google",
+"direccion": "Gral. Belgrano (EP N.º 10)",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.263,
+-34.4330428
+]
+},
+"properties": {
+"pueblo": "Villa Ruiz",
+"tipo": "institucion",
+"nombre": "CAPS, Delegación y Destacamento (2020)",
+"dato": "San Martín e/ 9 de Julio y 25 de Mayo",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "CAPS «Ramón Pedro Ponce»",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.2606985,
+-34.4330061
+]
+},
+"properties": {
+"pueblo": "Villa Ruiz",
+"tipo": "institucion",
+"nombre": "Club Social y Deportivo",
+"dato": "Organiza la Fiesta del Camino Real",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "San Martín, frente a la estación",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.2518513,
+-34.4513072
+]
+},
+"properties": {
+"pueblo": "Villa Ruiz",
+"tipo": "trabajo",
+"nombre": "Frigorífico porcino",
+"dato": "Reactivado en 2025; unos 50 puestos (cifra discutida)",
+"fuente": "Noticias Gilenses",
+"precision": "google",
+"direccion": "Camino a Carlos Keen",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.2620087,
+-34.4313312
+]
+},
+"properties": {
+"pueblo": "Villa Ruiz",
+"tipo": "trabajo",
+"nombre": "Cooperativa eléctrica (c. 1969)",
+"dato": "",
+"fuente": "Noticias Gilenses",
+"precision": "google",
+"direccion": "J. C. Silva",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.261494,
+-34.4342252
+]
+},
+"properties": {
+"pueblo": "Villa Ruiz",
+"tipo": "gastronomia",
+"nombre": "Elvira Comedor",
+"dato": "Listado municipal 2026",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "Belgrano y 25 de Mayo",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.249161,
+-34.4551117
+]
+},
+"properties": {
+"pueblo": "Villa Ruiz",
+"tipo": "gastronomia",
+"nombre": "La Posta del Camino Real",
+"dato": "Listado municipal 2026",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "Camino Villa Ruiz–Carlos Keen km 14,2",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.2621143,
+-34.4319379
+]
+},
+"properties": {
+"pueblo": "Villa Ruiz",
+"tipo": "gastronomia",
+"nombre": "La Pulpería",
+"dato": "Listado municipal 2026",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "Vicente Cutillas, frente a la plaza",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.2613696,
+-34.4331847
+]
+},
+"properties": {
+"pueblo": "Villa Ruiz",
+"tipo": "gastronomia",
+"nombre": "Las Flores",
+"dato": "Listado municipal 2026",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "San Martín y Lorenzo Ruiz",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.2607129,
+-34.4316821
+]
+},
+"properties": {
+"pueblo": "Villa Ruiz",
+"tipo": "gastronomia",
+"nombre": "Lo de Diego",
+"dato": "Listado municipal 2026",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "Maipú y Chacabuco",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.2566911,
+-34.4338004
+]
+},
+"properties": {
+"pueblo": "Villa Ruiz",
+"tipo": "gastronomia",
+"nombre": "Magnolia Cocina",
+"dato": "Listado municipal 2026",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "Daniel Morgan y Pasarotti",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.2593046,
+-34.429919
+]
+},
+"properties": {
+"pueblo": "Villa Ruiz",
+"tipo": "alojamiento",
+"nombre": "Los Cítricos",
+"dato": "Plazas sin dato",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "J. C. Silva",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.2626172,
+-34.4388965
+]
+},
+"properties": {
+"pueblo": "Villa Ruiz",
+"tipo": "alojamiento",
+"nombre": "La Casona Italiana / Pica Montes",
+"dato": "Av. Rivadavia km 16,5",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "Av. Rivadavia km 16,5 y Leandro N. Alem",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.2561,
+-34.43172
+]
+},
+"properties": {
+"pueblo": "Villa Ruiz",
+"tipo": "alojamiento",
+"nombre": "Estancia Vieja",
+"dato": "Registro anterior: 6 hab., 24 plazas",
+"fuente": "Sec. Producción y Turismo",
+"precision": "pueblo",
+"direccion": "",
+"fuente_ubicacion": "",
+"nota": "Sin dirección publicada: coordenada esquemática"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.2606985,
+-34.4330061
+]
+},
+"properties": {
+"pueblo": "Villa Ruiz",
+"tipo": "fiesta",
+"nombre": "Fiesta Provincial El Camino Real",
+"dato": "Noviembre, desde c. 2006 · Patrimonio inmaterial, Ord. 2699/24",
+"fuente": "Noticias Gilenses; Registro Oficial del Patrimonio Cultural (Ord. 2182/19)",
+"precision": "google",
+"direccion": "Sede: Club Social y Deportivo",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.2608485,
+-34.4315447
+]
+},
+"properties": {
+"pueblo": "Villa Ruiz",
+"tipo": "fiesta",
+"nombre": "Patronal de la Asunción (agosto) · Patio de los Pueblos",
+"dato": "Calendario municipal",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "Sede: capilla y plaza",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.2505098,
+-34.4529357
+]
+},
+"properties": {
+"pueblo": "Villa Ruiz",
+"tipo": "otro",
+"nombre": "Barrio cerrado Chacras de San Andrés",
+"dato": "340–350 ha, unos 750 lotes; sin redes",
+"fuente": "Avisos inmobiliarios",
+"precision": "google",
+"direccion": "Rivadavia km 14,5",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.252,
+-34.441
+]
+},
+"properties": {
+"pueblo": "Villa Ruiz",
+"tipo": "ambiental",
+"nombre": "Arroyo de la Cruz: alambrado, relleno y entubamiento",
+"dato": "2021: clausura y orden judicial de restitución",
+"fuente": "Noticias Gilenses",
+"precision": "estimada",
+"direccion": "",
+"fuente_ubicacion": ""
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.236,
+-34.455
+]
+},
+"properties": {
+"pueblo": "Villa Ruiz",
+"tipo": "obra",
+"nombre": "Puente Camino 065-03 (Carlos Keen–Villa Ruiz–Cucullú)",
+"dato": "2025, para camiones del frigorífico",
+"fuente": "Noticias Gilenses",
+"precision": "estimada",
+"direccion": "",
+"fuente_ubicacion": ""
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.26846,
+-34.43172
+]
+},
+"properties": {
+"pueblo": "Villa Ruiz",
+"tipo": "obra",
+"nombre": "Convenios urbanísticos (2022 y 2023)",
+"dato": "32 cuadras de tosca y 6 de asfalto",
+"fuente": "Gestión de suelo 2009–2026",
+"precision": "pueblo",
+"direccion": "",
+"fuente_ubicacion": "",
+"nota": "Sin dirección publicada: coordenada esquemática"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3577116,
+-34.4431444
+]
+},
+"properties": {
+"pueblo": "Cucullú",
+"tipo": "patrimonio",
+"nombre": "Estación Cucullú (Tramway Lacroze, 1889)",
+"dato": "Ramal cerrado (1993/1998)",
+"fuente": "Wikipedia",
+"precision": "google",
+"direccion": "La Mariposa (estación FC Urquiza)",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3645576,
+-34.44442
+]
+},
+"properties": {
+"pueblo": "Cucullú",
+"tipo": "patrimonio",
+"nombre": "Plaza del Hornero y escultura «El ladrillero» (2006)",
+"dato": "Los Robles y Los Álamos",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "Plaza del Hornero",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3601585,
+-34.4452047
+]
+},
+"properties": {
+"pueblo": "Cucullú",
+"tipo": "patrimonio",
+"nombre": "Capilla Santa Teresita (1960) y panadería (1963)",
+"dato": "Acceso 9 de Julio",
+"fuente": "HCD PBA; Bichos de Campo",
+"precision": "google",
+"direccion": "Capilla Santa Teresita",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3593959,
+-34.4450113
+]
+},
+"properties": {
+"pueblo": "Cucullú",
+"tipo": "institucion",
+"nombre": "EP N.º 5 · ES N.º 3 · JI 905",
+"dato": "Obras edilicias 2022 · Primitivo edificio de la Escuela N.º 5, frente a la estación: patrimonio municipal, Ord. 688/01",
+"fuente": "Grupo La Provincia; Registro Oficial del Patrimonio Cultural (Ord. 2182/19)",
+"precision": "google",
+"direccion": "EES N.º 3 «Dr. René Favaloro»",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3579138,
+-34.4439099
+]
+},
+"properties": {
+"pueblo": "Cucullú",
+"tipo": "institucion",
+"nombre": "Club Atlético Cucullú (1929)",
+"dato": "Conflicto institucional 2024",
+"fuente": "Infociudad",
+"precision": "google",
+"direccion": "Club Atlético Cucullú",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3577144,
+-34.4435062
+]
+},
+"properties": {
+"pueblo": "Cucullú",
+"tipo": "institucion",
+"nombre": "Sala de primeros auxilios",
+"dato": "",
+"fuente": "HCD PBA",
+"precision": "google",
+"direccion": "Sala de atención primaria",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3645,
+-34.4505
+]
+},
+"properties": {
+"pueblo": "Cucullú",
+"tipo": "trabajo",
+"nombre": "Hornos de ladrillo (unos 30)",
+"dato": "35 en el Partido en 2023, 150 en 1980",
+"fuente": "Infobrisas 2023",
+"precision": "estimada",
+"direccion": "",
+"fuente_ubicacion": ""
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.35405,
+-34.4447
+]
+},
+"properties": {
+"pueblo": "Cucullú",
+"tipo": "trabajo",
+"nombre": "Granjas avícolas (desde los años 50)",
+"dato": "",
+"fuente": "HCD PBA",
+"precision": "pueblo",
+"direccion": "",
+"fuente_ubicacion": "",
+"nota": "Sin dirección publicada: coordenada esquemática"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3595,
+-34.439
+]
+},
+"properties": {
+"pueblo": "Cucullú",
+"tipo": "trabajo",
+"nombre": "Huerta orgánica familiar",
+"dato": "1–1,5 ha; 35–40 bolsones semanales",
+"fuente": "Bichos de Campo 2022",
+"precision": "pueblo",
+"direccion": "",
+"fuente_ubicacion": "",
+"nota": "Sin dirección publicada: coordenada esquemática"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3605497,
+-34.4452528
+]
+},
+"properties": {
+"pueblo": "Cucullú",
+"tipo": "trabajo",
+"nombre": "Cooperativa Eléctrica y de Pavimentación",
+"dato": "Robo de transformadores 2026",
+"fuente": "Infociudad",
+"precision": "google",
+"direccion": "Cooperativa Eléctrica Cucullú",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.358396,
+-34.4441439
+]
+},
+"properties": {
+"pueblo": "Cucullú",
+"tipo": "gastronomia",
+"nombre": "Casa Gallo",
+"dato": "Almacén-bar, Acceso 9 de Julio",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "9 de Julio y Mariposas",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.365293,
+-34.4535905
+]
+},
+"properties": {
+"pueblo": "Cucullú",
+"tipo": "alojamiento",
+"nombre": "Hospedaje Cucullú",
+"dato": "Habilitado; plazas sin dato",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "Camino rural, al sur del pueblo",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.373909,
+-34.452579
+]
+},
+"properties": {
+"pueblo": "Cucullú",
+"tipo": "alojamiento",
+"nombre": "La Huella",
+"dato": "Habilitado; plazas sin dato",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "Casa de campo La Huella",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.374543,
+-34.4612864
+]
+},
+"properties": {
+"pueblo": "Cucullú",
+"tipo": "alojamiento",
+"nombre": "Las Moras de Cucullú",
+"dato": "Habilitado; plazas sin dato",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "Las Moras de Cucullú",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.36495,
+-34.4447
+]
+},
+"properties": {
+"pueblo": "Cucullú",
+"tipo": "alojamiento",
+"nombre": "Casa de Campo",
+"dato": "Habilitado; plazas sin dato",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "pueblo",
+"direccion": "",
+"fuente_ubicacion": "",
+"nota": "Sin dirección publicada: coordenada esquemática"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3573724,
+-34.4432235
+]
+},
+"properties": {
+"pueblo": "Cucullú",
+"tipo": "fiesta",
+"nombre": "Fiesta del Hornero",
+"dato": "Noviembre, desde 2006; 13.ª edición 2025",
+"fuente": "Infociudad; Tribuna del Pueblo",
+"precision": "google",
+"direccion": "Acceso 9 de Julio 3900 (predio de la fiesta)",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3601585,
+-34.4452047
+]
+},
+"properties": {
+"pueblo": "Cucullú",
+"tipo": "fiesta",
+"nombre": "Patronal Santa Teresita · Carrera Cucullense",
+"dato": "Septiembre",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "Sede: capilla",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.375,
+-34.462
+]
+},
+"properties": {
+"pueblo": "Cucullú",
+"tipo": "obra",
+"nombre": "Acceso a Cucullú (4 km) repavimentado",
+"dato": "Único acceso pavimentado a la RN 7",
+"fuente": "argentina.gob.ar; Infociudad",
+"precision": "estimada",
+"direccion": "",
+"fuente_ubicacion": ""
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.384,
+-34.477
+]
+},
+"properties": {
+"pueblo": "Cucullú",
+"tipo": "obra",
+"nombre": "Distribuidor RN 7 km 98,5",
+"dato": "Autopista habilitada en 2019",
+"fuente": "Diario Democracia",
+"precision": "estimada",
+"direccion": "",
+"fuente_ubicacion": ""
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3595,
+-34.4504
+]
+},
+"properties": {
+"pueblo": "Cucullú",
+"tipo": "otro",
+"nombre": "Ampliaciones por convenio (571 parcelas)",
+"dato": "Cinco convenios entre 2014 y 2025",
+"fuente": "Gestión de suelo 2009–2026",
+"precision": "pueblo",
+"direccion": "",
+"fuente_ubicacion": "",
+"nota": "Sin dirección publicada: coordenada esquemática"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.352,
+-34.455
+]
+},
+"properties": {
+"pueblo": "Cucullú",
+"tipo": "ambiental",
+"nombre": "Extracción de suelo para ladrillos",
+"dato": "Ordenanza: hasta 30 cm; humo de hornallas en el acceso",
+"fuente": "Infociudad 2020; HCD PBA",
+"precision": "estimada",
+"direccion": "",
+"fuente_ubicacion": ""
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3206391,
+-34.2952586
+]
+},
+"properties": {
+"pueblo": "Solís",
+"tipo": "patrimonio",
+"nombre": "Estación Solís (FC Central Argentino, 1894)",
+"dato": "Sin pasajeros desde 1992; reactivación abandonada en 2024",
+"fuente": "Wikipedia; EnElSubte",
+"precision": "google",
+"direccion": "Estación Solís (Av. 25 de Mayo y Brown)",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3222005,
+-34.2964633
+]
+},
+"properties": {
+"pueblo": "Solís",
+"tipo": "institucion",
+"nombre": "EP N.º 8 (1906) · ES N.º 7 · JI 904 · Adultos 702",
+"dato": "Antiguo edificio de la Escuela N.º 8, frente a la estación: patrimonio municipal, Ord. 119/88",
+"fuente": "Wikipedia; Infociudad; Registro Oficial del Patrimonio Cultural (Ord. 2182/19)",
+"precision": "google",
+"direccion": "EP N.º 8 «Hipólito Yrigoyen»",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3234888,
+-34.2956043
+]
+},
+"properties": {
+"pueblo": "Solís",
+"tipo": "institucion",
+"nombre": "CAPS 24 h, destacamento y Bomberos Voluntarios (2021)",
+"dato": "",
+"fuente": "Noticias Gilenses",
+"precision": "google",
+"direccion": "Bomberos Voluntarios de Solís",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3218073,
+-34.2955359
+]
+},
+"properties": {
+"pueblo": "Solís",
+"tipo": "institucion",
+"nombre": "Club Social y Deportivo (1921)",
+"dato": "",
+"fuente": "Noticias Gilenses",
+"precision": "google",
+"direccion": "Av. 25 de Mayo (Club Social y Deportivo)",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.31827,
+-34.29809
+]
+},
+"properties": {
+"pueblo": "Solís",
+"tipo": "obra",
+"nombre": "Polideportivo (FISU)",
+"dato": "Paralizado al 60 % desde 2024",
+"fuente": "Noticias Gilenses; Infociudad",
+"precision": "pueblo",
+"direccion": "",
+"fuente_ubicacion": "",
+"nota": "Sin dirección publicada: coordenada esquemática"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.32717,
+-34.29315
+]
+},
+"properties": {
+"pueblo": "Solís",
+"tipo": "obra",
+"nombre": "Red de agua y entubado de zanjón (2022)",
+"dato": "80 familias; 400 m entubados",
+"fuente": "Noticias Gilenses",
+"precision": "pueblo",
+"direccion": "",
+"fuente_ubicacion": "",
+"nota": "Sin dirección publicada: coordenada esquemática"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.32645,
+-34.30199
+]
+},
+"properties": {
+"pueblo": "Solís",
+"tipo": "obra",
+"nombre": "Garitas línea Solís–Giles (2024)",
+"dato": "Lunes a viernes",
+"fuente": "Tribuna del Pueblo",
+"precision": "pueblo",
+"direccion": "",
+"fuente_ubicacion": "",
+"nota": "Sin dirección publicada: coordenada esquemática"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3185413,
+-34.294913
+]
+},
+"properties": {
+"pueblo": "Solís",
+"tipo": "otro",
+"nombre": "Barrio popular La Estación (RENABAP)",
+"dato": "Sobre tierras ferroviarias",
+"fuente": "Hablemos Claro 2023",
+"precision": "google",
+"direccion": "Barrio Estación Solís",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.2973482,
+-34.3104746
+]
+},
+"properties": {
+"pueblo": "Solís",
+"tipo": "otro",
+"nombre": "Barrio El Candil (RN 8 km 95–98)",
+"dato": "Extraurbano; lotes de unos 7.000 m²",
+"fuente": "Avisos inmobiliarios",
+"precision": "google",
+"direccion": "RN 8 km 95",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.303235,
+-34.312406
+]
+},
+"properties": {
+"pueblo": "Solís",
+"tipo": "alojamiento",
+"nombre": "Estancia Los Candiles (ex haras El Candil)",
+"dato": "RN 8 km 95,5; registro anterior 6 plazas",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "RN 8 km 95,5",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.288171,
+-34.311688
+]
+},
+"properties": {
+"pueblo": "Solís",
+"tipo": "alojamiento",
+"nombre": "Estancia Don Pedro",
+"dato": "RN 8 km 94; suites",
+"fuente": "estanciadonpedro.com",
+"precision": "google",
+"direccion": "RN 8 km 94",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3,
+-34.305
+]
+},
+"properties": {
+"pueblo": "Solís",
+"tipo": "alojamiento",
+"nombre": "Los Mellizos",
+"dato": "RN 8 km 98; registro anterior 30 plazas",
+"fuente": "Sec. Producción y Turismo",
+"precision": "estimada",
+"direccion": "",
+"fuente_ubicacion": ""
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3276626,
+-34.2983613
+]
+},
+"properties": {
+"pueblo": "Solís",
+"tipo": "gastronomia",
+"nombre": "La Casa de Blanca",
+"dato": "",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "José María Paz",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.323299,
+-34.2975073
+]
+},
+"properties": {
+"pueblo": "Solís",
+"tipo": "fiesta",
+"nombre": "Fundación (16 de julio) · Patronal de Lourdes (17 de febrero)",
+"dato": "132.º aniversario en 2026",
+"fuente": "Infociudad",
+"precision": "google",
+"direccion": "Sede: capilla N. S. de Lourdes y plaza de la Independencia",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.245,
+-34.327
+]
+},
+"properties": {
+"pueblo": "Solís",
+"tipo": "trabajo",
+"nombre": "Fracción industrial RN 8 km 92",
+"dato": "6 naves (aviso de venta)",
+"fuente": "Zonaprop",
+"precision": "estimada",
+"direccion": "",
+"fuente_ubicacion": ""
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.30025,
+-34.367974
+]
+},
+"properties": {
+"pueblo": "Solís",
+"tipo": "institucion",
+"nombre": "EP N.º 20 «Almafuerte» (rural)",
+"dato": "Fumigada en 2018",
+"fuente": "Capa de restricciones (Ord. 2047); Noticias Mercedinas",
+"precision": "exacta",
+"direccion": "",
+"fuente_ubicacion": ""
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3389875,
+-34.5054761
+]
+},
+"properties": {
+"pueblo": "Villa Espil",
+"tipo": "patrimonio",
+"nombre": "Plaza Felipe S. Espil · Capilla San Felipe (1960)",
+"dato": "Donación de Alberto Espil (1936)",
+"fuente": "Wikipedia; HCD PBA",
+"precision": "google",
+"direccion": "Capilla San Felipe, frente a la plaza",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3375495,
+-34.5056971
+]
+},
+"properties": {
+"pueblo": "Villa Espil",
+"tipo": "institucion",
+"nombre": "EP N.º 19 (1938) · EES F. S. Espil · JI 906",
+"dato": "Fibra óptica 2021",
+"fuente": "HCD PBA; Noticias Gilenses",
+"precision": "google",
+"direccion": "EP N.º 19 «Domingo French»",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3387053,
+-34.5049337
+]
+},
+"properties": {
+"pueblo": "Villa Espil",
+"tipo": "institucion",
+"nombre": "Sala de primeros auxilios · Biblioteca Popular (2011)",
+"dato": "",
+"fuente": "Noticias Gilenses",
+"precision": "google",
+"direccion": "Sala de primeros auxilios",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3452096,
+-34.5063767
+]
+},
+"properties": {
+"pueblo": "Villa Espil",
+"tipo": "gastronomia",
+"nombre": "La Cañada",
+"dato": "Autovía 7 km 90",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "RN 7 km 90",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3389112,
+-34.5056633
+]
+},
+"properties": {
+"pueblo": "Villa Espil",
+"tipo": "gastronomia",
+"nombre": "Aromas de Campo",
+"dato": "",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "Frente a la plaza (Aromas de Campo)",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3389875,
+-34.5054761
+]
+},
+"properties": {
+"pueblo": "Villa Espil",
+"tipo": "fiesta",
+"nombre": "Patronal San Felipe (mayo) · Fundación (octubre)",
+"dato": "Un Pueblo Rural para los Niños (desde 2006)",
+"fuente": "HCD PBA; Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "Sede: capilla y plaza",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.358542,
+-34.5130989
+]
+},
+"properties": {
+"pueblo": "Villa Espil",
+"tipo": "otro",
+"nombre": "Barrio Laguna de las Pampas",
+"dato": "76 ha, 137 lotes, laguna de 25 ha (origen a verificar)",
+"fuente": "Arquimaster; Zonaprop",
+"precision": "google",
+"direccion": "RN 7 (acceso al barrio)",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.33289,
+-34.50533
+]
+},
+"properties": {
+"pueblo": "Villa Espil",
+"tipo": "otro",
+"nombre": "Ampliaciones por convenio (323 parcelas)",
+"dato": "Tres convenios (2020, 2021 y 2023)",
+"fuente": "Gestión de suelo 2009–2026",
+"precision": "pueblo",
+"direccion": "",
+"fuente_ubicacion": "",
+"nota": "Sin dirección publicada: coordenada esquemática"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.34525,
+-34.50533
+]
+},
+"properties": {
+"pueblo": "Villa Espil",
+"tipo": "obra",
+"nombre": "Asfalto de 6 cuadras (2024)",
+"dato": "",
+"fuente": "Grupo La Provincia",
+"precision": "pueblo",
+"direccion": "",
+"fuente_ubicacion": "",
+"nota": "Sin dirección publicada: coordenada esquemática"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.345,
+-34.509
+]
+},
+"properties": {
+"pueblo": "Villa Espil",
+"tipo": "ambiental",
+"nombre": "Inundación atribuida a la obra de autopista",
+"dato": "Comunicación HCD 588/14",
+"fuente": "Concejo Deliberante",
+"precision": "estimada",
+"direccion": "",
+"fuente_ubicacion": ""
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3087864,
+-34.519736
+]
+},
+"properties": {
+"pueblo": "Villa Espil",
+"tipo": "ambiental",
+"nombre": "Peaje y puente RN 7",
+"dato": "Siniestro con 4 víctimas (2024)",
+"fuente": "Noticias Gilenses",
+"precision": "google",
+"direccion": "Peaje Villa Espil",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.381348,
+-34.517765
+]
+},
+"properties": {
+"pueblo": "Villa Espil",
+"tipo": "institucion",
+"nombre": "EP N.º 6 y JIR N.º 9 (Paraje La Florida)",
+"dato": "Escuela rural",
+"fuente": "Capa de restricciones (Ord. 2047)",
+"precision": "exacta",
+"direccion": "",
+"fuente_ubicacion": ""
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.6300752,
+-34.6102393
+]
+},
+"properties": {
+"pueblo": "Franklin",
+"tipo": "patrimonio",
+"nombre": "Estación Franklin (FC Pacífico, 1884)",
+"dato": "Parada del tren Retiro–Junín desde 2017",
+"fuente": "Mapcarta/OSM; argentina.gob.ar",
+"precision": "google",
+"direccion": "Estación Franklin",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.6311,
+-34.6109
+]
+},
+"properties": {
+"pueblo": "Franklin",
+"tipo": "institucion",
+"nombre": "EP N.º 15 · JI 912 · sala de primeros auxilios",
+"dato": "",
+"fuente": "orientapadres; MercedesYa",
+"precision": "estimada",
+"direccion": "",
+"fuente_ubicacion": ""
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.62507,
+-34.61131
+]
+},
+"properties": {
+"pueblo": "Franklin",
+"tipo": "trabajo",
+"nombre": "Tambos y quesería",
+"dato": "Masa para muzzarella",
+"fuente": "HCD PBA 2012",
+"precision": "pueblo",
+"direccion": "",
+"fuente_ubicacion": "",
+"nota": "Sin dirección publicada: coordenada esquemática"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.63743,
+-34.61131
+]
+},
+"properties": {
+"pueblo": "Franklin",
+"tipo": "fiesta",
+"nombre": "Patronales (marzo) · aniversario de la estación (15 de diciembre)",
+"dato": "",
+"fuente": "MercedesYa; Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "pueblo",
+"direccion": "",
+"fuente_ubicacion": "",
+"nota": "Sin dirección publicada: coordenada esquemática"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.5665237,
+-34.4628666
+]
+},
+"properties": {
+"pueblo": "San Alberto",
+"tipo": "otro",
+"nombre": "Loteo Villa San Alberto (Alberto Espil, 1942)",
+"dato": "99 lotes en 8–9 ha; 7 familias permanentes (2024)",
+"fuente": "Infobrisas; El Día",
+"precision": "google",
+"direccion": "Villa San Alberto",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.5674705,
+-34.4629336
+]
+},
+"properties": {
+"pueblo": "San Alberto",
+"tipo": "institucion",
+"nombre": "EP N.º 23 (desde 1942)",
+"dato": "Unos 25 alumnos (2021)",
+"fuente": "El Día",
+"precision": "google",
+"direccion": "EP N.º 23",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.5694276,
+-34.4629209
+]
+},
+"properties": {
+"pueblo": "San Alberto",
+"tipo": "gastronomia",
+"nombre": "Paraje San Alberto (restaurante y alojamiento, RN 7 km 114)",
+"dato": "",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "google",
+"direccion": "RN 7 km 114 (Paraje San Alberto)",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.565,
+-34.448
+]
+},
+"properties": {
+"pueblo": "San Alberto",
+"tipo": "obra",
+"nombre": "Camino RN 7–Km 108 (6.800 m)",
+"dato": "Estabilizado 2019 (Decretos 647 y 648)",
+"fuente": "SIBOM",
+"precision": "estimada",
+"direccion": "",
+"fuente_ubicacion": ""
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.56652,
+-34.46287
+]
+},
+"properties": {
+"pueblo": "San Alberto",
+"tipo": "fiesta",
+"nombre": "Patronal (24 de noviembre)",
+"dato": "",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "estimada",
+"direccion": "Villa San Alberto",
+"fuente_ubicacion": "estimada a partir de Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.6730962,
+-34.5207207
+]
+},
+"properties": {
+"pueblo": "Tuyutí",
+"tipo": "patrimonio",
+"nombre": "Estación Tuyutí (Cía. General, 1908/1911)",
+"dato": "Ramal cerrado en 1977",
+"fuente": "Wikipedia",
+"precision": "google",
+"direccion": "Estación Tuyutí",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.6755288,
+-34.5194455
+]
+},
+"properties": {
+"pueblo": "Tuyutí",
+"tipo": "patrimonio",
+"nombre": "Capilla N. S. del Pilar",
+"dato": "Abandonada · Patrimonio municipal, Ord. 2492/22",
+"fuente": "Infociudad 2026; Registro Oficial del Patrimonio Cultural (Ord. 2182/19)",
+"precision": "google",
+"direccion": "Capilla N. S. del Pilar",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.6742031,
+-34.5194942
+]
+},
+"properties": {
+"pueblo": "Tuyutí",
+"tipo": "institucion",
+"nombre": "EP N.º 7 «M. M. de Güemes»",
+"dato": "Antiguo edificio escolar: patrimonio municipal, Ord. 568/99",
+"fuente": "colegiosargentina; Registro Oficial del Patrimonio Cultural (Ord. 2182/19)",
+"precision": "google",
+"direccion": "EP N.º 7",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.66855,
+-34.52
+]
+},
+"properties": {
+"pueblo": "Tuyutí",
+"tipo": "trabajo",
+"nombre": "Lechería y mozzarella (Isagrill, Estancia San Nicolás)",
+"dato": "La fábrica histórica cerró",
+"fuente": "Crónica 2022",
+"precision": "pueblo",
+"direccion": "",
+"fuente_ubicacion": "",
+"nota": "Sin dirección publicada: coordenada esquemática"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.747278,
+-34.523861
+]
+},
+"properties": {
+"pueblo": "Tuyutí",
+"tipo": "institucion",
+"nombre": "EP N.º 25 y JIR N.º 11 (oeste)",
+"dato": "Escuela rural",
+"fuente": "Capa de restricciones (Ord. 2047)",
+"precision": "exacta",
+"direccion": "",
+"fuente_ubicacion": ""
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.6587085,
+-34.431381
+]
+},
+"properties": {
+"pueblo": "Heavy",
+"tipo": "patrimonio",
+"nombre": "Estación Heavy (1892)",
+"dato": "Edificio privado; unas cinco casas",
+"fuente": "Horizonte Ferroviario",
+"precision": "google",
+"direccion": "Estación Heavy",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.6559304,
+-34.4301496
+]
+},
+"properties": {
+"pueblo": "Heavy",
+"tipo": "institucion",
+"nombre": "EP N.º 11 · JI 908 · Club Defensores de Heavy (1933)",
+"dato": "",
+"fuente": "colegiosargentina; Felice",
+"precision": "google",
+"direccion": "EP N.º 11 «San José de Calasanz»",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.6583,
+-34.4316
+]
+},
+"properties": {
+"pueblo": "Heavy",
+"tipo": "gastronomia",
+"nombre": "Bar Lo de Punte",
+"dato": "Junto a la estación",
+"fuente": "Sitio municipal (fichas por pueblo, hospedaje, festejos)",
+"precision": "estimada",
+"direccion": "Junto a la estación Heavy",
+"fuente_ubicacion": "estimada a partir de Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.5578066,
+-34.4290497
+]
+},
+"properties": {
+"pueblo": "Km 108",
+"tipo": "gastronomia",
+"nombre": "Almacén Álvarez",
+"dato": "Restaurado en 2020",
+"fuente": "Infociudad 2025",
+"precision": "google",
+"direccion": "Almacén Álvarez",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.554777,
+-34.428293
+]
+},
+"properties": {
+"pueblo": "Km 108",
+"tipo": "institucion",
+"nombre": "EP N.º 22 «Rafael Obligado»",
+"dato": "Escuela rural",
+"fuente": "Capa de restricciones (Ord. 2047)",
+"precision": "exacta",
+"direccion": "",
+"fuente_ubicacion": ""
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.55765,
+-34.4339
+]
+},
+"properties": {
+"pueblo": "Km 108",
+"tipo": "trabajo",
+"nombre": "Granjas, cunicultura, criaderos, invernaderos",
+"dato": "",
+"fuente": "HCD PBA 2016",
+"precision": "pueblo",
+"direccion": "",
+"fuente_ubicacion": "",
+"nota": "Sin dirección publicada: coordenada esquemática"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.53,
+-34.43
+]
+},
+"properties": {
+"pueblo": "Km 108",
+"tipo": "obra",
+"nombre": "Camino Km 108–RP 41",
+"dato": "Pedido de pavimento 8,5 km; 2,5 km mejorados en 2025",
+"fuente": "Tribuna del Pueblo",
+"precision": "estimada",
+"direccion": "",
+"fuente_ubicacion": ""
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.5682436,
+-34.5273955
+]
+},
+"properties": {
+"pueblo": "Espora",
+"tipo": "gastronomia",
+"nombre": "Almacén Espora",
+"dato": "Abre fines de semana con reserva",
+"fuente": "La Nación 2022",
+"precision": "google",
+"direccion": "Almacén de Campo Espora",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.5631346,
+-34.5310802
+]
+},
+"properties": {
+"pueblo": "Espora",
+"tipo": "alojamiento",
+"nombre": "Las Goya Glamping",
+"dato": "4 domos y un vagón",
+"fuente": "ANDigital 2023",
+"precision": "google",
+"direccion": "Las Goya (glamping y bar)",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.5851455,
+-34.5161905
+]
+},
+"properties": {
+"pueblo": "Espora",
+"tipo": "alojamiento",
+"nombre": "Landhütte (casa de campo)",
+"dato": "El Pentágono, que figuraba junto a ella, está en el entorno rural de Cucullú",
+"fuente": "La Nación 2022",
+"precision": "google",
+"direccion": "Landhütte (casa de campo)",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.5757268,
+-34.522934
+]
+},
+"properties": {
+"pueblo": "Espora",
+"tipo": "institucion",
+"nombre": "EP N.º 13 «Tomás Espora»",
+"dato": "Baja matrícula",
+"fuente": "La Nación 2022",
+"precision": "google",
+"direccion": "EP N.º 13",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.5763214,
+-34.5265649
+]
+},
+"properties": {
+"pueblo": "Espora",
+"tipo": "patrimonio",
+"nombre": "Estación Espora (km 130)",
+"dato": "Base de la Asociación Amigos del Belgrano",
+"fuente": "Wikipedia",
+"precision": "google",
+"direccion": "Estación Espora",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.503865,
+-34.535946
+]
+},
+"properties": {
+"pueblo": "La Valerosa",
+"tipo": "institucion",
+"nombre": "EP N.º 21 «J. V. González» y JIR N.º 6 (Km 125)",
+"dato": "Fumigada en 2016",
+"fuente": "Capa de restricciones; Bosco",
+"precision": "exacta",
+"direccion": "",
+"fuente_ubicacion": ""
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3752,
+-34.3653
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "patrimonio",
+"nombre": "Edificio ex Fonda de Sforzini (c. 1903)",
+"dato": "Patrimonio municipal, Ord. 1223/07; misma manzana que el Club Apolo",
+"fuente": "Registro Oficial del Patrimonio Cultural (Ord. 2182/19)",
+"precision": "estimada",
+"direccion": "Av. Pedro A. Terrén s/n (Circ. XII, Mz. 10, Pc. 2)",
+"fuente_ubicacion": ""
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.36855,
+-34.366
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "patrimonio",
+"nombre": "Templete de Nuestra Señora de Luján",
+"dato": "Patrimonio artístico, Ord. 119/88",
+"fuente": "Registro Oficial del Patrimonio Cultural (Ord. 2182/19)",
+"precision": "pueblo",
+"direccion": "",
+"fuente_ubicacion": "",
+"nota": "Sin dirección publicada: coordenada esquemática"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3747007,
+-34.3619203
+]
+},
+"properties": {
+"pueblo": "Azcuénaga",
+"tipo": "gastronomia",
+"nombre": "Lo de Grace (restaurante de campo)",
+"dato": "No figura en el listado municipal",
+"fuente": "Google Maps (consulta 20-10-2026)",
+"precision": "google",
+"direccion": "Pedro Sillón y La Olvidada",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.2646953,
+-34.4341792
+]
+},
+"properties": {
+"pueblo": "Villa Ruiz",
+"tipo": "patrimonio",
+"nombre": "Estación de servicio antigua",
+"dato": "Declaración de interés, Res. HCD 11/23; escenario de rodajes",
+"fuente": "Registro Oficial del Patrimonio Cultural (Ord. 2182/19); Google Maps (consulta 20-10-2026)",
+"precision": "google",
+"direccion": "",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.2584638,
+-34.4386444
+]
+},
+"properties": {
+"pueblo": "Villa Ruiz",
+"tipo": "alojamiento",
+"nombre": "Cabañas Villa Ruiz",
+"dato": "No figura en el listado municipal",
+"fuente": "Google Maps (consulta 20-10-2026)",
+"precision": "google",
+"direccion": "25 de Mayo",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.2638981,
+-34.4315459
+]
+},
+"properties": {
+"pueblo": "Villa Ruiz",
+"tipo": "gastronomia",
+"nombre": "Panadería y café Los Crosato",
+"dato": "No figura en el listado municipal",
+"fuente": "Google Maps (consulta 20-10-2026)",
+"precision": "google",
+"direccion": "25 de Mayo",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3528592,
+-34.4532626
+]
+},
+"properties": {
+"pueblo": "Cucullú",
+"tipo": "alojamiento",
+"nombre": "La Esperanza (casa de campo)",
+"dato": "No figura en el listado municipal",
+"fuente": "Google Maps (consulta 20-10-2026)",
+"precision": "google",
+"direccion": "",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.354203,
+-34.452599
+]
+},
+"properties": {
+"pueblo": "Cucullú",
+"tipo": "alojamiento",
+"nombre": "Don Matteo (casa de campo)",
+"dato": "No figura en el listado municipal",
+"fuente": "Google Maps (consulta 20-10-2026)",
+"precision": "google",
+"direccion": "",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3897399,
+-34.429822
+]
+},
+"properties": {
+"pueblo": "Cucullú",
+"tipo": "alojamiento",
+"nombre": "El Pentágono (casa de campo)",
+"dato": "Entorno rural entre la cabecera y Cucullú",
+"fuente": "Google Maps (consulta 20-10-2026)",
+"precision": "google",
+"direccion": "",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3224569,
+-34.2959567
+]
+},
+"properties": {
+"pueblo": "Solís",
+"tipo": "alojamiento",
+"nombre": "La Antigua Casa Terrén (casa de campo)",
+"dato": "Casona de casi cien años; no figura en el listado municipal",
+"fuente": "Google Maps (consulta 20-10-2026)",
+"precision": "google",
+"direccion": "Manuel Belgrano",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3387763,
+-34.5058435
+]
+},
+"properties": {
+"pueblo": "Villa Espil",
+"tipo": "alojamiento",
+"nombre": "Hospedaje La Plaza I",
+"dato": "Casa para seis personas; no figura en el listado municipal",
+"fuente": "Google Maps (consulta 20-10-2026)",
+"precision": "google",
+"direccion": "",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.3356614,
+-34.5057352
+]
+},
+"properties": {
+"pueblo": "Villa Espil",
+"tipo": "patrimonio",
+"nombre": "Almacén Carmelo Demeco",
+"dato": "Surtidores antiguos y argollas de amarre: patrimonio municipal, Ord. 2405/21",
+"fuente": "Registro Oficial del Patrimonio Cultural (Ord. 2182/19); Google Maps (consulta 20-10-2026)",
+"precision": "google",
+"direccion": "",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-59.5326644,
+-34.5529174
+]
+},
+"properties": {
+"pueblo": "La Valerosa",
+"tipo": "patrimonio",
+"nombre": "Estación La Valerosa (Cía. General)",
+"dato": "Sin servicio desde 2001",
+"fuente": "Google Maps (consulta 20-10-2026)",
+"precision": "google",
+"direccion": "",
+"fuente_ubicacion": "Google Maps (consulta 20-10-2026)"
+}
+}
+]
+}

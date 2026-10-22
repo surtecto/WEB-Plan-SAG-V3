@@ -3,23 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Plan de Ordenamiento Territorial y Urbano del Partido de San Andrés de Giles 2020-2030 (CMDOT). Líneas, Sendas y Ocasiones del Plan, los pueblos del Partido y los documentos oficiales.">
+  <meta name="description" content="Plan de Ordenamiento Territorial del Partido de San Andrés de Giles · CMDOT 2020–2035 · Edición 2026 en siete tomos. Líneas, Sendas y Ocasiones, los pueblos del Partido, el mapa de Ocasiones y los tomos para descargar.">
   <meta name="author" content="Consejo Municipal para el Desarrollo y el Ordenamiento Territorial (CMDOT)">
-  <title>PLAN SAG 2020–2030 | Ordenamiento Territorial — San Andrés de Giles</title>
+  <title>PLAN SAG 2020–2035 | Ordenamiento Territorial — San Andrés de Giles</title>
 
-  <meta property="og:title" content="PLAN SAG 2020–2030 · San Andrés de Giles">
+  <meta property="og:title" content="PLAN SAG 2020–2035 · San Andrés de Giles">
   <meta property="og:description" content="Planificar juntos el futuro de San Andrés de Giles. Líneas, Sendas y Ocasiones del Plan de Ordenamiento Territorial.">
   <meta property="og:image" content="img/hero-m.webp">
   <meta name="theme-color" content="#1C1A14">
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preload" href="fonts/im-fell-english-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/barlow-semi-condensed-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" as="image" href="img/hero.webp" media="(min-width: 761px)">
   <link rel="preload" as="image" href="img/hero-m.webp" media="(max-width: 760px)">
 
   <!-- Estilos oficiales -->
-  <link rel="stylesheet" href="css/styles.css?v=20261018">
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="css/styles.css?v=20261022">
 </head>
 <body>
 
@@ -41,6 +43,8 @@
       <symbol id="i-lupa" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
       <symbol id="i-flecha" viewBox="0 0 24 24"><path d="M4 12h15m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
       <symbol id="i-afuera" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-descarga" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 19h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-mapa" viewBox="0 0 24 24"><path d="M3 6.5 9 4l6 2.5L21 4v13.5L15 20l-6-2.5L3 20V6.5ZM9 4v13.5M15 6.5V20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
       <symbol id="i-abajo" viewBox="0 0 24 24"><path d="M12 4v15m-5-5 5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     </defs>
   </svg>
@@ -58,17 +62,9 @@
   <!-- ENCABEZADO Y MENÚ DE NAVEGACIÓN -->
   <header class="site-header">
     <div class="container header-wrapper">
-      <a class="brand-group" href="#inicio" aria-label="PLAN SAG 2020–2030, volver al inicio">
-        <svg class="brand-mark" viewBox="0 0 44 44" aria-hidden="true">
-          <rect x="2" y="2" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5"/>
-          <path d="M2 30h40M14 2v40M30 2v28" stroke="currentColor" stroke-width=".8" opacity=".5"/>
-          <path d="M2 30c8-3 14-3 20 0s12 3 20 0" fill="none" stroke="#C8973A" stroke-width="2"/>
-          <circle cx="22" cy="30" r="2.6" fill="#C8973A"/>
-        </svg>
-        <span class="brand-text">
-          <span class="brand-title">PLAN SAG <em>2020–2030</em></span>
-          <span class="brand-sub">Plan de Ordenamiento Territorial y Urbano</span>
-        </span>
+      <a class="brand-group" href="#inicio" aria-label="PLAN SAG 2020–2035 · Plan de Ordenamiento Territorial de San Andrés de Giles. Volver al inicio">
+        <img class="brand-escudo" src="img/escudo.webp" srcset="img/escudo.webp 1x, img/escudo-2x.webp 2x" width="80" height="112" alt="">
+        <img class="brand-logo" src="img/logo-plan.webp" srcset="img/logo-plan.webp 1x, img/logo-plan-2x.webp 2x" width="400" height="121" alt="">
       </a>
 
       <button class="mobile-toggle" id="mobileToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mainNav">
@@ -80,10 +76,11 @@
         <a href="#inicio" class="nav-link active">Inicio</a>
         <a href="#fundamentos" class="nav-link">De la recta a la senda</a>
         <a href="#sendas" class="nav-link">Sendas</a>
+        <a href="#mapa" class="nav-link">Mapa</a>
         <a href="#pueblos" class="nav-link">Pueblos</a>
         <a href="#lineas" class="nav-link">Líneas</a>
-        <a href="#educacion" class="nav-link">Espacio Educativo</a>
-        <a href="#documentos" class="nav-link">Documentos</a>
+        <a href="#educacion" class="nav-link">Aula</a>
+        <a href="#documentos" class="nav-link">Tomos</a>
         <a href="censos/" class="nav-link nav-datos" title="Giles en sus censos: datos INDEC 1980–2022 por radio censal">Censos <span aria-hidden="true">↗</span></a>
         <a href="#participacion" class="nav-link nav-cta">Participar</a>
       </nav>
@@ -108,14 +105,14 @@
     </svg>
     <div class="container hero-content">
       <p class="hero-coord" aria-hidden="true">34°27′ S · 59°27′ O — Pampa Ondulada</p>
-      <div class="hero-pill">Consejo Municipal (CMDOT) <span aria-hidden="true">•</span> Horizonte 2020–2030</div>
+      <div class="hero-pill">Consejo Municipal (CMDOT) <span aria-hidden="true">•</span> 2020–2035 <span aria-hidden="true">•</span> Edición 2026</div>
       <h2>Planificar juntos el futuro de <span class="nowrap">San Andrés</span> de Giles</h2>
       <p class="lead">
         El ordenamiento territorial no es solo un mapa técnico: es la herramienta ciudadana que define dónde vivimos, cómo producimos, cómo cuidamos nuestros arroyos y de qué forma crecen nuestras ciudades y pueblos con justicia social, servicios y equilibrio ambiental.
       </p>
       <div class="hero-buttons">
         <a href="#sendas" class="btn btn-ocre">Recorrer las Sendas del Plan <svg class="ico-inline" aria-hidden="true"><use href="#i-abajo"/></svg></a>
-        <a href="https://drive.google.com/file/d/12dzbiIkeAKVJKTiftszveQYYIkCh-EGh/view" target="_blank" rel="noopener" class="btn btn-linea">Descargar Documento Oficial (PDF) <svg class="ico-inline" aria-hidden="true"><use href="#i-afuera"/></svg></a>
+        <a href="#documentos" class="btn btn-linea">Descargar los siete tomos (PDF) <svg class="ico-inline" aria-hidden="true"><use href="#i-descarga"/></svg></a>
       </div>
     </div>
     <p class="hero-fuente" aria-hidden="true">Cartografía: Caminería del Partido · CMDOT 2023</p>
@@ -127,7 +124,7 @@
       <div class="stats-grid">
         <div class="stat-item">
           <div class="stat-num">4</div>
-          <div class="stat-desc">Sendas: Comunidad, Ambiente, Producción y Comercio, Habitar</div>
+          <div class="stat-desc">Sendas fundamentales: Comunidad, Ambiente, Producción y Comercio, Habitar</div>
         </div>
         <div class="stat-item">
           <div class="stat-num">46</div>
@@ -135,19 +132,19 @@
         </div>
         <div class="stat-item">
           <div class="stat-num">8</div>
-          <div class="stat-desc">Pueblos, cada uno una Ocasión propia</div>
+          <div class="stat-desc">Pueblos rurales, Ocasiones territoriales del Plan, más los parajes</div>
         </div>
         <div class="stat-item">
-          <div class="stat-num">38 <small>m²</small></div>
-          <div class="stat-desc">De espacio verde público por habitante en la ciudad cabecera</div>
+          <div class="stat-num">9</div>
+          <div class="stat-desc">Pagos: unidades rurales con nombre, historia, cuencas y suelos propios</div>
         </div>
         <div class="stat-item">
-          <div class="stat-num">10 <small>Años</small></div>
-          <div class="stat-desc">Horizonte del Plan (2020–2030)</div>
+          <div class="stat-num">14 <small>m²</small></div>
+          <div class="stat-desc">De espacio verde habilitado por habitante en la cabecera (Censo 2022); 32,9 m² con la Reserva</div>
         </div>
       </div>
       <figure class="reparto">
-        <figcaption>¿Dónde vivimos? <span>Población del Partido · Censos 2022 y 2010 (INDEC)</span></figcaption>
+        <figcaption>¿Dónde vivimos? <span>Población del Partido en viviendas particulares · Censo 2022 (INDEC)</span></figcaption>
         <div class="reparto-fila">
           <span class="reparto-anio">2022</span>
           <div class="reparto-barra" role="img" aria-label="Censo 2022: 73,3 por ciento en la ciudad cabecera, 14,1 por ciento en los pueblos y 12,5 por ciento población rural dispersa">
@@ -156,15 +153,7 @@
             <span class="r-campo" style="--p:12.5"><b>12,5 %</b> campo</span>
           </div>
         </div>
-        <div class="reparto-fila reparto-previo">
-          <span class="reparto-anio">2010</span>
-          <div class="reparto-barra" role="img" aria-label="Censo 2010: 70,5 por ciento en la ciudad cabecera, 11,2 por ciento en los pueblos y 18,2 por ciento población rural dispersa">
-            <span class="r-giles" style="--p:70.5"><b>70,5 %</b> ciudad cabecera</span>
-            <span class="r-pueblos" style="--p:11.2"><b>11,2 %</b> pueblos</span>
-            <span class="r-campo" style="--p:18.2"><b>18,2 %</b> campo</span>
-          </div>
-        </div>
-        <p class="reparto-nota">INDEC, Redatam: población por localidad censal (2010: cabecera 16.243, pueblos 2.585, rural dispersa 4.199; 2022, población en viviendas particulares: 19.362, 3.727 y 3.310). En 1991 el campo reunía el 27,7 % y en 2001 el 21,8 %. <a href="censos/">Ver los censos 1980–2022 por radio →</a></p>
+        <p class="reparto-nota">Población en viviendas particulares (26.399 de 26.510 habitantes), procesada por radio censal con Redatam: cabecera 19.362, pueblos 3.727, campo 3.310. Respecto de 2010 la cabecera pierde peso y los pueblos lo ganan (de un 10,3 % estimado a 14,1 %); la población rural dispersa se mantiene estable. La cifra de 2010 es una estimación sobre otra grilla de radios: el sentido del cambio es más confiable que su magnitud (Tomo 1 y Tomo 7). <a href="censos/">Ver los censos 1980–2022 por radio →</a></p>
       </figure>
 
       <!-- CENSO 2022 -->
@@ -172,18 +161,20 @@
         <div class="censo22-texto">
           <span class="section-tag">Censo Nacional 2022 · INDEC</span>
           <h3>Lo que cambió en doce años</h3>
-          <p>El Partido creció más que en cualquiera de los dos períodos anteriores. El centro de la ciudad se vacía de habitantes mientras el este y el oeste se ocupan; los pueblos ganan peso. Cada cifra es una pregunta para las Sendas, no una conclusión.</p>
+          <p>El Partido creció a un ritmo que recupera el de los años noventa. La ciudad crece por los bordes, sobre todo al este y al sur, y se vacía en el centro; los pueblos ganan peso por primera vez en setenta años. Cada cifra es una pregunta para las Sendas, no una conclusión.</p>
           <dl class="censo22-cifras">
-            <div><dt>26.510</dt><dd>habitantes en 2022: <b>+15,1 %</b> desde 2010 (23.027), la mayor variación de los últimos tres censos</dd></div>
-            <div><dt>15,3 %</dt><dd>de las viviendas particulares sin personas presentes el día del censo (1.684 de 10.988). Con el mismo criterio, en 2010 eran el 17,8 % y en 2001 el 17,2 %</dd></div>
-            <div><dt>× 4</dt><dd>departamentos: de 93 a 386. Los ranchos bajan de 142 a 77</dd></div>
-            <div><dt>61,3 %</dt><dd>de los hogares vive en vivienda propia (65,6 % en 2010): el acceso se estrecha</dd></div>
+            <div><dt>26.510</dt><dd>habitantes en mayo de 2022: <b>+15,1 %</b> desde 2010 (23.027), un ritmo de 12,2 por mil anual que recupera el de la década de 1990</dd></div>
+            <div><dt>+28,9 %</dt><dd>de hogares (de 7.284 a 9.387): crecen casi el doble que la población; el hogar medio baja de 3,13 a 2,81 personas</dd></div>
+            <div><dt>15,3 %</dt><dd>de las viviendas particulares sin personas presentes el día del censo (1.684 de 10.988)</dd></div>
+            <div><dt>61,3 %</dt><dd>de los hogares es propietario: el valor más bajo de los siete partidos de la región; el 14,2 % vive en vivienda cedida o prestada</dd></div>
           </dl>
-          <p class="censo22-fuente">Fuente: INDEC, Censo Nacional de Población, Hogares y Viviendas 2022, resultados definitivos (26.474 en los resultados provisionales). Hogares: 9.387 · Viviendas: 10.993 · Cloaca: 44,2 % de los hogares · Agua de red: 72,8 %.</p>
+          <p class="censo22-fuente">Fuente: INDEC, Censo Nacional de Población, Hogares y Viviendas 2022, resultados definitivos; elaboración del Plan (Tomos 1 y 7). Hogares: 9.387 · Viviendas particulares: 10.988 · Cloaca: 44,2 % de los hogares · Agua de red: 72,8 % · Gas de red: 48,7 %.</p>
+          <p class="censo22-pregunta"><span>Pregunta abierta</span>¿Podrá el Partido seguir siendo frontera sin convertirse en periferia?</p>
           <div class="censo22-acceso">
             <a href="censos/" class="btn btn-tierra btn-sm">Explorar los censos 1980–2022 por radio <svg class="ico-inline" aria-hidden="true"><use href="#i-flecha"/></svg></a>
             <a href="censos/informe-radios-2022.html" class="btn btn-sm btn-borde">Leer el informe del Censo 2022</a>
           </div>
+          <p class="tomo-slot" data-tomo="t7"></p>
         </div>
         <figure class="censo22-mapa">
           <picture>
@@ -200,10 +191,10 @@
   <section class="main-section seccion-imagen" id="fundamentos">
     <div class="container">
       <div class="section-title-group sobre-oscuro">
-        <span class="section-tag">Capítulo I · Metodología del Plan</span>
+        <span class="section-tag">Tomo 1 · Capítulo I · Un nuevo nudo para el Plan</span>
         <h3>De la recta a la senda</h3>
         <svg class="regla" viewBox="0 0 300 12" aria-hidden="true"><path d="M2 7 C 60 4, 110 9, 160 6 S 250 4, 298 7"/></svg>
-        <p>El Plan no proyecta un modelo ideal para que otros lo ejecuten después. Propone dar rumbos en vez de fijar puntos de partida y de llegada, en un territorio que, más que ocupado, es habitado.</p>
+        <p>La recta es el plan de gabinete: primero un modelo ideal y después su ejecución. La senda es un rumbo que se va abriendo al andar, con la comunidad, a medida que aparecen las ocasiones. «La planificación entonces propone dar rumbos en vez de especificar puntos de partida y de llegada, abriendo sendas más que fijando objetivos.»</p>
       </div>
 
       <div class="malla revela">
@@ -230,15 +221,15 @@
         <dl class="conceptos">
           <div class="concepto">
             <dt><span class="c-signo c-linea" aria-hidden="true"></span>Líneas</dt>
-            <dd>Los trayectos y movimientos que los integrantes de nuestra sociedad realizan en sus vidas. No son rectas: son trazos de idas y vueltas. Surgen de la participación con los ciudadanos.</dd>
+            <dd>Los trayectos y movimientos que las personas y los grupos realizan en sus vidas: no tramos rectos, sino trazos de idas y vueltas. Una línea no es un lineamiento: es un acompañamiento de los anhelos y necesidades de la población. Surgen de la participación con los ciudadanos.</dd>
           </div>
           <div class="concepto">
             <dt><span class="c-signo c-senda" aria-hidden="true"></span>Sendas</dt>
-            <dd>Un rumbo, no un programa ni un tema: el cruce entre los deseos de la población, las capacidades técnicas y los intereses políticos y económicos. Están en constante cambio.</dd>
+            <dd>Un rumbo, no un programa: el cruce entre los anhelos de la población, las posibilidades técnicas y los intereses políticos y económicos. Se están constantemente abriendo o cerrando. Son los fundamentos del Plan.</dd>
           </div>
           <div class="concepto">
             <dt><span class="c-signo c-ocasion" aria-hidden="true"></span>Ocasiones</dt>
-            <dd>Lugares y momentos donde las líneas se anudan: allí convergen actores de distintos intereses y se abre la oportunidad para que algo suceda. No es un proyecto que otro deba realizar: proyectar y hacer van casi juntos.</dd>
+            <dd>Lugares y momentos posibles donde diferentes líneas se entrelazan en un nudo: allí convergen actores de distintos intereses y magnitudes y se abre la oportunidad para que algo tenga éxito. No es un proyecto que otro deba realizar: proyectar y realizar son casi simultáneos.</dd>
           </div>
         </dl>
       </div>
@@ -249,9 +240,30 @@
         </svg>
         <div>
           <h4>Un solo territorio, sin muralla entre campo y ciudad</h4>
-          <p>La tensión que atraviesa las cuatro Sendas es superar la antinomia entre el «campo» y la «ciudad». El Partido se piensa como un continuo donde la más alta y la más baja densidad son dos puntos de una cinta de Moebius que reconoce una totalidad ambiental. Lo compartimos con animales y plantas, con el aire, el agua y la tierra.</p>
+          <p>La tensión que atraviesa las cuatro Sendas es superar la antinomia entre el «campo» y la «ciudad». El Partido se piensa como un continuo donde la más alta y la más baja densidad son dos puntos de una cinta de Moebius que reconoce una totalidad ambiental. Si no hay borde, tampoco hay excusa para que el campo quede fuera de las políticas del habitar, ni para que la ciudad quede fuera de las del ambiente.</p>
         </div>
       </div>
+
+      <div class="tiempo-plan revela">
+        <div class="tiempo-col">
+          <h4>Cómo existen en el tiempo</h4>
+          <ul>
+            <li><b>Sendas</b> · principios de la ordenanza del Plan, que deberían ser estables.</li>
+            <li><b>Líneas</b> · programas y normas sectoriales que se revisan periódicamente.</li>
+            <li><b>Ocasiones</b> · proyectos, planes particularizados, convenios urbanísticos y obras, que se aprueban uno a uno a medida que se anudan los actores.</li>
+          </ul>
+        </div>
+        <div class="tiempo-col">
+          <h4>Un plan que no termina</h4>
+          <p>Un plan que acompaña corre el riesgo de dejar hacer. Por eso se sostiene con tres condiciones:</p>
+          <ol class="tres-condiciones">
+            <li><b>Medir</b> indicadores acotados, actualizados cada dos años.</li>
+            <li><b>Instituir</b> instituciones que sobrevivan a los cambios de gobierno.</li>
+            <li><b>Revisar</b> periódicamente por ordenanza, con informe técnico y audiencia pública.</li>
+          </ol>
+        </div>
+      </div>
+      <p class="tomo-slot" data-tomo="t1"></p>
     </div>
   </section>
 
@@ -259,7 +271,7 @@
   <section class="main-section" id="sendas">
     <div class="container">
       <div class="section-title-group">
-        <span class="section-tag">Capítulos III a VII</span>
+        <span class="section-tag">Tomos 2 a 5 · Capítulos III a VI</span>
         <h3>Las cuatro Sendas y sus Ocasiones</h3>
         <svg class="regla" viewBox="0 0 300 12" aria-hidden="true"><path d="M2 7 C 60 4, 110 9, 160 6 S 250 4, 298 7"/></svg>
         <p>Cada Senda atraviesa el territorio del pasado al horizonte. Sobre ella, los nodos son Ocasiones. Elegí una Senda y tocá sus Ocasiones.</p>
@@ -276,24 +288,102 @@
     </div>
   </section>
 
-  <!-- SECCIÓN: PUEBLOS (OCASIONES DEL HABITAR) -->
+  <!-- SECCIÓN: MAPA DE OCASIONES (UBICACIÓN APROXIMADA) -->
+  <section class="main-section seccion-mapa" id="mapa">
+    <div class="container">
+      <div class="section-title-group sobre-oscuro">
+        <span class="section-tag">Tomo 7 · Cartografía de Ocasiones</span>
+        <h3>¿Dónde ocurre cada Ocasión?</h3>
+        <svg class="regla" viewBox="0 0 300 12" aria-hidden="true"><path d="M2 7 C 60 4, 110 9, 160 6 S 250 4, 298 7"/></svg>
+        <p>Las Ocasiones de las cuatro Sendas y los pueblos sobre la imagen satelital del Partido, con sus arroyos, caminos rurales, plazas rurales propuestas y senderos. Las ubicaciones son aproximadas: señalan dónde se anudan las líneas, no un proyecto con límites definidos.</p>
+      </div>
+
+      <figure class="mapa-ocasiones revela">
+        <div class="mapa-barra" id="mapaFiltros" role="group" aria-label="Mostrar u ocultar Ocasiones por Senda"></div>
+        <div class="mapa-lienzo">
+          <div id="mapaOcasiones" class="mapa-leaflet" role="region" aria-label="Mapa de Ocasiones del Plan sobre imagen satelital"></div>
+          <div class="mapa-opacidad">
+            <label for="mapaOpacidad">Capas del Plan <output id="mapaOpacidadValor" for="mapaOpacidad">100 %</output></label>
+            <input type="range" id="mapaOpacidad" min="0" max="100" step="5" value="100">
+          </div>
+        </div>
+        <div class="mapa-leyenda" id="mapaLeyenda" aria-label="Referencias del mapa"></div>
+        <figcaption>Imagen satelital: Esri, Maxar. Límite del Partido, arroyos, caminos rurales, plazas rurales (P1 a P13), senderos rurales y escuelas rurales: cartografía CMDOT y SIG Municipal. Ubicación de las Ocasiones: aproximada, a partir del Plan. Tocá un punto para leer su Ocasión.</figcaption>
+      </figure>
+      <p class="tomo-slot" data-tomo="t7"></p>
+    </div>
+  </section>
+
+  <!-- SECCIÓN: PUEBLOS RURALES (OCASIONES TERRITORIALES) -->
   <section class="main-section seccion-imagen seccion-clara" id="pueblos">
     <div class="container">
       <div class="section-title-group">
-        <span class="section-tag">Sendas del Habitar · Capítulo VII</span>
+        <span class="section-tag">Tomo 6 · Capítulo VII · Ocasiones territoriales</span>
         <h3>Cada pueblo es una Ocasión</h3>
         <svg class="regla" viewBox="0 0 300 12" aria-hidden="true"><path d="M2 7 C 60 4, 110 9, 160 6 S 250 4, 298 7"/></svg>
-        <p>El Plan busca fortalecer la identidad de cada pueblo sin perder su integración con los demás y con todo el Partido. En los pueblos ferroviarios, la estación se volvió lugar de encuentro comunitario.</p>
+        <p>El principal objetivo del Plan es fortalecer la identidad de cada pueblo sin perder la integración con el resto de los pueblos y con la totalidad del Partido. En los pueblos ferroviarios, las estaciones cumplen una función creciente de encuentro comunitario.</p>
       </div>
 
-      <div class="localidades-nav" role="tablist" aria-label="Pueblos del Partido" id="pueblosNav"></div>
+      <div class="pueblos-vistas" role="tablist" aria-label="Dos miradas sobre los pueblos" id="pueblosVistas">
+        <button type="button" role="tab" class="vista-btn" id="vista-plan" aria-controls="panel-plan" aria-selected="true">
+          <span class="vista-n">Tomo 6</span><span class="vista-t">Lo que dice el Plan</span>
+        </button>
+        <button type="button" role="tab" class="vista-btn" id="vista-estudio" aria-controls="panel-estudio" aria-selected="false" tabindex="-1">
+          <span class="vista-n">CMDOT · octubre 2026</span><span class="vista-t">Estudio de los pueblos</span>
+        </button>
+      </div>
 
-      <div id="pueblosContent" role="tabpanel" aria-live="polite"></div>
+      <div class="pueblos-vista" id="panel-plan" role="tabpanel" aria-labelledby="vista-plan">
+        <p class="pueblos-censo revela" id="pueblosIntro"></p>
+        <div class="localidades-nav" role="tablist" aria-label="Pueblos del Partido según el Tomo 6" id="pueblosNav"></div>
+        <div id="pueblosContent" role="tabpanel" aria-live="polite"></div>
+        <p class="aviso-pendiente revela">
+          <strong>Todavía falta escuchar a cada pueblo.</strong> <span id="pueblosEncuentros"></span>
+          <a href="#participacion">Sumá la mirada de tu pueblo <svg class="ico-inline" aria-hidden="true"><use href="#i-flecha"/></svg></a>
+        </p>
+        <p class="tomo-slot" data-tomo="pueblos"></p>
+      </div>
 
-      <p class="aviso-pendiente revela">
-        <strong>Todavía falta escuchar a cada pueblo.</strong> El propio Plan reconoce que están pendientes los encuentros participativos en cada localidad: lo que figura aquí surge del conocimiento de quienes participaron hasta ahora.
-        <a href="#participacion">Sumá la mirada de tu pueblo <svg class="ico-inline" aria-hidden="true"><use href="#i-flecha"/></svg></a>
-      </p>
+      <div class="pueblos-vista" id="panel-estudio" role="tabpanel" aria-labelledby="vista-estudio" hidden>
+        <p class="estudio-aviso">Estudio del Consejo sobre cada pueblo (octubre de 2026): historia, la tierra sobre la que nació según las mensuras del siglo XIX, el agua, el trabajo, el turismo y los últimos diez años. Es un borrador de trabajo que complementa el Tomo 6; sus líneas propuestas son para discutir en los encuentros de cada pueblo, no decisiones tomadas.</p>
+        <div class="pueblos-hallazgos">
+          <p class="pueblos-intro">Cuatro cosas se repiten:</p>
+          <ul>
+            <li><b>Ninguno nació sobre tierra libre.</b> Cada pueblo surgió de una herencia o de una donación: Cunningham en Azcuénaga, Roca en Solís, Ruiz y Cucullu en los pueblos del tranvía, Espil en Villa Espil y San Alberto.</li>
+            <li><b>Los pueblos vuelven a crecer.</b> Sus viviendas aumentaron cerca de dos tercios entre 2010 y 2022, el doble que en la ciudad. En Solís, Cucullú y Villa Espil crece la gente que vive todo el año; en Villa Ruiz y Azcuénaga, las casas de fin de semana.</li>
+            <li><b>Falta agua más que suelo.</b> Fuera de la cabecera no hay cloaca, y el agua corriente sólo llegó a Solís y Cucullú con obras del SPAR. Azcuénaga y Villa Ruiz, los pueblos turísticos, no tienen ninguna de las dos redes; y desde 2014 se crearon 1.036 lotes por convenios en los pueblos.</li>
+            <li><b>Lo que no se mide no se ordena.</b> Nadie cuenta visitantes, plazas ni lotes ocupados. Es lo primero que hay que hacer.</li>
+          </ul>
+        </div>
+
+        <figure class="pueblos-mapa-fig">
+          <div class="mapa-lienzo">
+            <div id="pueblosMapa" class="pueblos-mapa" role="region" aria-label="Mapa de los pueblos con mensuras históricas, radios censales y registros"></div>
+            <div class="mapa-opacidad">
+              <label for="pueblosOpacidad">Capas del estudio <output id="pueblosOpacidadValor" for="pueblosOpacidad">100 %</output></label>
+              <input type="range" id="pueblosOpacidad" min="0" max="100" step="5" value="100">
+            </div>
+          </div>
+          <div id="pueblosMapaLeyenda" class="pueblos-mapa-leyenda" aria-label="Filtrar registros por tipo"></div>
+          <figcaption>Más de cien registros (estaciones, escuelas, comercios, alojamientos, fiestas, obras y conflictos ambientales) sobre la imagen satelital, con las mensuras del siglo XIX y los radios censales urbanos de 2022. Tocá un punto para ver de qué se trata, o el nombre de un pueblo para abrir su ficha. Las ubicaciones se verificaron en Google Maps en octubre de 2026; los registros sin dirección publicada no se dibujan. <a href="data/registros-pueblos.geojson" download>Descargar los registros (GeoJSON)</a></figcaption>
+        </figure>
+
+        <div class="localidades-nav" role="tablist" aria-label="Fichas del estudio de los pueblos" id="estudioNav"></div>
+        <div id="estudioContent" role="tabpanel" aria-live="polite"></div>
+
+        <details class="pueblos-fuentes">
+          <summary>De dónde salen los números</summary>
+          <ul>
+            <li><b>Población y viviendas.</b> INDEC, Censos 2001, 2010 y 2022. Los datos de 2022 se procesaron radio por radio con la base Redatam del INDEC; cada localidad es la suma de sus radios censales.</li>
+            <li><b>Agua y cloaca.</b> Que la red exista lo informa el Municipio (Dirección de Planeamiento): sólo la cabecera tiene cloaca, y en los pueblos el agua corriente existe donde la instaló el SPAR. El censo cuenta cuántos hogares están conectados. Los pocos hogares que el censo registra con red en pueblos que no la tienen son errores de declaración y se cuentan como cero.</li>
+            <li><b>Convenios y lotes.</b> Planilla municipal «Gestión de suelo 2009–2026».</li>
+            <li><b>Alojamiento y gastronomía.</b> Registros de la Secretaría de Producción y Turismo y relevamientos de la Oficina de Datos y Estadísticas del Municipio (2025–2026).</li>
+            <li><b>Mensuras.</b> Archivo Histórico de Geodesia de la Provincia; las superficies se calcularon sobre los planos georreferenciados.</li>
+            <li><b>Prensa.</b> Lo que sólo consta en la prensa se indica como tal y no se usa como dato oficial.</li>
+          </ul>
+        </details>
+        <p class="tomo-slot" data-tomo="pueblos"></p>
+      </div>
     </div>
   </section>
 
@@ -301,15 +391,16 @@
   <section class="main-section" id="lineas">
     <div class="container">
       <div class="section-title-group">
-        <span class="section-tag">Capítulo II · Líneas propositivas</span>
+        <span class="section-tag">Tomo 1 · Capítulo II · Líneas propositivas</span>
         <h3>Un parlamento de 46 líneas</h3>
         <svg class="regla" viewBox="0 0 300 12" aria-hidden="true"><path d="M2 7 C 60 4, 110 9, 160 6 S 250 4, 298 7"/></svg>
-        <p>Las líneas no son cerradas, ni individuales, ni uniformes. Nada está vinculado al todo, pero todos estamos vinculados a algo: las relaciones entre las líneas pueden ser más importantes que las propias líneas.</p>
+        <p>Cuarenta y seis líneas en doce familias. No son objetivos sino trayectos de la vida común, de personas, instituciones, animales, plantas, aguas y suelos. Las líneas no son cerradas, no son individuales, no son uniformes, no son estancas: lo que importa son sus nudos, donde varias se entrelazan y abren una Ocasión. Por eso cada línea termina en una pregunta y no en una meta.</p>
       </div>
 
       <div class="lineas-filtros" role="group" aria-label="Filtrar por familia de líneas" id="lineasFiltros"></div>
       <div class="lineas-familia-texto" id="lineasFamiliaTexto" aria-live="polite"></div>
       <div class="lineas-grid" id="lineasGrid"></div>
+      <p class="tomo-slot" data-tomo="t1"></p>
     </div>
   </section>
 
@@ -376,44 +467,58 @@
           </div>
 
           <!-- Item 6 -->
-          <div class="glosario-card" data-keywords="amortiguamiento buffer proteccion agroquimicos ordenanza 2047 salud">
+          <div class="glosario-card" data-keywords="amortiguamiento resguardo buffer proteccion agroquimicos ley 10699 salud escuelas">
             <span class="ficha-n" aria-hidden="true">F·06</span>
-            <h5>Zona de Amortiguamiento (Buffer)</h5>
-            <p>Franja de seguridad obligatoria entre zonas residenciales o escuelas rurales y campos cultivados, regulada por la Ordenanza N.° 2047, donde se restringe el uso de fitosanitarios para proteger la salud comunitaria.</p>
+            <h5>Zona de resguardo (amortiguamiento)</h5>
+            <p>Franja entre las áreas pobladas o las escuelas rurales y los campos cultivados donde se restringen los agroquímicos. El Plan propone fijarla en el marco de la Ley provincial 10.699 y convertirla en cinturón de alimentos de cercanía.</p>
           </div>
 
           <!-- Item 7 -->
           <div class="glosario-card" data-keywords="loteo fraccionamiento subdivision catastro parcela servicios">
             <span class="ficha-n" aria-hidden="true">F·07</span>
             <h5>Fraccionamiento o Loteo</h5>
-            <p>La división de un predio rural o quinta en parcelas individuales. El plan exige que ningún nuevo loteo sea aprobado sin garantizar agua corriente, red eléctrica, calles transitables y drenajes hidráulicos.</p>
+            <p>La división de un predio rural o quinta en parcelas individuales, según el Decreto-Ley 8912 y el Código de Ordenamiento. Cada loteo decide por décadas dónde se vive y qué servicios hacen falta: agua, desagües, calles y espacio público.</p>
           </div>
 
           <!-- Item 8 -->
           <div class="glosario-card" data-keywords="ingold lineas sendas ocasiones antropologia habitar espacio">
             <span class="ficha-n" aria-hidden="true">F·08</span>
             <h5>Líneas, Sendas y Ocasiones</h5>
-            <p>Marco conceptual del antropólogo Tim Ingold aplicado al plan: entender que un territorio no son polígonos muertos, sino los caminos reales que la gente recorre y las ocasiones de vida compartida.</p>
+            <p>Las tres nociones del Plan, inspiradas en el antropólogo Tim Ingold («cada cosa es un parlamento de líneas»): las Líneas son los trayectos de la vida común; las Sendas, los rumbos que se abren entre anhelos, posibilidades técnicas e intereses; las Ocasiones, los nudos donde las líneas se entrelazan y algo puede concretarse.</p>
           </div>
           <!-- Item 9 -->
           <div class="glosario-card" data-keywords="pago pagos rural identidad delegados toponimia pagus">
             <span class="ficha-n" aria-hidden="true">F·09</span>
             <h5>Pago</h5>
-            <p>Del latín «pagus», un territorio acotado. El Plan recupera esta palabra para nombrar áreas rurales con identidad, delegados y gestión propia, como un barrio del campo.</p>
+            <p>Del latín «pagus», la comarca rural; en la pampa colonial nombró jurisdicciones como el pago de Areco o el de Luján, de donde nació el Partido. El Plan propone nueve Pagos: unidades rurales con nombre, historia, cuencas y suelos propios, gestionadas casi como barrios, con delegados, gestores y cesiones de espacio público.</p>
           </div>
 
           <!-- Item 10 -->
           <div class="glosario-card" data-keywords="puesto puestos habitar ruralidad baja densidad estancia casco">
             <span class="ficha-n" aria-hidden="true">F·10</span>
             <h5>Puesto</h5>
-            <p>En nuestra tradición, el establecimiento que acompañaba al casco de la estancia. El Plan lo retoma para un nuevo modo de habitar el campo, en agrupamientos de muy baja densidad.</p>
+            <p>En la tradición de la estancia, el establecimiento que apoyaba al casco. El Plan lo retoma, en lugar del barrio cerrado, como habitar comunitario: viviendas agrupadas sin parcela individual cerrada, producción de alimentos, plan de sustentabilidad y gestión común. No es un loteo con otro nombre.</p>
           </div>
 
           <!-- Item 11 -->
           <div class="glosario-card" data-keywords="plaza rural plazas senderos espacio publico campo paisaje ejido">
             <span class="ficha-n" aria-hidden="true">F·11</span>
             <h5>Plaza rural</h5>
-            <p>Espacio público en el campo para disfrutar y conocer el paisaje, unido a otros por senderos para bicicletas y caminantes. Hasta ahora, el único espacio público rural eran los caminos.</p>
+            <p>Espacio público en el campo para estar, mirar, descansar y conocer un pastizal, un bajo, una cañada, unido a otros por senderos para bicicletas y caminantes. Hasta ahora, el único espacio público rural eran los caminos: «vivimos rodeados de un paisaje que no podemos pisar».</p>
+          </div>
+
+          <!-- Item 12 -->
+          <div class="glosario-card" data-keywords="habitar ocupar colonial lugar vida">
+            <span class="ficha-n" aria-hidden="true">F·12</span>
+            <h5>Habitar (y no ocupar)</h5>
+            <p>Ocupar supone un espacio previamente vacío, disponible, que se llena; habitar supone un lugar que ya tiene vida (agua, suelo, plantas, animales, otros humanos) y en el que uno entra a formar parte.</p>
+          </div>
+
+          <!-- Item 13 -->
+          <div class="glosario-card" data-keywords="espacio verde natural parque cesped reserva m2 habitante">
+            <span class="ficha-n" aria-hidden="true">F·13</span>
+            <h5>Espacio verde y espacio natural</h5>
+            <p>Un parque con césped cortado es verde, pero no necesariamente cuida nada. En la cabecera hay 14,0 m² de espacio verde habilitado por habitante; 21,8 m² con el Parque Urbano Natural y el Paseo de la Cañada, y 32,9 m² con la Reserva Urbana Natural.</p>
           </div>
         </div>
 
@@ -428,10 +533,10 @@
   <section class="main-section" id="documentos">
     <div class="container">
       <div class="section-title-group">
-        <span class="section-tag">Transparencia y Normativa</span>
-        <h3>Documentos Oficiales, Informes y Leyes</h3>
+        <span class="section-tag">Los tomos del Plan · Normativa</span>
+        <h3>El texto del Plan, para descargar</h3>
         <svg class="regla" viewBox="0 0 300 12" aria-hidden="true"><path d="M2 7 C 60 4, 110 9, 160 6 S 250 4, 298 7"/></svg>
-        <p>Acceso abierto y directo a las piezas originales que fundamentan el Plan de Ordenamiento Territorial.</p>
+        <p>Los siete tomos de la edición digital 2026, en PDF, y el marco normativo que los sostiene.</p>
       </div>
 
       <div class="legal-accordion revela">
@@ -440,21 +545,15 @@
           <h4 class="accordion-h">
             <button class="accordion-header" type="button" aria-expanded="true" aria-controls="acc-1" id="acc-1-h">
               <svg class="acc-tema" aria-hidden="true"><use href="#i-libro"/></svg>
-              <span class="acc-titulo">1. Documento Base del Plan de Ordenamiento Territorial (CMDOT 2020–2030)</span>
+              <span class="acc-titulo">1. El Plan en siete tomos · Edición digital 2026 (CMDOT 2020–2035)</span>
               <span class="acc-icon" aria-hidden="true"></span>
             </button>
           </h4>
           <div class="accordion-body" id="acc-1" role="region" aria-labelledby="acc-1-h">
             <div class="accordion-inner">
-              <p>
-                Texto del Plan elaborado por el Consejo Municipal para el Desarrollo y el Ordenamiento Territorial. Reúne la metodología de Líneas, Sendas y Ocasiones, datos estadísticos, cartografía, rondas de consulta sectorial (delegados de Villa Ruiz y Solís, juzgados, profesionales agrónomos) y las propuestas normativas completas.
-              </p>
-              <div class="doc-acciones">
-                <a href="https://drive.google.com/file/d/12dzbiIkeAKVJKTiftszveQYYIkCh-EGh/view" target="_blank" rel="noopener" class="btn btn-tierra btn-sm">
-                  Abrir Informe Oficial Completo (PDF 51 MB) <svg class="ico-inline" aria-hidden="true"><use href="#i-afuera"/></svg>
-                </a>
-                <span class="doc-archivo">Archivo: Texto Final Plan SAG - Borrador 02-2025.pdf</span>
-              </div>
+              <p>Texto completo del Plan de Ordenamiento Territorial, elaborado por el Consejo Municipal para el Desarrollo y el Ordenamiento Territorial (CMDOT), creado por Ordenanza 2239/19 y prorrogado hasta 2035 por Ordenanza 2747/25. Borrador de actualización de octubre de 2026 sobre el texto final de marzo de 2025: documento de trabajo sujeto a revisión y a audiencia pública.</p>
+              <ol class="biblioteca" id="biblioteca"></ol>
+              <p class="doc-archivo">Cada tema del sitio enlaza su tomo. Los datos y textos agregados en la actualización 2026 están pendientes de validación por el Consejo.</p>
             </div>
           </div>
         </div>
@@ -471,10 +570,15 @@
           <div class="accordion-body" id="acc-2" role="region" aria-labelledby="acc-2-h">
             <div class="accordion-inner">
               <ul class="lista-normas">
-                <li><strong>Ordenanza Municipal N.° 2047:</strong> Regulación del uso, almacenamiento y aplicación de productos fitosanitarios y agroquímicos en el territorio de San Andrés de Giles.</li>
+                <li><strong>Ordenanza 2239/19:</strong> creación del Consejo Municipal para el Desarrollo y el Ordenamiento Territorial (CMDOT).</li>
+                <li><strong>Ordenanza 2747/25:</strong> prórroga del Consejo para el período 2025–2035; encomienda la actualización del Plan en dieciocho meses y la del Código de Ordenamiento Urbano y Territorial en veinticuatro, con informes semestrales y audiencias públicas.</li>
                 <li><strong>Decreto-Ley 8912/77 (Provincia de Buenos Aires):</strong> Ley fundamental de Ordenamiento Territorial y Uso del Suelo.</li>
                 <li><strong>Ley Provincial N.° 14.449:</strong> Ley de Acceso Justo al Hábitat, democratización del suelo y recuperación de plusvalías urbanas.</li>
                 <li><strong>Código de Aguas (Ley 12.257):</strong> Protección de cuencas hídricas, arroyos y líneas de ribera.</li>
+                <li><strong>Ley Provincial 10.699:</strong> agroquímicos; marco para las zonas de resguardo de aplicaciones.</li>
+                <li><strong>Ley Provincial 10.907:</strong> reservas naturales.</li>
+                <li><strong>Leyes Provinciales 11.459 y 13.744:</strong> radicación industrial y agrupamientos industriales.</li>
+                <li><strong>Ley Nacional 27.118:</strong> agricultura familiar.</li>
               </ul>
             </div>
           </div>
@@ -607,10 +711,14 @@
   <footer class="site-footer">
     <div class="container footer-grid">
       <div class="footer-brand">
+        <div class="footer-insignias">
+          <img class="footer-logo" src="img/logo-plan-2x.webp" width="800" height="241" alt="PLAN 2020–2035 de Ordenamiento Territorial, San Andrés de Giles: planeando diversidades crecientes" loading="lazy">
+          <img class="footer-escudo" src="img/escudo-2x.webp" width="172" height="240" alt="Escudo de la Municipalidad de San Andrés de Giles" loading="lazy">
+        </div>
         <h5>Consejo Municipal para el Desarrollo y el Ordenamiento Territorial</h5>
         <p>
           Partido de San Andrés de Giles, Provincia de Buenos Aires.<br>
-          Integrado por el Departamento Ejecutivo Municipal, el Honorable Concejo Deliberante y Asesores Técnicos Externos.
+          Integrado por el Departamento Ejecutivo Municipal, el Honorable Concejo Deliberante y asesores técnicos externos. Creado por Ordenanza 2239/19 y prorrogado hasta 2035 por Ordenanza 2747/25.
         </p>
       </div>
 
@@ -620,10 +728,11 @@
           <li><a href="#inicio">Inicio</a></li>
           <li><a href="#fundamentos">De la recta a la senda</a></li>
           <li><a href="#sendas">Sendas y Ocasiones</a></li>
-          <li><a href="#pueblos">Pueblos</a></li>
+          <li><a href="#mapa">Mapa de Ocasiones</a></li>
+          <li><a href="#pueblos">Pueblos rurales</a></li>
           <li><a href="#lineas">Líneas propositivas</a></li>
           <li><a href="#educacion">Espacio Educativo</a></li>
-          <li><a href="#documentos">Documentos Oficiales</a></li>
+          <li><a href="#documentos">Los siete tomos</a></li>
         </ul>
       </div>
 
@@ -639,7 +748,7 @@
         <h6>Vínculos Oficiales</h6>
         <ul>
           <li><a href="https://www.sanandresdegiles.gob.ar/" target="_blank" rel="noopener">Municipalidad de S. A. de Giles</a></li>
-          <li><a href="https://drive.google.com/file/d/12dzbiIkeAKVJKTiftszveQYYIkCh-EGh/view" target="_blank" rel="noopener">Informe Plan SAG (PDF)</a></li>
+          <li><a href="#documentos">Descargar el Plan (siete tomos)</a></li>
           <li><a href="#participacion">Buzón Ciudadano</a></li>
         </ul>
       </div>
@@ -648,13 +757,15 @@
     <p class="footer-lema" aria-hidden="true">planeando diversidades crecientes</p>
 
     <div class="container footer-bottom">
-      <p>PLAN SAG 2020–2030 • San Andrés de Giles, Buenos Aires, Argentina. Información pública y accesible para toda la comunidad.</p>
+      <p>PLAN SAG 2020–2035 • Edición digital 2026 • San Andrés de Giles, Buenos Aires, Argentina. Información pública y accesible para toda la comunidad.</p>
     </div>
   </footer>
 
   <!-- Scripts -->
+  <script src="vendor/leaflet/leaflet.js"></script>
   <script src="js/config.js"></script>
-  <script src="js/plan.js"></script>
-  <script src="js/app.js?v=20261018"></script>
+  <script src="js/geo.js"></script>
+  <script src="js/plan.js?v=20261022"></script>
+  <script src="js/app.js?v=20261022"></script>
 </body>
 </html>

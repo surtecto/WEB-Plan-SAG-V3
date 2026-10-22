@@ -1,11 +1,18 @@
-PLAN SAG 2020-2030 · Sitio público (versión rediseñada, octubre 2026)
+PLAN SAG 2020–2035 · Sitio público (versión rediseñada, octubre 2026)
 ====================================================================
 Estructura (se mantiene la del sitio WEB 2026):
   index.html        página única organizada según el Plan: De la recta a la senda,
                     las 4 Sendas con sus Ocasiones, los Pueblos, las 46 Líneas,
                     Espacio Educativo, Documentos y Buzón
   css/styles.css    identidad pampeana: paleta, tipografías, animaciones
-  js/plan.js        contenidos del Plan (Sendas, Ocasiones, Pueblos, Líneas): editar acá
+  js/plan.js        contenidos del Plan (tomos, Sendas, Ocasiones, Pueblos, estudio de
+                    los pueblos, Líneas, puntos del mapa): editar acá
+  js/geo.js         cartografía del mapa de Ocasiones (límite, arroyos, caminos, plazas
+                    rurales, senderos, escuelas rurales) tomada de WEB-PLAN-V2
+  data/             mapa del estudio de los pueblos (mensuras, radios, registros GeoJSON)
+  docs/plan/        los siete tomos de la edición digital 2026 (PDF), únicos documentos
+                    del Plan para descargar
+  vendor/leaflet/   Leaflet 1.9 alojado en el sitio (mapas)
   js/app.js         menú, secciones activas, sendas, pueblos, líneas, glosario, acordeón, buzón
   js/config.js      OPINIONES_URL del buzón (vacía = el buzón avisa que no envía)
   apps-script/      receptor del buzón hacia una Hoja de cálculo de Google
@@ -34,3 +41,21 @@ Actualización 18-10-2026 · Giles en sus censos
   - "¿Dónde vivimos?" corregido con datos de localidad del INDEC: 2022 73,3/14,1/12,5 %;
     2010 70,5/11,2/18,2 % (la cifra anterior de 2010, 77,6/10,3/12 %, era incorrecta).
   - Viviendas sin personas: 15,3 % (2022), 17,8 % (2010) y 17,2 % (2001), mismo criterio.
+
+Actualización 22-10-2026 · Edición 2026 en siete tomos
+  - Descargas: sólo los siete tomos (docs/plan/Plan_SAG_-_Tomo_1…7_….pdf). Se quitaron los
+    enlaces al borrador 02-2025. Cada tema enlaza su tomo: Fundamentos y Líneas → Tomo 1;
+    cada Senda → Tomos 2 a 5; Pueblos → Tomo 6; mapa y Censo → Tomo 7; lista completa en Tomos.
+  - Contenido alineado con los tomos: horizonte CMDOT 2020–2035 (Ord. 2239/19 y 2747/25);
+    Ocasiones de cada Senda con los títulos del tomo (Comunidad 7, Ambiente 4, Producción 6,
+    Habitar 8); los nueve Pagos; 46 Líneas con título, subtítulo, nudos y pregunta abierta;
+    pueblos del Tomo 6 con sus rasgos propios y los parajes rurales; espacio verde 14,0 /
+    21,8 / 32,9 m² (se retira el 38 m²); reparto 2022 sobre viviendas particulares y la fila
+    2010 reemplazada por la nota del tomo; viviendas particulares 10.988; hogares +28,9 %.
+  - Nuevo mapa de Ocasiones (ubicación aproximada) sobre imagen satelital Esri, con filtros
+    por Senda, control de opacidad de capas, control de capas y leyenda.
+  - Pueblos en dos pestañas: «Lo que dice el Plan» (Tomo 6) y «Estudio de los pueblos»
+    (estudio del CMDOT, octubre 2026, portado de la web «Plan SAG · Pueblos»), con su mapa de
+    mensuras, radios y registros, y control de opacidad.
+  - Logo del PLAN y escudo de la Municipalidad en el encabezado y el pie.
+  - Pruebas: /qa (Playwright, escritorio 1440×900 y móvil 390×844).
