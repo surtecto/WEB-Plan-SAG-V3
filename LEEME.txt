@@ -68,3 +68,11 @@ Actualización 30-10-2026 · El presupuesto de Giles
   - Datos: presupuesto/data/datos.json y tablas.json (generados desde las planillas de
     presupuesto, prensa y redes); originales Word y Excel en presupuesto/descargas/.
   - Gráficos con Chart.js 4.4.1 alojado en presupuesto/vendor/
+
+ACTUALIZACIÓN 30/10/2026
+  - Se retiró la firma manuscrita y la matrícula de toda la web (presupuesto/ y censos/).
+    Crédito: Arq. Juan Patricio Addesso, Asesor del Consejo Municipal para el Desarrollo
+    y el Ordenamiento Territorial (CMDOT; Ord. 2239/19, prorrogado por Ord. 2747/25).
+  - presupuesto/: la captura de plusvalías por convenios se presenta como política
+    territorial documentada (ordenamiento, derecho al suelo y a la vivienda), no como
+    recurso presupuestario; la valuación económica figura como mejora complementaria.
