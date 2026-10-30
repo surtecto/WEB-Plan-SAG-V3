@@ -59,3 +59,12 @@ Actualización 22-10-2026 · Edición 2026 en siete tomos
     mensuras, radios y registros, y control de opacidad.
   - Logo del PLAN y escudo de la Municipalidad en el encabezado y el pie.
   - Pruebas: /qa (Playwright, escritorio 1440×900 y móvil 390×844).
+
+Actualización 30-10-2026 · El presupuesto de Giles
+  - Nueva sección presupuesto/ (presupuesto/index.html): observatorio económico con tableros
+    por tema en pestañas (serie histórica 2008–2025, recursos, gasto, resultado y deuda,
+    suelo y plusvalías, agenda de prensa, redes sociales), consulta de 33 tablas con filtro,
+    orden y descarga CSV, y el texto completo de los tres informes.
+  - Datos: presupuesto/data/datos.json y tablas.json (generados desde las planillas de
+    presupuesto, prensa y redes); originales Word y Excel en presupuesto/descargas/.
+  - Gráficos con Chart.js 4.4.1 alojado en presupuesto/vendor/
