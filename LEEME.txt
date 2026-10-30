@@ -76,3 +76,13 @@ ACTUALIZACIÓN 30/10/2026
   - presupuesto/: la captura de plusvalías por convenios se presenta como política
     territorial documentada (ordenamiento, derecho al suelo y a la vivienda), no como
     recurso presupuestario; la valuación económica figura como mejora complementaria.
+
+ACTUALIZACIÓN 30/10/2026 (b) · Lectura en voz alta
+  - Se quitaron los enlaces a la carpeta de Google Drive de audios (sección Tomos, ítem 3).
+  - js/lector.js: lector en voz alta con la síntesis de voz del navegador (sin servicios
+    externos). Botón «Escuchar esta sección» en cada sección y «Escuchar el tomo» en cada
+    tomo; barra con pausa, párrafo/apartado anterior y siguiente, velocidad e índice;
+    recuerda la posición de lectura de cada tomo en el navegador.
+  - docs/plan/lectura/*.json: texto de cada tomo extraído de los PDF (títulos y párrafos,
+    sin encabezados, epígrafes ni tablas). Regenerar con docs/plan/lectura/_extraer_texto.py
+    (requiere pymupdf) cada vez que cambie un tomo; indice.json guarda la duración estimada.

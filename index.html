@@ -21,7 +21,7 @@
 
   <!-- Estilos oficiales -->
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
-  <link rel="stylesheet" href="css/styles.css?v=20261022">
+  <link rel="stylesheet" href="css/styles.css?v=20261030">
 </head>
 <body>
 
@@ -590,32 +590,17 @@
           <h4 class="accordion-h">
             <button class="accordion-header" type="button" aria-expanded="false" aria-controls="acc-3" id="acc-3-h">
               <svg class="acc-tema" aria-hidden="true"><use href="#i-audio"/></svg>
-              <span class="acc-titulo">3. Audios de Divulgación Comunitaria (Accesibilidad Sonora)</span>
+              <span class="acc-titulo">3. Escuchar el Plan · Lectura en voz alta (accesibilidad sonora)</span>
               <span class="acc-icon" aria-hidden="true"></span>
             </button>
           </h4>
           <div class="accordion-body" id="acc-3" role="region" aria-labelledby="acc-3-h">
             <div class="accordion-inner">
               <p>
-                Píldoras de audio de 2 a 3 minutos grabadas por el equipo técnico para explicar las ideas centrales a personas con dificultades visuales o que prefieren formato sonoro:
+                Cualquier persona puede escuchar el texto completo de cada tomo, o cualquier sección de este sitio con el botón <strong>«Escuchar esta sección»</strong>. La lectura la hace la voz del propio teléfono o computadora: no hay que descargar nada ni crear una cuenta. La barra de lectura permite pausar, volver al párrafo anterior, saltar de apartado y cambiar la velocidad, y recuerda dónde quedaste en cada tomo.
               </p>
-              <ul class="lista-audios">
-                <li>
-                  <a href="https://drive.google.com/drive/folders/11RrEbNfbgAZzV-5mi99Rz48q1fsJwDAg" target="_blank" rel="noopener">
-                    <svg class="ico-inline" aria-hidden="true"><use href="#i-audio"/></svg> Capítulo Habitar: Introducción y Enfoque Territorial <svg class="ico-inline" aria-hidden="true"><use href="#i-afuera"/></svg>
-                  </a>
-                </li>
-                <li>
-                  <a href="https://drive.google.com/drive/folders/11RrEbNfbgAZzV-5mi99Rz48q1fsJwDAg" target="_blank" rel="noopener">
-                    <svg class="ico-inline" aria-hidden="true"><use href="#i-audio"/></svg> Capítulo Habitar: Crecimiento Urbano, Loteos y Acceso al Suelo <svg class="ico-inline" aria-hidden="true"><use href="#i-afuera"/></svg>
-                  </a>
-                </li>
-                <li>
-                  <a href="https://drive.google.com/drive/folders/11RrEbNfbgAZzV-5mi99Rz48q1fsJwDAg" target="_blank" rel="noopener">
-                    <svg class="ico-inline" aria-hidden="true"><use href="#i-audio"/></svg> Capítulo Habitar: La Convivencia del Campo y la Ciudad <svg class="ico-inline" aria-hidden="true"><use href="#i-afuera"/></svg>
-                  </a>
-                </li>
-              </ul>
+              <ol class="biblioteca lista-escucha" id="lista-escucha"></ol>
+              <p class="doc-archivo">Si usás un lector de pantalla (TalkBack, VoiceOver, Narrador o NVDA), los tomos en PDF tienen texto seleccionable y también pueden leerse con él.</p>
             </div>
           </div>
         </div>
@@ -768,6 +753,7 @@
   <script src="js/config.js"></script>
   <script src="js/geo.js"></script>
   <script src="js/plan.js?v=20261022"></script>
-  <script src="js/app.js?v=20261022"></script>
+  <script src="js/app.js?v=20261030"></script>
+  <script src="js/lector.js?v=20261030"></script>
 </body>
 </html>

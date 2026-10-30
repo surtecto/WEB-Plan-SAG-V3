@@ -716,7 +716,8 @@ function pintarTomos(raiz) {
   (raiz || document).querySelectorAll(".tomo-slot[data-tomo]").forEach(el => {
     const t = P.tomos.find(x => x.id === el.dataset.tomo);
     if (!t) return;
-    el.innerHTML = `<span class="tomo-pre">El texto completo está en el tomo:</span> ${tomoEnlace(t.id)}`;
+    const oir = window.LECTOR && window.LECTOR.botonTomo ? window.LECTOR.botonTomo(t.id, "Escuchar el tomo") : "";
+    el.innerHTML = `<span class="tomo-pre">El texto completo está en el tomo:</span> ${tomoEnlace(t.id)} ${oir}`;
   });
   const bib = document.getElementById("biblioteca");
   if (bib && !raiz) {
@@ -724,7 +725,7 @@ function pintarTomos(raiz) {
       <li class="tomo-item${TOMOS.estado[t.id] === "falta" ? " es-falta" : ""}">
         <span class="tomo-n">${t.n}</span>
         <span class="tomo-tit"><em>${t.rotulo}</em><strong>${t.titulo}</strong><span>${t.bajada}</span><small>${t.caps}</small></span>
-        ${tomoEnlace(t.id, true)}
+        <span class="tomo-acciones">${tomoEnlace(t.id, true)}${window.LECTOR && window.LECTOR.botonTomo ? window.LECTOR.botonTomo(t.id, "Escuchar") : ""}</span>
       </li>`).join("");
   }
 }
