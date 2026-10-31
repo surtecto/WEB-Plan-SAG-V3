@@ -1961,6 +1961,7 @@ if (typeof module !== 'undefined') module.exports = CORE;
       html += '<div class="tabla-w"><table class="t"><thead><tr><th>Imagen</th><th>Toma</th><th>Copa calle</th><th>Copa interior</th><th>Construido</th></tr></thead><tbody>' + ks.map(function (k) { var x = S.hr[k]; return '<tr><td>' + x.fecha + '</td><td>' + (x.toma && x.toma.fecha ? x.toma.fecha : '—') + '</td><td>' + fmt(x.copaVia * 100) + ' %</td><td>' + fmt(x.copaInt * 100) + ' %</td><td>' + fmt(x.fosInt * 100) + ' %</td></tr>'; }).join('') + '</tbody></table></div>';
       html += '<p class="nota">Compare sólo imágenes de la misma vista. Las tomas de invierno muestran menos copa (especies caducas) y más sombra: lea la serie por estación.</p>';
     }
+    html += '<p class="nota">Esta clasificación es la calibrable en vivo, sin las huellas de Google: sus porcentajes no coinciden con las cifras fijas de 2025 (allí el techo sale de las huellas y la copa se mide sobre toda la parcela). Sirve para comparar fechas analizadas del mismo modo y sobre la misma vista.</p>';
     html += '<p class="nota guard">Guardado en este navegador' + (r.cuando ? ' el ' + r.cuando : '') + '. Se recupera al volver a abrir la página en este mismo navegador; no viaja a otros equipos. Para llevarlo, exportalo desde Datos.</p>';
     $('resHR').innerHTML = html;
   }
