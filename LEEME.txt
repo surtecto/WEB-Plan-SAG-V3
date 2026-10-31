@@ -86,3 +86,12 @@ ACTUALIZACIÓN 30/10/2026 (b) · Lectura en voz alta
   - docs/plan/lectura/*.json: texto de cada tomo extraído de los PDF (títulos y párrafos,
     sin encabezados, epígrafes ni tablas). Regenerar con docs/plan/lectura/_extraer_texto.py
     (requiere pymupdf) cada vez que cambie un tomo; indice.json guarda la duración estimada.
+
+ACTUALIZACIÓN 31/10/2026 · Recorrer el Plan
+  - Nuevo botón «Poblamiento ↗» en el menú (junto a Censos y Presupuesto) y en el pie: abre
+    crecimiento-urbano/ (SIG «Poblamiento y Vegetación»).
+  - Nueva sección «Recorrer el Plan» (#recorrer) después de las cifras: una tarjeta por pestaña
+    con imagen, rótulo, título y descripción breve (11 tarjetas; las de datos llevan ↗).
+    Imágenes en img/tarjetas/ (720×450 webp): recortes de las cartografías del Plan, tapas de
+    los tomos y capturas de las herramientas. En el celular las tarjetas se ven en horizontal.
+  - Menú: los tres accesos de datos se compactan entre 981 y 1520 px para que entren con el logo.

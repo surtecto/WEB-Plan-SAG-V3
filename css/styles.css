@@ -1332,3 +1332,42 @@ footer.site-footer::after {
   .vista-t { font-size: 1.1rem; }
 }
 @media print { #mapa, .pueblos-vistas, .mapa-opacidad { display: none !important; } #panel-estudio { display: block !important; } }
+
+/* ---------- Recorrer el Plan: una tarjeta por pestaña ---------- */
+.seccion-recorrido { background: var(--viento); border-top: 1px solid var(--linea); }
+.tarjetas { list-style: none; margin: 34px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 22px; }
+.tarjeta { display: flex; flex-direction: column; height: 100%; background: #FBF8F0; border: 1px solid var(--linea-fuerte); color: var(--tierra); text-decoration: none; transition: transform .25s var(--curva), box-shadow .25s var(--curva); }
+.tarjeta img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; border-bottom: 1px solid var(--linea); filter: saturate(.92); transition: filter .25s; }
+.tarjeta-tag { margin: 14px 16px 0; font: 500 .72rem/1.2 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--loes-osc); }
+.tarjeta-tit { margin: 6px 16px 0; font: 400 1.45rem/1.1 var(--f-titulo); }
+.tarjeta-desc { margin: 8px 16px 18px; font-size: .97rem; line-height: 1.45; color: var(--texto-2, #4a463b); }
+.tarjeta-datos { border-top: 4px solid var(--pastizal); }
+.tarjeta-datos .tarjeta-tag { color: var(--pastizal-osc); }
+.tarjeta:hover, .tarjeta:focus-visible { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(28,26,20,.14); }
+.tarjeta:hover img { filter: saturate(1.05); }
+.tarjeta:focus-visible { outline: 3px solid var(--loes); outline-offset: 2px; }
+@media (max-width: 760px) { .tarjetas { grid-template-columns: minmax(0, 1fr); gap: 16px; } .tarjeta-tit { font-size: 1.3rem; } }
+@media (prefers-reduced-motion: reduce) { .tarjeta, .tarjeta img { transition: none; } .tarjeta:hover { transform: none; } }
+/* Tres accesos a herramientas de datos (Censos, Presupuesto, Poblamiento): más compactos para que entren con el logo */
+@media (min-width: 981px) {
+  .nav-link.nav-datos { margin-left: 3px; padding: 7px 8px; font-size: .9rem; letter-spacing: 0; }
+  .nav-link.nav-datos + .nav-link.nav-datos { margin-left: 2px; }
+}
+@media (min-width: 981px) and (max-width: 1520px) {
+  nav.main-nav { gap: 0; }
+  .nav-link:not(.nav-datos):not(.nav-cta) { padding-inline: 7px; }
+  .nav-link.nav-datos { font-size: .86rem; padding: 7px 7px; }
+  .nav-link.nav-cta { padding: 9px 12px; margin-left: 6px; }
+}
+@media (min-width: 981px) and (max-width: 1140px) {
+  .nav-link:not(.nav-datos):not(.nav-cta) { padding-inline: 5px; font-size: .86rem; }
+  .nav-link.nav-datos { font-size: .8rem; padding: 6px 5px; }
+  .nav-link.nav-datos span { display: none; }
+}
+@media (max-width: 760px) {
+  .tarjeta { display: grid; grid-template-columns: 116px minmax(0, 1fr); grid-template-rows: auto auto 1fr; column-gap: 12px; }
+  .tarjeta img { grid-row: 1 / span 3; height: 100%; aspect-ratio: auto; border-bottom: 0; border-right: 1px solid var(--linea); }
+  .tarjeta-tag { margin: 10px 12px 0 0; font-size: .66rem; }
+  .tarjeta-tit { margin: 4px 12px 0 0; font-size: 1.2rem; }
+  .tarjeta-desc { margin: 4px 12px 12px 0; font-size: .9rem; line-height: 1.35; }
+}
