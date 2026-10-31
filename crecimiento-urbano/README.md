@@ -18,6 +18,8 @@ Plan de Ordenamiento Territorial · Arq. Juan Patricio Addesso, Asesor del Conse
 
 ## Uso
 - **Capas**: panel flotante arriba a la derecha, agrupado por fuente; casilla y opacidad por capa; etiqueta de origen (**fijo** = precalculado, en la web y en el GeoPackage; **en línea** = imagen que se descarga al mirarla, no se guarda; **en vivo** = calculado en el navegador). **Orden de dibujo**: sube o baja las capas encendidas.
+- **Comparar dos años** (pestaña Crecimiento): mancha, densidad, suelo nuevo, densificación, hacia dónde creció (rumbo y distancia a la plaza), ocupación por clase de loteo, población de los censos cercanos; en el mapa, lo que ya estaba y lo que se suma, y el cambio por manzana.
+- **Comparar dos fechas** (pestaña Arbolado): copa en la calle e interior, pasto y construido entre dos imágenes Wayback o la actual, en hectáreas y puntos; manzanas que ganan y pierden copa; avisos de estación distinta.
 - **Superficies** (pestaña Crecimiento): hectáreas de techo, copa, pasto, suelo sin verde, piletas y sombra, en parcelas y vía pública, y lotes por señales de vida; ámbito: vista del mapa, recorte, área compacta o extraurbana.
 - **Arbolado en vivo**: ámbito "área urbana y suburbana" (baja sólo las teselas que tocan la mancha 2025 y mide sólo adentro) o "vista del mapa"; tiempo estimado antes de empezar, avance con tiempo restante, resolución automática hasta z16; los resultados quedan guardados en ese navegador (pestaña Datos → Qué está guardado).
 
