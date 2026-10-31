@@ -9,6 +9,15 @@ Plan de Ordenamiento Territorial · Arq. Juan Patricio Addesso, Asesor del Conse
 
 `index.html` es autosuficiente: trae los datos embebidos, incluida el poblamiento satelital ya clasificada, y carga Leaflet (cdnjs), geotiff.js (jsDelivr, sólo para el módulo de vegetación) y las fuentes (Google Fonts). También funciona descargándolo y abriéndolo en un navegador de escritorio.
 
+
+## Estructura (desde el 31/10/2026): el Partido en diez territorios
+- `index.html` · portada del Partido: mapa de los nueve Pagos y la Ciudad (límites del SIG municipal, capa Pagos_SAG), una tarjeta por territorio y la comparación en números.
+- `ciudad/` · la cabecera, delimitada por el hueco que dejan los Pagos (3.266 ha). Conserva toda la lectura anterior: serie Landsat 1976–2026, alta resolución 2025 lote por lote, comparaciones y vegetación. En Superficies se agrega el ámbito «Ciudad (límite del Plan)».
+- `pagos/<pago>/` · una página por Pago con la misma web: regla de épocas, capas con encendido y opacidad, análisis de vegetación en vivo, comparación de fechas y exportación. Suma los pueblos y parajes (zona R7 del COU 2024 y sus zonas complementarias), el parcelario rural por tamaño, el censo 2022 por radio, las actividades intensivas 2021, la red vial 2017, la zonificación, las mensuras del siglo XIX y las estancias y puestos de 1884, y el uso agrícola del verano 2020/21 (INTA).
+- `datos/pagos_SAG_territorios.gpkg` · territorios con sus cifras, áreas de pueblos estudiadas, radios del censo 2022, manzanas de los pueblos, actividades intensivas 2021 y estancias y puestos 1884 (POSGAR 2007 faja 5). `datos/pagos_SAG.geojson`: límites de los Pagos y la Ciudad.
+
+En proceso para los Pagos: edificaciones de Google Open Buildings en todo el Partido (viviendas, cascos, galpones y, en los pueblos, ocupación y señales de vida lote por lote), vegetación forestal en alta resolución y coberturas anuales MapBiomas 2019–2024. Se calculan en el navegador y se suman a cada página.
+
 ## Qué muestra
 - **Alta resolución 2025**: poblamiento urbano con el criterio de manzanas con construcciones conectadas por calles (referencia en Fuentes): área compacta (510 ha) y áreas residenciales extraurbanas (85 ha, 25 agrupamientos). 18.569 edificaciones detectadas por Google (Open Buildings v3). Cada parcela con su densidad (FOS aparente), su ocupación (construcción de 25 m² o más) y sus señales de vida (sin construcción, incipiente, habitada, arraigada, compacta). Piletas, vegetación en la calle y vegetación en el interior sobre la imagen Vantor del 26/01/2025 (0,34 m).
 - **Poblamiento satelital 1976–2026**: clasificación propia de 150 escenas Landsat (Esri Landsat/MS, NDVI) en 18 épocas: 1976–1980, 1987, 1999–2000, 2005–2006, 2011 y cada año de 2013 a 2025–2026. Polígonos por densidad aparente (alta, media, baja), anillos de crecimiento y envolvente compacta. La regla de abajo elige la época; el panel muestra superficie, escenas, serie y ocupación por clase de parcelamiento.
