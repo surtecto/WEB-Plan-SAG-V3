@@ -6,27 +6,6 @@
  "n_viv": 11880,
  "n_galpon": 528,
  "techo_ha": 195.2,
- "mancha": {
-  "compacta": {
-   "ha": 509.6,
-   "n": 1,
-   "viv": 9357
-  },
-  "extraurbana": {
-   "ha": 85.2,
-   "n": 25,
-   "viv": 464
-  }
- },
- "hdp": {
-  "1990": 351,
-  "2020_compacta": 451,
-  "2020_extraurbana": 66,
-  "2020_total": 517,
-  "partido_1990": 512,
-  "partido_2020_compacta": 632,
-  "partido_2020_total": 1325
- },
  "clases": {
   "A": {
    "n": 4754,
@@ -40,9 +19,9 @@
     1796,
     1680
    ],
-   "copa": 0.214,
    "piletas": 250,
-   "vac_ha": 20.2
+   "vac_ha": 20.2,
+   "vegetacion": 0.214
   },
   "B": {
    "n": 127,
@@ -56,9 +35,9 @@
     70,
     2
    ],
-   "copa": 0.298,
    "piletas": 11,
-   "vac_ha": 23.8
+   "vac_ha": 23.8,
+   "vegetacion": 0.298
   },
   "C": {
    "n": 1163,
@@ -72,9 +51,9 @@
     511,
     212
    ],
-   "copa": 0.311,
    "piletas": 102,
-   "vac_ha": 26.7
+   "vac_ha": 26.7,
+   "vegetacion": 0.311
   },
   "D": {
    "n": 838,
@@ -88,9 +67,9 @@
     313,
     89
    ],
-   "copa": 0.324,
    "piletas": 76,
-   "vac_ha": 59.8
+   "vac_ha": 59.8,
+   "vegetacion": 0.324
   },
   "fuera": {
    "n": 941,
@@ -104,9 +83,9 @@
     416,
     19
    ],
-   "copa": 0.357,
    "piletas": 89,
-   "vac_ha": 510.4
+   "vac_ha": 510.4,
+   "vegetacion": 0.357
   },
   "todo": {
    "n": 7823,
@@ -120,17 +99,10 @@
     3106,
     2002
    ],
-   "copa": 0.332,
    "piletas": 528,
-   "vac_ha": 640.9
+   "vac_ha": 640.9,
+   "vegetacion": 0.332
   }
- },
- "copa_calle": {
-  "A": 0.139,
-  "B": 0.294,
-  "C": 0.255,
-  "D": 0.27,
-  "todo": 0.209
  },
  "calib": {
   "th": 0.05,
@@ -199,5 +171,33 @@
   "lotes": 6021
  },
  "manzanas_urb": 618,
- "manzanas_urb_ha": 419.1
+ "manzanas_urb_ha": 419.1,
+ "poblamiento": {
+  "compacta": {
+   "ha": 509.6,
+   "n": 1,
+   "viv": 9357
+  },
+  "extraurbana": {
+   "ha": 85.2,
+   "n": 25,
+   "viv": 464
+  }
+ },
+ "vegetacion_calle": {
+  "A": 0.139,
+  "B": 0.294,
+  "C": 0.255,
+  "D": 0.27,
+  "todo": 0.209
+ },
+ "lectura_visual_estudio_2024": {
+  "1990": 351,
+  "2020_compacta": 451,
+  "2020_extraurbana": 66,
+  "2020_total": 517,
+  "partido_1990": 512,
+  "partido_2020_compacta": 632,
+  "partido_2020_total": 1325
+ }
 }
