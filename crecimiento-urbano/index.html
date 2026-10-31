@@ -892,6 +892,11 @@ textarea.exp { width: 100%; height: 120px; font-family: var(--f-mono); font-size
 .cargando b { font: 400 1.4rem var(--f-titulo); }
 .cargando span { font: .8rem var(--f-mono); color: var(--tinta-3); }
 
+.amb { border: 1px solid var(--linea); border-radius: 3px; padding: 6px 10px 8px; margin: 10px 0; display: grid; gap: 5px; font-size: .84rem; }
+.amb legend { font: 600 .7rem var(--f-texto); letter-spacing: .1em; text-transform: uppercase; color: var(--tinta-3); padding: 0 4px; }
+.amb label { display: flex; gap: 7px; align-items: flex-start; cursor: pointer; }
+.amb input { accent-color: var(--loes); margin-top: 3px; }
+
 </style>
 </head>
 <body>
@@ -959,14 +964,15 @@ textarea.exp { width: 100%; height: 120px; font-family: var(--f-mono); font-size
           <label class="nota" for="selRel">Imagen</label>
           <select id="selRel"></select>
           <p class="nota" id="relInfo"></p>
+          <fieldset class="amb"><legend>Ámbito del análisis</legend><label><input type="radio" name="ambHR" value="mancha" checked> Área urbana y suburbana (mancha 2025): baja y mide sólo lo que cae adentro</label><label><input type="radio" name="ambHR" value="vista"> Vista del mapa (hasta 260 teselas)</label></fieldset>
           <div class="ctrl"><label for="zA">Resolución de análisis</label><output id="oZ"></output><input type="range" id="zA" min="16" max="18" step="1" value="17"></div>
           <div class="botones">
-            <button class="btn" id="btnHR">Analizar vista</button>
+            <button class="btn" id="btnHR">Analizar</button>
             <button class="btn sec2" id="btnHRserie">Serie anual</button>
           </div>
           <div class="prog"><div id="progH"></div></div>
           <div class="estado" id="estH" role="status" aria-live="polite" hidden></div>
-          <p class="nota">Antes de empezar se muestra el tiempo estimado. Si la vista es grande, la resolución baja sola hasta z16. Cada análisis queda guardado en este navegador.</p>
+          <p class="nota">Antes de empezar se muestra el tiempo estimado. En el área urbana y suburbana se bajan sólo las teselas que la tocan y se mide sólo lo que cae dentro de la mancha (a z17, unas pocas centenas de teselas). En la vista, si es grande, la resolución baja sola hasta z16. Cada análisis queda guardado en este navegador.</p>
           <details open><summary>Calibrar clasificación</summary>
             <div class="ctrl"><label for="pVerde">Verde (índice ExG)</label><output id="oVerde"></output><input type="range" id="pVerde" min="0" max="0.2" step="0.005" value="0.05"></div>
             <div class="ctrl"><label for="pOsc">Copa: luminancia máxima</label><output id="oOsc"></output><input type="range" id="pOsc" min="40" max="160" step="1" value="92"></div>
@@ -1886,6 +1892,89 @@ if (typeof module !== 'undefined') module.exports = CORE;
       lanzar();
     });
   }
+  /* ---------- análisis recortado al área urbana y suburbana (mancha 2025) ---------- */
+  var LIM_M = 1500;
+  function bbM(f) { var x0 = 1e20, y0 = 1e20, x1 = -1e20, y1 = -1e20; C.geomRings(f.geometry).forEach(function (pl) { pl.forEach(function (r) { r.forEach(function (c) { var m = C.merc(c[0], c[1]); if (m[0] < x0) x0 = m[0]; if (m[0] > x1) x1 = m[0]; if (m[1] < y0) y0 = m[1]; if (m[1] > y1) y1 = m[1]; }); }); }); return [x0, y0, x1, y1]; }
+  var _bbs = null;
+  function bbs() { if (!_bbs) _bbs = { man: HR.mancha.features.map(bbM), mz: MZ.map(bbM), fr: FR.map(bbM) }; return _bbs; }
+  function gridTesela(tx, ty, z) { var r0 = C.tileRes(z), PIR = Math.PI * 6378137; return { x0: tx * 256 * r0 - PIR, y0: PIR - ty * 256 * r0, sx: r0, sy: r0, w: 256, h: 256 }; }
+  function tocan(lista, bb, g) { var x1 = g.x0 + 256 * g.sx, y0 = g.y0 - 256 * g.sy, out = []; for (var i = 0; i < lista.length; i++) { var b = bb[i]; if (b[2] >= g.x0 && b[0] <= x1 && b[3] >= y0 && b[1] <= g.y0) out.push(i); } return out; }
+  function tesMancha(z) {
+    var B = bbs(), r0 = C.tileRes(z), PIR = Math.PI * 6378137, set = {}, out = [];
+    B.man.forEach(function (b) { for (var tx = Math.floor((b[0] + PIR) / (256 * r0)); tx <= Math.floor((b[2] + PIR) / (256 * r0)); tx++) for (var ty = Math.floor((PIR - b[3]) / (256 * r0)); ty <= Math.floor((PIR - b[1]) / (256 * r0)); ty++) set[tx + ',' + ty] = 1; });
+    Object.keys(set).forEach(function (k) {
+      var t = k.split(',').map(Number), g = gridTesela(t[0], t[1], z), idx = tocan(HR.mancha.features, B.man, g);
+      if (!idx.length) return;
+      var lab = C.rasterizeFeatures(idx.map(function (i) { return HR.mancha.features[i]; }), g, function (f) { return f.properties.tipo === 'compacta' ? 1 : 2; });
+      var m8 = new Uint8Array(65536), n = 0; for (var p = 0; p < 65536; p++) if (lab[p] > 0) { m8[p] = lab[p]; n++; }
+      if (n) out.push({ tx: t[0], ty: t[1], g: g, lab: m8, n: n });
+    });
+    return out;
+  }
+  function elegirZM() { var z0 = +$('zA').value, z = z0, L0 = tesMancha(z); while (L0.length > LIM_M && z > 16) { z--; L0 = tesMancha(z); } return { z: z, z0: z0, lista: L0, n: L0.length, ok: L0.length <= LIM_M }; }
+  function analizarMancha(rel, q, pintar) {
+    var z = q.z, lista = q.lista, total = lista.length, prm0 = prm(), B = bbs();
+    var latc = 34.45 * Math.PI / 180, pxm2 = Math.pow(C.tileRes(z) * Math.cos(latc), 2);
+    var totM = { 1: [0, 0, 0, 0, 0], 2: [0, 0, 0, 0, 0] }, totZ = { mz: [0, 0, 0, 0, 0], via: [0, 0, 0, 0, 0], otro: [0, 0, 0, 0, 0] };
+    var mzC = new Float64Array(MZ.length * 5), frC = new Float64Array(FR.length * 5);
+    var txs = lista.map(function (o) { return o.tx; }), tys = lista.map(function (o) { return o.ty; });
+    var tx0 = Math.min.apply(0, txs), ty0 = Math.min.apply(0, tys), tx1 = Math.max.apply(0, txs), ty1 = Math.max.apply(0, tys);
+    var fct = Math.max(1, Math.ceil(Math.max(tx1 - tx0 + 1, ty1 - ty0 + 1) * 256 / 2600));
+    var ov = document.createElement('canvas'); ov.width = Math.ceil((tx1 - tx0 + 1) * 256 / fct); ov.height = Math.ceil((ty1 - ty0 + 1) * 256 / fct); var octx = ov.getContext('2d');
+    var tc = document.createElement('canvas'); tc.width = 256; tc.height = 256; var tctx = tc.getContext('2d', { willReadFrequently: true });
+    var pc = document.createElement('canvas'); pc.width = 256; pc.height = 256; var pctx = pc.getContext('2d');
+    var PAL = [null, [217, 130, 91, 150], [185, 207, 106, 150], [31, 107, 51, 230], [30, 30, 30, 120]];
+    var viaG = D.via.features[0].geometry, hechas = 0, fallas = 0, cola = lista.slice();
+    diag('H', 'Área urbana y suburbana: ' + total + ' teselas a z' + z + '.');
+    function procesar(o, img) {
+      tctx.clearRect(0, 0, 256, 256); tctx.drawImage(img, 0, 0); var data = tctx.getImageData(0, 0, 256, 256).data;
+      var cls = C.classifyRGB(data, 256, 256, prm0), g = o.g, lab = o.lab;
+      var im = tctx.createImageData(256, 256);
+      var iMz = tocan(MZ, B.mz, g), iFr = tocan(FR, B.fr, g);
+      var lMz = C.rasterizeFeatures(iMz.map(function (i) { return MZ[i]; }), g, function (f, k) { return iMz[k]; });
+      var lFr = C.rasterizeFeatures(iFr.map(function (i) { return FR[i]; }), g, function (f, k) { return iFr[k]; });
+      var via = C.rasterizeMask(viaG, g);
+      for (var p = 0; p < 65536; p++) {
+        var t = lab[p]; if (!t) continue; var c = cls[p];
+        totM[t][0]++; if (c > 0) totM[t][c]++;
+        var zn = lMz[p] >= 0 ? totZ.mz : via[p] ? totZ.via : totZ.otro; zn[0]++; if (c > 0) zn[c]++;
+        if (lMz[p] >= 0) { var m = lMz[p] * 5; mzC[m]++; if (c > 0) mzC[m + c]++; }
+        if (lFr[p] >= 0) { var f2 = lFr[p] * 5; frC[f2]++; if (c > 0) frC[f2 + c]++; }
+        var q2 = PAL[c]; if (q2) { im.data[4 * p] = q2[0]; im.data[4 * p + 1] = q2[1]; im.data[4 * p + 2] = q2[2]; im.data[4 * p + 3] = q2[3]; }
+      }
+      if (pintar) { pctx.putImageData(im, 0, 0); octx.drawImage(pc, (o.tx - tx0) * 256 / fct, (o.ty - ty0) * 256 / fct, 256 / fct, 256 / fct); }
+    }
+    return new Promise(function (res, rej) {
+      var activos = 0;
+      function lanzar() { while (activos < 8 && cola.length) { (function (o) { activos++; var img = new Image(); img.crossOrigin = 'anonymous'; img.onload = function () { try { procesar(o, img); } catch (e) { fallas++; diag('H', 'Tesela ' + o.tx + ',' + o.ty + ': ' + e.message); } fin(); }; img.onerror = function () { fallas++; fin(); }; img.src = rel.url.replace('{z}', z).replace('{y}', o.ty).replace('{x}', o.tx); })(cola.shift()); } }
+      function fin() { activos--; hechas++; prog('H', hechas / total); avanceH(hechas, total); if (hechas === total) terminar(); else lanzar(); }
+      function terminar() {
+        if (fallas === total) return rej(new Error('ninguna tesela cargó'));
+        if (fallas) diag('H', fallas + ' teselas sin imagen.');
+        var mz = {}, nOk = 0;
+        for (var i = 0; i < MZ.length; i++) { var t = mzC[i * 5]; if (!t) continue; var esp = MZ[i].properties.ha * 1e4 / pxm2; if (t < 0.85 * esp) continue; var v = t - mzC[i * 5 + 4]; if (v < 10) continue; mz[i] = { copa: mzC[i * 5 + 3] / v, pasto: mzC[i * 5 + 2] / v, fos: mzC[i * 5 + 1] / v, sombra: mzC[i * 5 + 4] / t, copaFr: null }; nOk++; }
+        for (var j = 0; j < FR.length; j++) { var tt = frC[j * 5]; if (!tt) continue; var mi = FRmz[j]; if (!mz[mi]) continue; var vv = tt - frC[j * 5 + 4]; if (vv < 10) continue; mz[mi].copaFr = frC[j * 5 + 3] / vv; }
+        var vl = function (a) { return Math.max(1, a[0] - a[4]); };
+        res({ mz: mz, n: nOk, totM: totM, totZ: totZ, pxm2: pxm2, ov: pintar ? { url: ov.toDataURL('image/png'), sw: C.unmerc(-Math.PI * 6378137 + tx0 * 256 * C.tileRes(z), Math.PI * 6378137 - (ty1 + 1) * 256 * C.tileRes(z)), ne: C.unmerc(-Math.PI * 6378137 + (tx1 + 1) * 256 * C.tileRes(z), Math.PI * 6378137 - ty0 * 256 * C.tileRes(z)) } : null,
+          copaInt: totZ.mz[3] / vl(totZ.mz), fosInt: totZ.mz[1] / vl(totZ.mz), pastoInt: totZ.mz[2] / vl(totZ.mz), copaVia: totZ.via[3] / vl(totZ.via), haVia: totZ.via[0] * pxm2 / 1e4, haInt: totZ.mz[0] * pxm2 / 1e4 });
+      }
+      if (!total) return rej(new Error('no hay teselas dentro del área urbana y suburbana'));
+      lanzar();
+    });
+  }
+  function correrMancha(rel, q, pintar) {
+    return analizarMancha(rel, q, pintar).then(function (a) {
+      return fechaToma(rel).then(function (toma) {
+        var r = { key: rel.n + '@' + q.z + '@mancha', ambito: 'mancha', fecha: rel.fecha, toma: toma, z: q.z, n: a.n, mz: a.mz, copaInt: a.copaInt, fosInt: a.fosInt, pastoInt: a.pastoInt, copaVia: a.copaVia, haVia: a.haVia, haInt: a.haInt,
+          tot: { int: a.totZ.mz, via: a.totZ.via }, totZ: a.totZ, totM: a.totM, pxm2: a.pxm2, cuando: new Date().toISOString().slice(0, 16).replace('T', ' ') };
+        if (!S.hr[r.key]) S.hrOrden.push(r.key);
+        S.hr[r.key] = r; S.hrOrden.sort(function (x, y) { return S.hr[x].fecha < S.hr[y].fecha ? -1 : 1; }); S.hrActual = r.key; guardarHR();
+        if (a.ov) { var bb = [[a.ov.sw[1], a.ov.sw[0]], [a.ov.ne[1], a.ov.ne[0]]]; lyClasif.clearLayers(); L.imageOverlay(a.ov.url, bb, { pane: paneDe('clasif'), opacity: opOf('clasif') }).addTo(lyClasif); if (!CAPAS.clasif.on) setOn('clasif', true); idb('readwrite', function (st) { return st.put({ key: r.key, url: a.ov.url, b: bb }, 'clasif'); }).catch(function () { }); }
+        return r;
+      });
+    });
+  }
+  function ambitoHR() { var el = document.querySelector('input[name="ambHR"]:checked'); return el ? el.value : 'mancha'; }
   function vistaBounds() {
     var b = map.getBounds();
     return [Math.max(b.getWest(), BOX[0]), Math.max(b.getSouth(), BOX[1]), Math.min(b.getEast(), BOX[2]), Math.min(b.getNorth(), BOX[3])];
@@ -1949,8 +2038,12 @@ if (typeof module !== 'undefined') module.exports = CORE;
     if (!ks.length) { $('resHR').innerHTML = ''; return; }
     var r = S.hr[S.hrActual];
     html += '<div class="cifras"><div><b>' + fmt(r.copaVia * 100) + ' %</b><span>copa en la vía pública</span></div><div><b>' + fmt(r.copaInt * 100) + ' %</b><span>copa en el interior de manzana</span></div><div><b>' + fmt(r.fosInt * 100) + ' %</b><span>construido o impermeable en manzana</span></div><div><b>' + fmt(r.n) + '</b><span>manzanas completas medidas</span></div></div>';
-    if (r.tot && r.pxm2) { var ha = function (n) { return fmt(n * r.pxm2 / 1e4, 1) + ' ha'; }, TI = r.tot.int, TV = r.tot.via; html += '<div class="tabla-w"><table class="t"><thead><tr><th>Superficie en la vista</th><th>Manzanas</th><th>Vía pública</th></tr></thead><tbody>' + [['Construido o impermeable', 1], ['Pasto', 2], ['Copa arbórea', 3], ['Sombra', 4]].map(function (q) { return '<tr><td>' + q[0] + '</td><td>' + ha(TI[q[1]]) + '</td><td>' + ha(TV[q[1]]) + '</td></tr>'; }).join('') + '<tr><td><b>Total</b></td><td><b>' + ha(TI[0]) + '</b></td><td><b>' + ha(TV[0]) + '</b></td></tr></tbody></table></div>'; }
-    html += '<p class="nota">Imagen ' + r.fecha + (r.toma && r.toma.fecha ? ' (toma real ' + r.toma.fecha + ')' : '') + ' · z' + r.z + ' · ' + fmt(r.haVia, 1) + ' ha de vía pública y ' + fmt(r.haInt, 1) + ' ha de manzanas en la vista. Las proporciones excluyen la sombra.</p>';
+    if (r.ambito === 'mancha' && r.totM) {
+      var hm = function (n) { return fmt(n * r.pxm2 / 1e4, 1) + ' ha'; }, A1 = r.totM[1], A2 = r.totM[2], Z = r.totZ, CL = [['Construido o impermeable', 1], ['Pasto', 2], ['Copa arbórea', 3], ['Sombra', 4]];
+      html += '<h3>Superficies en el área urbana y suburbana</h3><div class="tabla-w"><table class="t"><thead><tr><th>Tipo</th><th>Compacta</th><th>Extraurbana</th><th>Total</th><th>%</th></tr></thead><tbody>' + CL.map(function (q) { var t = A1[q[1]] + A2[q[1]]; return '<tr><td>' + q[0] + '</td><td>' + hm(A1[q[1]]) + '</td><td>' + hm(A2[q[1]]) + '</td><td>' + hm(t) + '</td><td>' + fmt(t / Math.max(1, A1[0] + A2[0]) * 100) + ' %</td></tr>'; }).join('') + '<tr><td><b>Total</b></td><td><b>' + hm(A1[0]) + '</b></td><td><b>' + hm(A2[0]) + '</b></td><td><b>' + hm(A1[0] + A2[0]) + '</b></td><td>100 %</td></tr></tbody></table></div>';
+      html += '<div class="tabla-w"><table class="t"><thead><tr><th>Dónde</th><th>Construido</th><th>Pasto</th><th>Copa</th><th>Sombra</th><th>Total</th></tr></thead><tbody>' + [['Manzanas', Z.mz], ['Vía pública', Z.via], ['Fuera del amanzanado', Z.otro]].map(function (q) { return '<tr><td>' + q[0] + '</td>' + [1, 2, 3, 4, 0].map(function (k) { return '<td>' + hm(q[1][k]) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>';
+    } else if (r.tot && r.pxm2) { var ha = function (n) { return fmt(n * r.pxm2 / 1e4, 1) + ' ha'; }, TI = r.tot.int, TV = r.tot.via; html += '<div class="tabla-w"><table class="t"><thead><tr><th>Superficie en la vista</th><th>Manzanas</th><th>Vía pública</th></tr></thead><tbody>' + [['Construido o impermeable', 1], ['Pasto', 2], ['Copa arbórea', 3], ['Sombra', 4]].map(function (q) { return '<tr><td>' + q[0] + '</td><td>' + ha(TI[q[1]]) + '</td><td>' + ha(TV[q[1]]) + '</td></tr>'; }).join('') + '<tr><td><b>Total</b></td><td><b>' + ha(TI[0]) + '</b></td><td><b>' + ha(TV[0]) + '</b></td></tr></tbody></table></div>'; }
+    html += '<p class="nota">' + (r.ambito === 'mancha' ? 'Recortado al área urbana y suburbana de 2025. ' : 'Recortado a la vista del mapa. ') + 'Imagen ' + r.fecha + (r.toma && r.toma.fecha ? ' (toma real ' + r.toma.fecha + ')' : '') + ' · z' + r.z + ' · ' + fmt(r.haVia, 1) + ' ha de vía pública y ' + fmt(r.haInt, 1) + ' ha de manzanas en la vista. Las proporciones excluyen la sombra.</p>';
     if (ks.length > 1) {
       var X = function (k) { var rr = S.hr[k], f = (rr.toma && rr.toma.fecha) || rr.fecha; if (f === 'actual') f = new Date().toISOString().slice(0, 10); return +f.slice(0, 4) + (+f.slice(5, 7) - 1) / 12; };
       html += '<h3>Serie de copa</h3>' + grafLineas([
@@ -1958,7 +2051,7 @@ if (typeof module !== 'undefined') module.exports = CORE;
         { n: 'Copa en el interior', col: '#185c2c', pts: ks.map(function (k) { return [X(k), S.hr[k].copaInt * 100]; }), dash: true },
         { n: 'Construido en manzana', col: '#b85a2c', pts: ks.map(function (k) { return [X(k), S.hr[k].fosInt * 100]; }) }
       ], { y0: 0, y1: 100, xt: [2014, 2016, 2018, 2020, 2022, 2024, 2026], x0: 2014, x1: 2026.9, aria: 'Serie de copa y superficie construida (%)' });
-      html += '<div class="tabla-w"><table class="t"><thead><tr><th>Imagen</th><th>Toma</th><th>Copa calle</th><th>Copa interior</th><th>Construido</th></tr></thead><tbody>' + ks.map(function (k) { var x = S.hr[k]; return '<tr><td>' + x.fecha + '</td><td>' + (x.toma && x.toma.fecha ? x.toma.fecha : '—') + '</td><td>' + fmt(x.copaVia * 100) + ' %</td><td>' + fmt(x.copaInt * 100) + ' %</td><td>' + fmt(x.fosInt * 100) + ' %</td></tr>'; }).join('') + '</tbody></table></div>';
+      html += '<div class="tabla-w"><table class="t"><thead><tr><th>Imagen</th><th>Toma</th><th>Copa calle</th><th>Copa interior</th><th>Construido</th></tr></thead><tbody>' + ks.map(function (k) { var x = S.hr[k]; return '<tr><td>' + x.fecha + (x.ambito === 'mancha' ? ' · urbana y suburbana' : ' · vista') + '</td><td>' + (x.toma && x.toma.fecha ? x.toma.fecha : '—') + '</td><td>' + fmt(x.copaVia * 100) + ' %</td><td>' + fmt(x.copaInt * 100) + ' %</td><td>' + fmt(x.fosInt * 100) + ' %</td></tr>'; }).join('') + '</tbody></table></div>';
       html += '<p class="nota">Compare sólo imágenes de la misma vista. Las tomas de invierno muestran menos copa (especies caducas) y más sombra: lea la serie por estación.</p>';
     }
     html += '<p class="nota">Esta clasificación es la calibrable en vivo, sin las huellas de Google: sus porcentajes no coinciden con las cifras fijas de 2025 (allí el techo sale de las huellas y la copa se mide sobre toda la parcela). Sirve para comparar fechas analizadas del mismo modo y sobre la misma vista.</p>';
@@ -1966,7 +2059,21 @@ if (typeof module !== 'undefined') module.exports = CORE;
     $('resHR').innerHTML = html;
   }
   $('btnHR').addEventListener('click', function () {
-    var rel = relActual(); if (!rel) return; var b = this, bn = vistaBounds(), q = elegirZ(bn);
+    var rel = relActual(); if (!rel) return; var b = this;
+    if (ambitoHR() === 'mancha') {
+      estado('<b>Preparando…</b> calculando qué teselas tocan el área urbana y suburbana.', 'corre');
+      setTimeout(function () {
+        var qm = elegirZM();
+        if (!qm.ok) { estado('<b>El área es demasiado grande a esta resolución:</b> ' + fmt(qm.n) + ' teselas (máximo ' + fmt(LIM_M) + ').', 'err'); return; }
+        var estm = estimar(qm.n) + qm.n * 0.01;
+        PROC = { t0: Date.now(), est: estm, etiqueta: 'Analizando ' + (rel.fecha === 'actual' ? 'la imagen actual' : 'la imagen Wayback ' + rel.fecha) + ' recortada al área urbana y suburbana · ' + fmt(qm.n) + ' teselas a z' + qm.z + ' (≈ ' + fmt(resM(qm.z), 1) + ' m) · estimado ≈ ' + mmss(estm) + (qm.z !== qm.z0 ? ' · se bajó de z' + qm.z0 : '') };
+        avanceH(0, qm.n); b.disabled = true; prog('H', 0);
+        correrMancha(rel, qm, true).then(function (r) { resultadosHR(); pintarTemas(); if (S.tema.indexOf('hr_') !== 0) { S.tema = 'hr_copa_int'; $('temaMz').value = S.tema; } lyMz.setStyle(estiloMz); leyenda(); estado('<b>Listo en ' + mmss((Date.now() - PROC.t0) / 1000) + '.</b> ' + fmt(qm.n) + ' teselas a z' + qm.z + ', ' + fmt((r.totM[1][0] + r.totM[2][0]) * r.pxm2 / 1e4) + ' ha analizadas dentro del área urbana y suburbana. Guardado en este navegador.', 'ok'); })
+          .catch(function (e) { diag('H', 'Error: ' + e.message); estado('<b>No se pudo analizar:</b> ' + escH(e.message) + '.', 'err'); }).then(function () { b.disabled = false; PROC = null; });
+      }, 30);
+      return;
+    }
+    var bn = vistaBounds(), q = elegirZ(bn);
     if (!q.ok) { estado('<b>La vista es demasiado grande para analizarla.</b> Aun a z16 (≈ 2 m) abarca ' + fmt(q.n) + ' teselas y el máximo es ' + LIM_T + '. Acercá el mapa a un sector de unas pocas decenas de manzanas y volvé a probar. Para la imagen actual no hace falta: la copa del 26/01/2025 ya está calculada en toda la cabecera (arriba).', 'err'); return; }
     var est = estimar(q.n);
     PROC = { t0: Date.now(), est: est, etiqueta: 'Analizando ' + (rel.fecha === 'actual' ? 'la imagen actual' : 'la imagen Wayback ' + rel.fecha) + ' a z' + q.z + ' (≈ ' + fmt(resM(q.z), 1) + ' m) · estimado ≈ ' + mmss(est) + (q.z !== q.z0 ? ' · se bajó de z' + q.z0 + ' porque la vista es grande' : '') };
@@ -1975,10 +2082,10 @@ if (typeof module !== 'undefined') module.exports = CORE;
       .catch(function (e) { diag('H', 'Error: ' + e.message); estado('<b>No se pudo analizar:</b> ' + escH(e.message) + '.', 'err'); }).then(function () { b.disabled = false; PROC = null; });
   });
   $('btnHRserie').addEventListener('click', function () {
-    var b = this, bn = vistaBounds(), q = elegirZ(bn);
+    var b = this, bn = vistaBounds(), modoM = ambitoHR() === 'mancha', q = modoM ? elegirZM() : elegirZ(bn);
     var porAnio = {}; S.wayback.forEach(function (r) { porAnio[r.fecha.slice(0, 4)] = r; });
     var lista = Object.keys(porAnio).sort().map(function (y) { return porAnio[y]; });
-    if (!q.ok) { estado('<b>La vista es demasiado grande para la serie.</b> Aun a z16 abarca ' + fmt(q.n) + ' teselas por imagen (máximo ' + LIM_T + '). Acercá el mapa.', 'err'); return; }
+    if (!q.ok) { estado('<b>Demasiadas teselas para la serie:</b> ' + fmt(q.n) + ' por imagen. ' + (modoM ? 'Bajá la resolución.' : 'Acercá el mapa.'), 'err'); return; }
     if (!lista.length) { estado('<b>Todavía no cargó la lista de imágenes Wayback.</b> Esperá unos segundos y probá de nuevo.', 'err'); return; }
     var estS = estimar(q.n) * lista.length, t0s = Date.now(); b.disabled = true;
     estado('<b>Serie anual: hasta ' + lista.length + ' imágenes × ' + fmt(q.n) + ' teselas a z' + q.z + '.</b> Estimado ≈ ' + mmss(estS) + '. Las tomas repetidas se omiten.', 'corre');
@@ -1991,7 +2098,7 @@ if (typeof module !== 'undefined') module.exports = CORE;
         if (vistas[clave]) { diag('H', rel.fecha + ': misma toma que ' + vistas[clave] + ', se omite.'); return; }
         vistas[clave] = rel.fecha;
         var ya = (Date.now() - t0s) / 1000; PROC = { t0: Date.now(), est: estimar(q.n), etiqueta: 'Serie anual · imagen ' + i + ' de ' + lista.length + ' (' + rel.fecha + ') · ' + mmss(ya) + ' transcurridos · faltan ≈ ' + mmss(ya / Math.max(1, i - 1) * (lista.length - i + 1) || estS) };
-        return analizarHR(rel, bn, i === lista.length, q.z).catch(function (e) { diag('H', rel.fecha + ': ' + e.message); });
+        return (modoM ? correrMancha(rel, q, i === lista.length) : analizarHR(rel, bn, i === lista.length, q.z)).catch(function (e) { diag('H', rel.fecha + ': ' + e.message); });
       }).then(sig);
     }
     sig().then(function () { resultadosHR(); pintarTemas(); S.tema = 'hr_dcopa'; $('temaMz').value = S.tema; lyMz.setStyle(estiloMz); leyenda(); estado('<b>Serie lista en ' + mmss((Date.now() - t0s) / 1000) + '.</b> ' + S.hrOrden.length + ' análisis guardados en este navegador.', 'ok'); }).then(function () { b.disabled = false; PROC = null; });
@@ -2047,12 +2154,12 @@ if (typeof module !== 'undefined') module.exports = CORE;
 
   /* ---------------- superficies de todo tipo ---------------- */
   var SUP_T = [['Techo (edificaciones)', '#c0392b'], ['Copa arbórea', '#2f7a4a'], ['Pasto', '#b9cf6a'], ['Suelo sin verde (patios, pavimento, tierra)', '#cdb38b'], ['Pileta', '#3fd6ff'], ['Sombra', '#555']];
-  var SUP_AL = { vista: 'Vista del mapa', recorte: 'Todo el recorte', compacta: 'Área compacta 2025', extraurbana: 'Residencial extraurbana' };
+  var SUP_AL = { urbana: 'Urbana y suburbana', compacta: 'Área compacta', extraurbana: 'Extraurbana', vista: 'Vista del mapa', recorte: 'Todo el recorte' };
   function centro(g) { var c = g.type === 'Polygon' ? g.coordinates[0] : g.coordinates[0][0], x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9; c.forEach(function (p) { if (p[0] < x0) x0 = p[0]; if (p[0] > x1) x1 = p[0]; if (p[1] < y0) y0 = p[1]; if (p[1] > y1) y1 = p[1]; }); return L.latLng((y0 + y1) / 2, (x0 + x1) / 2); }
   D.parcelas.features.forEach(function (f) { f._c = centro(f.geometry); });
   D.frentes.features.forEach(function (f) { f._c = centro(f.geometry); });
-  S.sup = store('sup') || 'vista';
-  function pasa(f, sc, bb) { var p = f.properties; return sc === 'recorte' ? true : sc === 'compacta' ? p.mt === 1 : sc === 'extraurbana' ? p.mt === 2 : bb.contains(f._c); }
+  S.sup = store('sup2') || 'urbana';
+  function pasa(f, sc, bb) { var p = f.properties; return sc === 'recorte' ? true : sc === 'urbana' ? (p.mt === 1 || p.mt === 2) : sc === 'compacta' ? p.mt === 1 : sc === 'extraurbana' ? p.mt === 2 : bb.contains(f._c); }
   function pintarSup() {
     var box = $('resSup'); if (!box) return;
     var sc = S.sup, bb = map.getBounds(), P = [0, 0, 0, 0, 0, 0], V = [0, 0, 0, 0, 0, 0], nl = 0, hl = 0, vida = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0]], ned = 0, npi = 0;
@@ -2067,10 +2174,10 @@ if (typeof module !== 'undefined') module.exports = CORE;
     html += '<div class="bv-f"><span>Parcelas</span>' + barra(P, tp) + '</div><div class="bv-f"><span>Vía pública</span>' + barra(V, tv) + '</div><div class="bv-ley">' + SUP_T.map(function (t) { return '<span><i style="background:' + t[1] + '"></i>' + t[0].replace(' (patios, pavimento, tierra)', '') + '</span>'; }).join('') + '</div>';
     html += '<div class="tabla-w"><table class="t"><thead><tr><th>Superficie</th><th>Parcelas</th><th>Vía pública</th><th>Total</th><th>%</th></tr></thead><tbody>' + SUP_T.map(function (t, k) { return '<tr><td>' + t[0] + '</td><td>' + ha(P[k]) + '</td><td>' + ha(V[k]) + '</td><td>' + ha(P[k] + V[k]) + '</td><td>' + pc(P[k] + V[k], tt) + '</td></tr>'; }).join('') + '<tr><td><b>Total</b></td><td><b>' + ha(tp) + '</b></td><td><b>' + ha(tv) + '</b></td><td><b>' + ha(tt) + '</b></td><td>100 %</td></tr></tbody></table></div>';
     html += '<div class="tabla-w"><table class="t"><thead><tr><th>Lotes por señales de vida</th><th>Lotes</th><th>Superficie</th><th>%</th></tr></thead><tbody>' + VNOM.map(function (n, k) { return '<tr><td><span class="sw" style="background:' + VCOL[k] + '"></span> ' + n + '</td><td>' + fmt(vida[k][0]) + '</td><td>' + ha(vida[k][1]) + '</td><td>' + pc(vida[k][1], hl) + '</td></tr>'; }).join('') + '<tr><td><b>Total</b></td><td><b>' + fmt(nl) + '</b></td><td><b>' + ha(hl) + '</b></td><td>100 %</td></tr></tbody></table></div>';
-    html += '<p class="nota">' + fmt(ned) + ' edificaciones y ' + fmt(npi) + ' piletas en ' + fmt(nl) + ' parcelas. ' + (sc === 'vista' ? 'Cuenta las parcelas y frentes con centro dentro del mapa visible; se actualiza al moverlo. ' : '') + 'Mancha 2025 completa: ' + fmt(HS.mancha.compacta.ha) + ' ha compactas y ' + fmt(HS.mancha.extraurbana.ha) + ' extraurbanas, con calles. Fuente fija: huellas de Google Open Buildings e imagen Vantor del 26/01/2025. La vía pública medida es la franja de 10 m frente a cada manzana; el resto de las calles no entra.</p>';
+    html += '<p class="nota">' + fmt(ned) + ' edificaciones y ' + fmt(npi) + ' piletas en ' + fmt(nl) + ' parcelas. ' + (sc === 'vista' ? 'Cuenta las parcelas y frentes con centro dentro del mapa visible; se actualiza al moverlo. ' : sc === 'urbana' || sc === 'compacta' || sc === 'extraurbana' ? 'Cuenta las parcelas y frentes con centro dentro de la mancha 2025 (criterio de Humacata y Di Paolo); quedan afuera las quintas y el campo del recorte. ' : '') + 'Mancha 2025 completa: ' + fmt(HS.mancha.compacta.ha) + ' ha compactas y ' + fmt(HS.mancha.extraurbana.ha) + ' extraurbanas, con calles. Fuente fija: huellas de Google Open Buildings e imagen Vantor del 26/01/2025. La vía pública medida es la franja de 10 m frente a cada manzana; el resto de las calles no entra.</p>';
     box.innerHTML = html; enlazarSup();
   }
-  function enlazarSup() { $('resSup').querySelectorAll('[data-sc]').forEach(function (b) { b.onclick = function () { S.sup = b.getAttribute('data-sc'); store('sup', S.sup); pintarSup(); }; }); }
+  function enlazarSup() { $('resSup').querySelectorAll('[data-sc]').forEach(function (b) { b.onclick = function () { S.sup = b.getAttribute('data-sc'); store('sup2', S.sup); pintarSup(); }; }); }
   var _tSup = null; map.on('moveend', function () { if (S.sup !== 'vista') return; clearTimeout(_tSup); _tSup = setTimeout(pintarSup, 200); });
 
   /* ---------------- alta resolución: panel ---------------- */
