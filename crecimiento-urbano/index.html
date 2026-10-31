@@ -1999,7 +1999,7 @@ if (typeof module !== 'undefined') module.exports = CORE;
         for (var i = 0; i < MZ.length; i++) { var t = mzC[i * 5]; if (!t) continue; var esp = MZ[i].properties.ha * 1e4 / pxm2; if (t < 0.85 * esp) continue; var v = t - mzC[i * 5 + 4]; if (v < 10) continue; mz[i] = { copa: mzC[i * 5 + 3] / v, pasto: mzC[i * 5 + 2] / v, fos: mzC[i * 5 + 1] / v, sombra: mzC[i * 5 + 4] / t, copaFr: null }; nOk++; }
         for (var j = 0; j < FR.length; j++) { var tt = frC[j * 5]; if (!tt) continue; var mi = FRmz[j]; if (!mz[mi]) continue; var vv = tt - frC[j * 5 + 4]; if (vv < 10) continue; mz[mi].copaFr = frC[j * 5 + 3] / vv; }
         var vl = function (a) { return Math.max(1, a[0] - a[4]); };
-        res({ mz: mz, n: nOk, totM: totM, totZ: totZ, pxm2: pxm2, ov: pintar ? { url: ov.toDataURL('image/png'), sw: C.unmerc(-Math.PI * 6378137 + tx0 * 256 * C.tileRes(z), Math.PI * 6378137 - (ty1 + 1) * 256 * C.tileRes(z)), ne: C.unmerc(-Math.PI * 6378137 + (tx1 + 1) * 256 * C.tileRes(z), Math.PI * 6378137 - ty0 * 256 * C.tileRes(z)) } : null,
+        res({ mz: mz, n: nOk, totM: totM, totZ: totZ, pxm2: pxm2, prm: prm0, ov: pintar ? { url: ov.toDataURL('image/png'), sw: C.unmerc(-Math.PI * 6378137 + tx0 * 256 * C.tileRes(z), Math.PI * 6378137 - (ty1 + 1) * 256 * C.tileRes(z)), ne: C.unmerc(-Math.PI * 6378137 + (tx1 + 1) * 256 * C.tileRes(z), Math.PI * 6378137 - ty0 * 256 * C.tileRes(z)) } : null,
           copaInt: totZ.mz[3] / vl(totZ.mz), fosInt: totZ.mz[1] / vl(totZ.mz), pastoInt: totZ.mz[2] / vl(totZ.mz), copaVia: totZ.via[3] / vl(totZ.via), haVia: totZ.via[0] * pxm2 / 1e4, haInt: totZ.mz[0] * pxm2 / 1e4 });
       }
       if (!total) return rej(new Error('no hay teselas dentro del área urbana y suburbana'));
@@ -2010,7 +2010,7 @@ if (typeof module !== 'undefined') module.exports = CORE;
     return analizarMancha(rel, q, pintar).then(function (a) {
       return fechaToma(rel).then(function (toma) {
         var r = { key: rel.n + '@' + q.z + '@mancha', ambito: 'mancha', fecha: rel.fecha, toma: toma, z: q.z, n: a.n, mz: a.mz, copaInt: a.copaInt, fosInt: a.fosInt, pastoInt: a.pastoInt, copaVia: a.copaVia, haVia: a.haVia, haInt: a.haInt,
-          tot: { int: a.totZ.mz, via: a.totZ.via }, totZ: a.totZ, totM: a.totM, pxm2: a.pxm2, cuando: new Date().toISOString().slice(0, 16).replace('T', ' ') };
+          tot: { int: a.totZ.mz, via: a.totZ.via }, totZ: a.totZ, totM: a.totM, pxm2: a.pxm2, prm: a.prm, cuando: new Date().toISOString().slice(0, 16).replace('T', ' ') };
         if (!S.hr[r.key]) S.hrOrden.push(r.key);
         S.hr[r.key] = r; S.hrOrden.sort(function (x, y) { return S.hr[x].fecha < S.hr[y].fecha ? -1 : 1; }); S.hrActual = r.key; guardarHR();
         if (a.ov) { var bb = [[a.ov.sw[1], a.ov.sw[0]], [a.ov.ne[1], a.ov.ne[0]]]; lyClasif.clearLayers(); L.imageOverlay(a.ov.url, bb, { pane: paneDe('clasif'), opacity: opOf('clasif') }).addTo(lyClasif); if (!CAPAS.clasif.on) setOn('clasif', true); idb('readwrite', function (st) { return st.put({ key: r.key, url: a.ov.url, b: bb }, 'clasif'); }).catch(function () { }); }
@@ -2056,7 +2056,7 @@ if (typeof module !== 'undefined') module.exports = CORE;
     var r = {
       key: pack.key, fecha: pack.rel.fecha, toma: pack.toma, z: pack.z, n: nOk, mz: mz,
       copaInt: tot.int[3] / Math.max(1, tot.int[0] - tot.int[4]), fosInt: tot.int[1] / Math.max(1, tot.int[0] - tot.int[4]), pastoInt: tot.int[2] / Math.max(1, tot.int[0] - tot.int[4]),
-      copaVia: tot.via[3] / Math.max(1, tot.via[0] - tot.via[4]), haVia: (tot.via[0]) * pxm2 / 1e4, haInt: tot.int[0] * pxm2 / 1e4, tot: tot, pxm2: pxm2, cuando: new Date().toISOString().slice(0, 16).replace('T', ' ')
+      copaVia: tot.via[3] / Math.max(1, tot.via[0] - tot.via[4]), haVia: (tot.via[0]) * pxm2 / 1e4, haInt: tot.int[0] * pxm2 / 1e4, tot: tot, pxm2: pxm2, prm: prm(), cuando: new Date().toISOString().slice(0, 16).replace('T', ' ')
     };
     if (!S.hr[r.key]) S.hrOrden.push(r.key);
     S.hr[r.key] = r; S.hrOrden.sort(function (a, b) { return S.hr[a].fecha < S.hr[b].fecha ? -1 : 1; });
@@ -2235,8 +2235,8 @@ if (typeof module !== 'undefined') module.exports = CORE;
     var amb = ambitoHR(), bn = vistaBounds(), q = amb === 'mancha' ? elegirZM() : elegirZ(bn);
     if (!q.ok) { estado('<b>Demasiadas teselas:</b> ' + fmt(q.n) + '. ' + (amb === 'mancha' ? 'Bajá la resolución.' : 'Acercá el mapa o usá el ámbito urbano y suburbano.'), 'err', 'estC'); return; }
     var clave = function (rel) { return amb === 'mancha' ? rel.n + '@' + q.z + '@mancha' : rel.n + '@' + q.z + '@' + bn.map(function (v) { return v.toFixed(4); }).join(','); };
-    var faltan = [ra, rb].filter(function (r) { return !S.hr[clave(r)]; }), est = estimar(q.n) * faltan.length, t0 = Date.now(), btn = $('hcGo');
-    estado('<b>Comparación a z' + q.z + ' ' + (amb === 'mancha' ? 'en el área urbana y suburbana' : 'en la vista del mapa') + '.</b> ' + (faltan.length ? 'Hay que analizar ' + faltan.length + ' imagen' + (faltan.length > 1 ? 'es' : '') + ' (' + fmt(q.n) + ' teselas cada una) · estimado ≈ ' + mmss(est) + '.' : 'Las dos imágenes ya estaban analizadas y guardadas.'), 'corre', 'estC');
+    var P0 = JSON.stringify(prm()), faltan = [ra, rb].filter(function (r) { var x = S.hr[clave(r)]; return !x || JSON.stringify(x.prm || null) !== P0; }), est = estimar(q.n) * faltan.length, t0 = Date.now(), btn = $('hcGo');
+    estado('<b>Comparación a z' + q.z + ' ' + (amb === 'mancha' ? 'en el área urbana y suburbana' : 'en la vista del mapa') + '.</b> ' + (faltan.length ? 'Hay que analizar ' + faltan.length + ' imagen' + (faltan.length > 1 ? 'es' : '') + ' (' + fmt(q.n) + ' teselas cada una) · estimado ≈ ' + mmss(est) + '.' : 'Las dos imágenes ya estaban analizadas y guardadas con estos mismos umbrales.'), 'corre', 'estC');
     btn.disabled = true;
     var i = 0;
     function sig() {
@@ -2273,8 +2273,10 @@ if (typeof module !== 'undefined') module.exports = CORE;
     if (ma && mb && inv(ma) !== inv(mb)) av.push('Una imagen es de invierno y la otra de verano: las especies caducas pierden la hoja y la copa cambia aunque no se haya plantado ni talado nada.');
     if (A.ambito !== B.ambito || A.z !== B.z) av.push('Los dos análisis no tienen el mismo ámbito o resolución.');
     if (fa === fb) av.push('Las dos versiones tienen la misma fecha de toma: es la misma foto.');
+    var mismos = JSON.stringify(A.prm || null) === JSON.stringify(B.prm || null) && A.prm;
+    if (!mismos) av.push('Los dos análisis no se hicieron con los mismos umbrales de clasificación: volvé a comparar para que se rehagan con los actuales.');
     html += av.length ? '<div class="estado err"><b>Precaución.</b> ' + av.join(' ') + '</div>' : '<p class="nota">Misma estación, mismo ámbito y misma resolución: la comparación es directa.</p>';
-    html += '<p class="nota">Clasificación en vivo con los mismos umbrales para las dos imágenes. Las diferencias de iluminación y de satélite entre fechas también mueven los números: lean cambios de varios puntos, no décimas.</p>';
+    html += '<p class="nota">' + (mismos ? 'Clasificación en vivo con los mismos umbrales para las dos imágenes (verde ' + fmt(A.prm.verde, 3) + ', luminancia ' + fmt(A.prm.oscuro) + ', textura ' + fmt(A.prm.textura) + ').' : 'Umbrales distintos entre las dos imágenes.') + ' Las diferencias de iluminación y de satélite entre fechas también mueven los números: lean cambios de varios puntos, no décimas.</p>';
     box.innerHTML = html;
   }
 
