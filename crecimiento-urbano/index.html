@@ -2359,7 +2359,7 @@ if (typeof module !== 'undefined') module.exports = CORE;
   function envolver(ctx, s, x, y, maxW, lh) { var pal = String(s).split(/\s+/), lin = ''; pal.forEach(function (w) { var prueba = lin ? lin + ' ' + w : w; if (ctx.measureText(prueba).width > maxW && lin) { ctx.fillText(lin, x, y); y += lh; lin = w; } else lin = prueba; }); if (lin) { ctx.fillText(lin, x, y); y += lh; } return y; }
   function escalaNice(mpp, objetivo) { var c = [10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 2500, 5000, 10000], m = mpp * objetivo, best = c[0]; c.forEach(function (v) { if (v <= m) best = v; }); return best; }
   function fmtLen(m) { return m >= 1000 ? fmt(m / 1000, m % 1000 ? 1 : 0) + ' km' : fmt(m) + ' m'; }
-  var A4 = 1754 / 1240;
+  var FRANJA = 104, A4 = 1754 / (1240 - FRANJA); // la franja inferior lleva título y fuentes, fuera del mapa
   function recorteA4() {
     var sz = map.getSize(), cw = sz.x, ch = sz.y, vw, vh, x0, y0;
     if (cw / ch > A4) { vh = ch; vw = ch * A4; x0 = (cw - vw) / 2; y0 = 0; } else { vw = cw; vh = cw / A4; x0 = 0; y0 = (ch - vh) / 2; }
@@ -2372,53 +2372,55 @@ if (typeof module !== 'undefined') module.exports = CORE;
     var r = recorteA4(); el.style.left = r.x0 + 'px'; el.style.top = r.y0 + 'px'; el.style.width = r.vw + 'px'; el.style.height = r.vh + 'px'; el.hidden = false;
   }
   function cajaT(g, x, y, w, h) { g.save(); g.fillStyle = 'rgba(246,242,231,0.80)'; g.strokeStyle = 'rgba(28,26,20,0.28)'; g.lineWidth = 1.5; g.beginPath(); if (g.roundRect) g.roundRect(x, y, w, h, 8); else g.rect(x, y, w, h); g.fill(); g.stroke(); g.restore(); }
+  function conHalo(g, txt, x, y, col) { g.save(); g.lineJoin = 'round'; g.strokeStyle = 'rgba(255,255,255,0.92)'; g.lineWidth = 4.5; g.strokeText(txt, x, y); g.fillStyle = col || TINTA; g.fillText(txt, x, y); g.restore(); }
   function hojaMapa(comp, info, titulo, rc) {
-    var W = 1754, H = 1240, M = 26, cv = document.createElement('canvas'); cv.width = W; cv.height = H; var g = cv.getContext('2d');
-    g.fillStyle = '#2b2924'; g.fillRect(0, 0, W, H);
-    var k = comp.k; g.drawImage(comp.cv, rc.x0 * k, rc.y0 * k, rc.vw * k, rc.vh * k, 0, 0, W, H);
+    var W = 1754, H = 1240, HM = H - FRANJA, M = 26, cv = document.createElement('canvas'); cv.width = W; cv.height = H; var g = cv.getContext('2d');
+    g.fillStyle = PAPEL; g.fillRect(0, 0, W, H);
+    var k = comp.k; g.drawImage(comp.cv, rc.x0 * k, rc.y0 * k, rc.vw * k, rc.vh * k, 0, 0, W, HM);
     var sc = W / (rc.vw * k), mpp = comp.mpx / (k * sc);
     g.textBaseline = 'alphabetic';
-    // título, arriba a la izquierda
-    g.font = '40px ' + FONT_T; var tw = g.measureText(titulo).width;
-    var sub = (info.epoca ? 'Época: ' + (info.epoca.tit || info.epoca.lab || '') + ' · ' : '') + 'Exportado el ' + info.fecha.toLocaleDateString('es-AR') + ' a las ' + info.fecha.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
-    g.font = '19px ' + FONT_X; var sw2 = g.measureText(sub).width, bw = Math.min(W * 0.62, Math.max(tw, sw2) + 44);
-    cajaT(g, M, M, bw, 96); g.fillStyle = TINTA; g.font = '40px ' + FONT_T; g.fillText(titulo, M + 22, M + 50); g.fillStyle = TINTA3; g.font = '19px ' + FONT_X; g.fillText(sub, M + 22, M + 80);
-    // norte, arriba a la derecha
-    var nx = W - M - 46, ny = M + 52;
-    g.save(); g.fillStyle = 'rgba(246,242,231,0.78)'; g.strokeStyle = 'rgba(28,26,20,0.28)'; g.lineWidth = 1.5; g.beginPath(); g.arc(nx, ny, 44, 0, Math.PI * 2); g.fill(); g.stroke(); g.restore();
-    g.fillStyle = TINTA; g.beginPath(); g.moveTo(nx, ny - 33); g.lineTo(nx + 14, ny + 15); g.lineTo(nx, ny + 6); g.closePath(); g.fill();
-    g.fillStyle = 'rgba(255,255,255,0.9)'; g.strokeStyle = TINTA; g.lineWidth = 1.5; g.beginPath(); g.moveTo(nx, ny - 33); g.lineTo(nx - 14, ny + 15); g.lineTo(nx, ny + 6); g.closePath(); g.fill(); g.stroke();
-    g.fillStyle = TINTA; g.font = 'bold 18px ' + FONT_X; g.textAlign = 'center'; g.fillText('N', nx, ny + 36); g.textAlign = 'left';
-    // referencias, abajo a la derecha: primero se mide, después se dibuja
-    var LW = 430, pad = 20, iw = LW - 2 * pad, its = leyendaItems(), capas = info.capas;
+    // norte, sin fondo
+    var nx = W - M - 30, ny = M + 44;
+    g.save(); g.lineJoin = 'round';
+    g.strokeStyle = 'rgba(255,255,255,0.92)'; g.lineWidth = 5; g.beginPath(); g.moveTo(nx, ny - 34); g.lineTo(nx + 15, ny + 16); g.lineTo(nx, ny + 7); g.lineTo(nx - 15, ny + 16); g.closePath(); g.stroke();
+    g.fillStyle = TINTA; g.beginPath(); g.moveTo(nx, ny - 34); g.lineTo(nx + 15, ny + 16); g.lineTo(nx, ny + 7); g.closePath(); g.fill();
+    g.fillStyle = '#ffffff'; g.strokeStyle = TINTA; g.lineWidth = 1.4; g.beginPath(); g.moveTo(nx, ny - 34); g.lineTo(nx - 15, ny + 16); g.lineTo(nx, ny + 7); g.closePath(); g.fill(); g.stroke();
+    g.restore(); g.font = 'bold 20px ' + FONT_X; g.textAlign = 'center'; conHalo(g, 'N', nx, ny + 40); g.textAlign = 'left';
+    // escala, sin fondo
+    var L0 = escalaNice(mpp, 230), lpx = L0 / mpp, sx0 = M + 8, sy0 = HM - M - 18;
+    g.save(); g.strokeStyle = 'rgba(255,255,255,0.92)'; g.lineWidth = 5; g.strokeRect(sx0, sy0, lpx, 10); g.restore();
+    for (var q = 0; q < 4; q++) { g.fillStyle = q % 2 ? '#ffffff' : TINTA; g.fillRect(sx0 + q * lpx / 4, sy0, lpx / 4, 10); }
+    g.strokeStyle = TINTA; g.lineWidth = 1.4; g.strokeRect(sx0, sy0, lpx, 10);
+    g.font = '16px ' + FONT_M; g.textAlign = 'center'; conHalo(g, '0', sx0, sy0 - 9); conHalo(g, fmtLen(L0 / 2), sx0 + lpx / 2, sy0 - 9); conHalo(g, fmtLen(L0), sx0 + lpx, sy0 - 9); g.textAlign = 'left';
+    var den = mpp / (0.297 / W), nice = Math.pow(10, Math.floor(Math.log10(den))), denR = Math.round(den / (nice / 2)) * (nice / 2);
+    g.font = '15px ' + FONT_X; conHalo(g, 'Escala aprox. 1:' + fmt(denR) + ' impreso en A4', sx0 + lpx + 22, sy0 + 10);
+    // referencias, abajo a la derecha: más chicas y con fondo más transparente
+    var LW = 330, pad = 13, iw = LW - 2 * pad, its = leyendaItems(), capas = info.capas;
     var medir = function (dibujar, x0, y0) {
       var y = y0;
-      var linea = function (sx, font, lh, xx, ww, col) { g.font = font; var pal = String(sx).split(/\s+/), lin = '', n = 0; pal.forEach(function (w) { var pr = lin ? lin + ' ' + w : w; if (g.measureText(pr).width > ww && lin) { if (dibujar) { g.fillStyle = col; g.fillText(lin, xx, y + lh * (n + 1) - 4); } n++; lin = w; } else lin = pr; }); if (lin) { if (dibujar) { g.fillStyle = col; g.fillText(lin, xx, y + lh * (n + 1) - 4); } n++; } return n * lh; };
-      if (dibujar) { g.fillStyle = LOES; g.font = '600 14px ' + FONT_X; g.fillText('REFERENCIAS', x0, y + 14); } y += 24;
+      var linea = function (sx, font, lh, xx, ww, col) { g.font = font; var pal = String(sx).split(/\s+/), lin = '', n = 0; pal.forEach(function (w) { var pr = lin ? lin + ' ' + w : w; if (g.measureText(pr).width > ww && lin) { if (dibujar) { g.fillStyle = col; g.fillText(lin, xx, y + lh * (n + 1) - 3); } n++; lin = w; } else lin = pr; }); if (lin) { if (dibujar) { g.fillStyle = col; g.fillText(lin, xx, y + lh * (n + 1) - 3); } n++; } return n * lh; };
+      if (dibujar) { g.fillStyle = LOES; g.font = '600 11.5px ' + FONT_X; g.fillText('REFERENCIAS', x0, y + 11); } y += 18;
       its.forEach(function (it) {
-        if (it.t === 'tit') { y += 4 + linea(it.s, '600 15px ' + FONT_X, 19, x0, iw, TINTA); }
-        else if (it.t === 'fila') { if (dibujar) { g.fillStyle = it.c; if (it.borde) { g.strokeStyle = TINTA; g.setLineDash([4, 3]); g.strokeRect(x0, y + 3, 20, 13); g.setLineDash([]); } else if (it.redondo) { g.beginPath(); g.arc(x0 + 7, y + 9, 6.5, 0, 7); g.fill(); } else g.fillRect(x0, y + 3, 20, 13); } y += linea(it.s, '14px ' + FONT_X, 18, x0 + 28, iw - 28, TINTA) + 2; }
-        else if (it.t === 'rampa') { if (dibujar) { var gr = g.createLinearGradient(x0, 0, x0 + iw, 0); it.cs.forEach(function (cc, q) { gr.addColorStop(it.cs.length > 1 ? q / (it.cs.length - 1) : 0, cc); }); g.fillStyle = gr; g.fillRect(x0, y + 3, iw, 13); } y += 19; }
-        else if (it.t === 'ext') { if (dibujar) { g.fillStyle = TINTA3; g.font = '12px ' + FONT_M; g.fillText(it.a, x0, y + 11); g.textAlign = 'right'; g.fillText(it.b, x0 + iw, y + 11); g.textAlign = 'left'; } y += 17; }
+        if (it.t === 'tit') { y += 3 + linea(it.s, '600 12.5px ' + FONT_X, 15, x0, iw, TINTA); }
+        else if (it.t === 'fila') { if (dibujar) { g.fillStyle = it.c; if (it.borde) { g.strokeStyle = TINTA; g.setLineDash([3, 2]); g.strokeRect(x0, y + 2, 15, 10); g.setLineDash([]); } else if (it.redondo) { g.beginPath(); g.arc(x0 + 5, y + 7, 5, 0, 7); g.fill(); } else g.fillRect(x0, y + 2, 15, 10); } y += linea(it.s, '12px ' + FONT_X, 14.5, x0 + 21, iw - 21, TINTA) + 1; }
+        else if (it.t === 'rampa') { if (dibujar) { var gr = g.createLinearGradient(x0, 0, x0 + iw, 0); it.cs.forEach(function (cc, q2) { gr.addColorStop(it.cs.length > 1 ? q2 / (it.cs.length - 1) : 0, cc); }); g.fillStyle = gr; g.fillRect(x0, y + 2, iw, 10); } y += 14; }
+        else if (it.t === 'ext') { if (dibujar) { g.fillStyle = TINTA3; g.font = '10.5px ' + FONT_M; g.fillText(it.a, x0, y + 9); g.textAlign = 'right'; g.fillText(it.b, x0 + iw, y + 9); g.textAlign = 'left'; } y += 14; }
       });
-      y += 8; if (dibujar) { g.fillStyle = LOES; g.font = '600 13px ' + FONT_X; g.fillText('CAPAS, DE ARRIBA HACIA ABAJO', x0, y + 13); } y += 20;
-      capas.forEach(function (e) { y += linea(e.n + ' · ' + Math.round(e.op * 100) + ' % · ' + ORIG[e.o][0], '13px ' + FONT_X, 16, x0, iw, TINTA3); });
+      y += 5; if (dibujar) { g.fillStyle = LOES; g.font = '600 10.5px ' + FONT_X; g.fillText('CAPAS, DE ARRIBA HACIA ABAJO', x0, y + 10); } y += 15;
+      capas.forEach(function (e) { y += linea(e.n + ' · ' + Math.round(e.op * 100) + ' % · ' + ORIG[e.o][0], '11px ' + FONT_X, 13.5, x0, iw, '#3a362d'); });
       return y - y0;
     };
-    var hL = Math.min(H - 2 * M - 210, medir(false, 0, 0) + 2 * pad - 6), lx = W - M - LW, ly = H - M - hL;
-    cajaT(g, lx, ly, LW, hL); g.save(); g.beginPath(); g.rect(lx, ly, LW, hL - 6); g.clip(); medir(true, lx + pad, ly + pad - 4); g.restore();
-    // escala, encuadre y fuentes, abajo a la izquierda
-    var L0 = escalaNice(mpp, 230), lpx = L0 / mpp, bwS = lx - 2 * M + 6, bx = M, bhS = 150, byS = H - M - bhS;
-    cajaT(g, bx, byS, bwS, bhS);
-    var sx0 = bx + 22, sy0 = byS + 46;
-    for (var q = 0; q < 4; q++) { g.fillStyle = q % 2 ? 'rgba(255,255,255,0.95)' : TINTA; g.fillRect(sx0 + q * lpx / 4, sy0, lpx / 4, 10); }
-    g.strokeStyle = TINTA; g.lineWidth = 1.5; g.strokeRect(sx0, sy0, lpx, 10);
-    g.fillStyle = TINTA; g.font = '16px ' + FONT_M; g.textAlign = 'center'; g.fillText('0', sx0, sy0 - 9); g.fillText(fmtLen(L0 / 2), sx0 + lpx / 2, sy0 - 9); g.fillText(fmtLen(L0), sx0 + lpx, sy0 - 9); g.textAlign = 'left';
-    var den = mpp / (0.297 / W), nice = Math.pow(10, Math.floor(Math.log10(den))), denR = Math.round(den / (nice / 2)) * (nice / 2);
-    g.font = '15px ' + FONT_X; g.fillStyle = TINTA; g.fillText('Escala aprox. 1:' + fmt(denR) + ' impreso en A4', sx0 + lpx + 26, sy0 + 10);
-    var bb = info.b, ty2 = sy0 + 38; g.fillStyle = TINTA3; g.font = '13px ' + FONT_X;
-    ty2 = envolver(g, 'Encuadre: O ' + bb.getWest().toFixed(4) + '°, S ' + bb.getSouth().toFixed(4) + '°, E ' + bb.getEast().toFixed(4) + '°, N ' + bb.getNorth().toFixed(4) + '° (WGS 84, norte arriba) · ' + fmt(info.anch / 1000, 2) + ' × ' + fmt(info.alto / 1000, 2) + ' km' + (comp.omit.length ? ' · sin exportar por el servidor: ' + comp.omit.join(', ') : '') + '. Fuentes: Esri World Imagery (Vantor, Maxar), Wayback, USGS/NASA Landsat, Google Open Buildings v3, parcelario COU 2024, INDEC, Atlas de Mensuras de Giles (AHG). Datos en la hoja 2.', sx0, ty2, bwS - 44, 17);
-    g.fillStyle = TINTA; g.font = '14px ' + FONT_X; envolver(g, 'Plan de Ordenamiento Territorial · San Andrés de Giles · Arq. Juan Patricio Addesso, Asesor del Consejo Municipal para el Desarrollo y el Ordenamiento Territorial (CMDOT)', sx0, Math.min(ty2 + 4, byS + bhS - 12), bwS - 44, 17);
+    var hL = Math.min(HM - 2 * M - 120, medir(false, 0, 0) + 2 * pad - 4), lx = W - M - LW, ly = HM - M - hL;
+    g.save(); g.fillStyle = 'rgba(246,242,231,0.55)'; g.strokeStyle = 'rgba(28,26,20,0.2)'; g.lineWidth = 1; g.beginPath(); if (g.roundRect) g.roundRect(lx, ly, LW, hL, 6); else g.rect(lx, ly, LW, hL); g.fill(); g.stroke(); g.restore();
+    g.save(); g.beginPath(); g.rect(lx, ly, LW, hL - 4); g.clip(); medir(true, lx + pad, ly + pad - 3); g.restore();
+    // franja inferior, fuera del mapa: título, descripción, encuadre, fuentes y crédito
+    g.strokeStyle = TINTA; g.lineWidth = 1.5; g.beginPath(); g.moveTo(0, HM); g.lineTo(W, HM); g.stroke();
+    var y0 = HM + 30; g.fillStyle = TINTA; g.font = '24px ' + FONT_T; g.fillText(titulo, M, y0); var tw = g.measureText(titulo).width;
+    var sub = (info.epoca ? 'Época: ' + (info.epoca.tit || info.epoca.lab || '') + ' · ' : '') + 'Exportado el ' + info.fecha.toLocaleDateString('es-AR') + ' a las ' + info.fecha.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+    g.fillStyle = TINTA3; g.font = '15px ' + FONT_X; g.fillText(sub, M + tw + 18, y0);
+    g.textAlign = 'right'; g.fillStyle = TINTA; g.font = '13px ' + FONT_X; g.fillText('Plan de Ordenamiento Territorial · Arq. Juan Patricio Addesso, Asesor del CMDOT', W - M, y0); g.textAlign = 'left';
+    var bb = info.b; g.fillStyle = TINTA3; g.font = '12.5px ' + FONT_X;
+    envolver(g, 'Encuadre: O ' + bb.getWest().toFixed(4) + '°, S ' + bb.getSouth().toFixed(4) + '°, E ' + bb.getEast().toFixed(4) + '°, N ' + bb.getNorth().toFixed(4) + '° (WGS 84, norte arriba) · ' + fmt(info.anch / 1000, 2) + ' × ' + fmt(info.alto / 1000, 2) + ' km' + (comp.omit.length ? ' · sin exportar por el servidor: ' + comp.omit.join(', ') : '') + '. Fuentes: Esri World Imagery (Vantor, Maxar), Wayback, USGS/NASA Landsat, Google Open Buildings v3, parcelario COU 2024, INDEC, Atlas de Mensuras de Giles (AHG). Datos y estadística del encuadre en la hoja 2.', M, y0 + 26, W - 2 * M, 17);
     return cv;
   }
   function hojaDatos(comp, info, titulo) {
@@ -2511,7 +2513,7 @@ if (typeof module !== 'undefined') module.exports = CORE;
       var d = L.DomUtil.create('div', 'exp-ctl');
       d.innerHTML = '<details><summary title="Exportar el mapa visualizado">⤓ Exportar</summary><div class="exp-in"><label>Título del mapa<input type="text" id="expTit" value="Mancha y Copa · San Andrés de Giles" maxlength="90"></label>' +
         '<button type="button" class="btn" id="expPdf">PDF · mapa y hoja de datos</button><button type="button" class="btn sec2" id="expPng">PNG del mapa</button><button type="button" class="btn sec2" id="expCsv">CSV de datos</button>' +
-        '<p class="nota">El mapa llena una A4 apaisada; el marco punteado sobre el mapa muestra qué parte sale. Para que entre más, plegá el panel derecho o mové el mapa. Título, norte, escala y referencias van en bloques semitransparentes. La hoja 2 trae el encuadre, las capas y las superficies de esa parte.</p><div class="estado" id="expEst" role="status" aria-live="polite" hidden></div></div></details>';
+        '<p class="nota">El mapa llena una A4 apaisada; el marco punteado sobre el mapa muestra qué parte sale. Para que entre más, plegá el panel derecho o mové el mapa. Dentro del mapa van sólo la escala, el norte y las referencias; el título y las fuentes, abajo y afuera. La hoja 2 trae el encuadre, las capas y las superficies de esa parte.</p><div class="estado" id="expEst" role="status" aria-live="polite" hidden></div></div></details>';
       L.DomEvent.disableClickPropagation(d); L.DomEvent.disableScrollPropagation(d);
       d.querySelector('details').addEventListener('toggle', marcoExp);
       d.querySelector('#expPdf').onclick = function () { exportarMapa('pdf'); };
