@@ -967,7 +967,7 @@ table.ficha-c td { font-size: .78rem; vertical-align: top; }
 table.ficha-c small { color: var(--tinta-3); }
 
 </style>
-<link rel="stylesheet" href="../../../css/horizonte.css?v=20261101h">
+<link rel="stylesheet" href="../../../css/horizonte.css?v=20261101i">
 <script src="../../../js/marco.js?v=20261101g"></script>
 </head>
 <body>
@@ -1001,12 +1001,13 @@ table.ficha-c small { color: var(--tinta-3); }
     <aside class="panel" id="panel">
       <!-- CRECIMIENTO -->
       <section class="vista" id="v-crec">
+        <div class="sec qv-sec" id="secVista" aria-live="polite"></div>
         <div class="sec guia" id="secGuia"><div class="eyebrow">Cómo se usa</div>
           <ol class="guia-l"><li><b>Regla de épocas</b> (abajo del mapa): elegí un año y cambian la imagen y las capas de esa época.</li><li><b>Capas</b> (arriba a la derecha): prendé, apagá, transparentá y ordená cada capa. El color de cada una se explica en la <b>Leyenda</b>.</li><li><b>Analizar una imagen</b>: mide en vivo lo construido y la vegetación de la vista o de los pueblos, en cualquier fecha desde 2014.</li><li><b>Menú de territorios</b> (arriba): pasá de la Ciudad a cualquier Pago; en el mapa, un clic en otro Pago abre su página.</li></ol>
           <div class="botones"><button class="btn" id="irAnalisis">Analizar una imagen →</button><button class="btn sec2" id="irSerie">Serie anual 2014–2026 →</button></div>
         </div>
         <div class="sec" id="resCiudad" hidden></div>
-        <div class="sec" id="sec-pago" hidden><div id="resPago"></div></div>
+        
         <div class="sec" id="fichaEpoca"></div>
         <div class="sec" id="sec-pueblos" hidden><div class="eyebrow">Pueblos y parajes</div><h2>Los pueblos del Pago, uno por uno</h2><div id="resPueblos"></div></div>
         <div class="sec" id="sec-rural" hidden><div class="eyebrow">Poblamiento rural</div><h2>Cómo se puebla el campo</h2><div id="resRural"></div></div>
@@ -1032,12 +1033,13 @@ table.ficha-c small { color: var(--tinta-3); }
           <select id="temaMz" aria-label="Tema de manzanas"></select>
           <p class="nota" id="temaNota"></p>
         </div>
-        <div class="sec" id="sec-pend" hidden><div class="eyebrow">En proceso</div><h2>Lo que falta medir en este Pago</h2><div id="resPend"></div></div>
+        
         <div class="sec" id="sec-sat">
           <div class="eyebrow">Poblamiento satelital 1976–2026</div>
           <h2>Clasificación de 150 escenas Landsat, polígonos por año y densidad</h2>
           <div id="resSat"></div>
         </div>
+      <details class="sec qv-gen" id="secGeneral"><summary>Resumen general del territorio</summary><div class="sec" id="sec-pago" hidden><div id="resPago"></div></div><div class="sec" id="sec-pend" hidden><div class="eyebrow">En proceso</div><h2>Lo que falta medir en este Pago</h2><div id="resPend"></div></div></details>
       </section>
       <!-- ARBOLADO -->
       <section class="vista" id="v-arb" hidden>
@@ -1878,6 +1880,54 @@ if (typeof module !== 'undefined') module.exports = CORE;
   /* ---------------- leyenda ---------------- */
   function rampaHTML(stops, a, b, tit) { return '<b>' + tit + '</b><div class="rampa" style="background:linear-gradient(90deg,' + stops.join(',') + ')"></div><div class="extremos"><span>' + a + '</span><span>' + b + '</span></div>'; }
   function sumaHM(t) { return HR.mancha.features.reduce(function (a, f) { return a + (f.properties.tipo === t ? f.properties.ha || 0 : 0); }, 0); }
+
+  /* ---------------- qué se ve: procedencia precisa según lo que está en pantalla ---------------- */
+  function clasifCorto() {
+    var r = S.hr && S.hrActual && S.hr[S.hrActual]; if (!r) return null;
+    return (r.fecha === 'actual' ? 'Esri World Imagery de hoy' : 'Esri Wayback ' + dmy(r.fecha)) + (r.toma && r.toma.fecha ? ', toma ' + dmy(r.toma.fecha) : '');
+  }
+  function clasifTxt() {
+    var r = S.hr && S.hrActual && S.hr[S.hrActual]; if (!r) return null;
+    return clasifCorto() + (r.toma && r.toma.fuente ? ' (' + r.toma.fuente + (r.toma.res ? ', ' + fmt(r.toma.res, 2) + ' m' : '') + ')' : '') +
+      ' · nivel z' + r.z + ' · ' + (r.ambito === 'mancha' ? 'pueblos y áreas suburbanas' : 'la vista del mapa de ese momento') + ' · calculada en este navegador el ' + r.cuando;
+  }
+  function procDe(e) {
+    var id = e.id, ep = S.epoca;
+    if (id === 'epoca') return ep ? [ep.tit, ep.src, ep.res].filter(Boolean).join(' · ') : (e.fd || e.f);
+    if (id === 'clasif') return clasifTxt() || 'Todavía no se analizó ninguna imagen (pestaña Vegetación → Analizar una imagen)';
+    if (id === 'mapbiomas') return 'MapBiomas Argentina, colección 2 · año ' + S.mbAnio + ' (todas las escenas Landsat de ese año) · 30 m';
+    if (id === 'satDens' || id === 'hrSerie' || id === 'satComp') return 'Clasificación Landsat propia · época ' + epocaTxt(S.satAnio) + ' (la de la regla)';
+    return e.fd || e.f || '';
+  }
+  function pintarVista() { try { pintarVista0(); } catch (err) { /* aún cargando */ } }
+  function pintarVista0() {
+    var box = $('secVista'); if (!box) return;
+    var QV_SEC = {
+      'fichaEpoca': ['epoca', 'satDens', 'hrSerie', 'satComp', 'satIng', 'radios', 'p1884', 'r1874', 'parcelas'],
+      'sec-pueblos': ['pueblosA', 'satDens', 'satIng', 'satComp', 'hrMancha', 'hrVida', 'hrSerie'],
+      'sec-rural': ['agrup', 'hrEdif', 'estancias', 'actividades'],
+      'sec-cmp': ['satDens', 'hrSerie', 'satComp', 'satIng', 'cmp'],
+      'sec-sup': ['hrMancha', 'hrEdif', 'hrVida', 'hrPil', 'hrCalle', 'clasif'],
+      'sec-hr25': ['hrMancha', 'hrEdif', 'hrVida', 'hrPil', 'hrCalle'],
+      'sec-sat': ['satDens', 'hrSerie', 'satComp', 'satIng', 'cmp']
+  };
+    var rf = revisarFondo(), capas = ORDEN.filter(function (k) { return CAPAS[k].on; }).map(function (k) { return CAPAS[k]; });
+    var tema = on_('manzanas') && S.tema !== 'ninguno' ? TEMAS.filter(function (t) { return t[0] === S.tema; })[0] : null;
+    var fila = function (e) { return '<li><b>' + escH(e.n) + (e.id === 'manzanas' && tema ? ': ' + escH(tema[1]) : '') + '</b><span>' + escH(procDe(e)) + '</span></li>'; };
+    box.innerHTML = '<div class="eyebrow">En el mapa ahora</div>' +
+      '<div class="qv-f"><span>Imagen de fondo</span><b>' + escH(rf.f.txt) + '</b></div>' +
+      rf.av.map(function (a) { return '<div class="qv-av">' + escH(a.t) + (a.b ? ' <button type="button" class="lnk" data-fix="' + a.fix + '">' + escH(a.b) + '</button>' : '') + '</div>'; }).join('') +
+      (capas.length ? '<div class="qv-t">Capas, de arriba hacia abajo</div><ol class="qv">' + capas.map(fila).join('') + '</ol>' : '<p class="nota">Sólo el fondo: no hay capas encendidas.</p>') +
+      '<p class="nota">Abajo, sólo las lecturas que corresponden a estas capas. El resumen general del territorio está al final del panel.</p>';
+    Object.keys(QV_SEC).forEach(function (id) { var el = $(id); if (el) el.classList.toggle('qv-fuera', !QV_SEC[id].some(on_)); });
+    var tm = $('temaMz'), tmS = tm && tm.closest('.sec'); if (tmS) tmS.classList.toggle('qv-fuera', !on_('manzanas'));
+    LISTA.forEach(function (e) { var c = document.querySelector('.cf[data-id="' + e.id + '"] .cfd'); if (c) c.textContent = procDe(e); });
+    var ex = $('expQue');
+    if (ex) ex.innerHTML = '<b>Lo que sale en el mapa exportado</b><div><span>Fondo</span> ' + escH(rf.f.txt) + '</div>' +
+      (capas.length ? capas.map(function (e) { return '<div><span>' + escH(e.n) + '</span> ' + escH(procDe(e)) + '</div>'; }).join('') : '<div>Sin capas encendidas.</div>');
+  }
+  (function () { var el = document.getElementById('secVista'); if (el) el.addEventListener('click', function (ev) { var b = ev.target.closest('[data-fix]'); if (b) arreglarFondo(b.getAttribute('data-fix')); }); })();
+  setTimeout(pintarVista, 1200);
   function leyenda() {
     var L2 = [], t = S.tema;
     if (on_('manzanas') && t !== 'ninguno') {
@@ -1912,12 +1962,12 @@ if (typeof module !== 'undefined') module.exports = CORE;
     if (on_('parcelas')) L2.push('<b>Parcelas por partida</b><div class="fila"><span class="sw" style="background:#4a3520"></span>Registro inicial (≤ ' + fmt(T0) + ')</div>' + rampaHTML(['#d8c08a', '#8fae5a', '#3f7a52'], fmt(T0), fmt(T9), '').replace('<b></b>', '') + '<div class="fila"><span class="sw" style="background:#c0392b"></span>Desde 2009 aprox. (≥ ' + fmt(T9) + ')</div>');
     if (on_('satDens')) { var se = SERIE.filter(function (s) { return s.anio === S.satAnio; })[0]; L2.push('<b>Poblamiento ' + (se ? se.epoca : '') + ' · ' + (se && se.ha != null ? fmt(se.ha, 1) + ' ha' : 'sin dato en esta época') + (ES_PAGO && se && se.tope ? ' (repite 2023: huella de Google)' : '') + '</b>' + [3, 2, 1].map(function (v) { return '<div class="fila"><span class="sw" style="background:' + DCOL[v] + '"></span>' + DNOM[v] + '</div>'; }).join('')); }
     if (on_('satIng')) L2.push('<b>Anillos de crecimiento</b>' + GRUPOS.map(function (g, i) { return '<div class="fila"><span class="sw" style="background:' + colGrupo(i) + '"></span>' + g[0] + '</div>'; }).join('') + (SAT.ingreso.features.some(function (f) { return !f.properties.anio; }) ? '<div class="fila"><span class="sw" style="background:#bdb7a6"></span>Sin fecha Landsat (en la huella de Google)</div>' : ''));
-    if (S.hrActual && on_('clasif')) L2.push('<b>Clasificación</b>' + [['#1f6b33', 'Vegetación arbórea'], ['#b9cf6a', 'Pasto'], ['#d9825b', 'Construido o impermeable'], ['#333', 'Sombra']].map(function (r) { return '<div class="fila"><span class="sw" style="background:' + r[0] + '"></span>' + r[1] + '</div>'; }).join(''));
+    if (S.hrActual && on_('clasif')) L2.push('<b>Clasificación · ' + escH(clasifCorto() || 'imagen analizada') + '</b>' + [['#1f6b33', 'Vegetación arbórea'], ['#b9cf6a', 'Pasto'], ['#d9825b', 'Construido o impermeable'], ['#333', 'Sombra']].map(function (r) { return '<div class="fila"><span class="sw" style="background:' + r[0] + '"></span>' + r[1] + '</div>'; }).join(''));
     leyendaTerritorio(L2);
     var el = $('leyenda');
     el.innerHTML = '<button type="button" class="lt" id="leyT" aria-expanded="' + (!S.leyCerrada) + '"><span>Leyenda</span><span>' + (S.leyCerrada ? '▸' : '▾') + '</span></button><div class="lc">' + L2.join('<div style="height:6px"></div>') + '</div>';
     el.classList.toggle('cerrada', !!S.leyCerrada); el.hidden = !L2.length;
-    $('leyT').onclick = function () { S.leyCerrada = !S.leyCerrada; store('leyCerrada', S.leyCerrada); leyenda(); };
+    $('leyT').onclick = function () { S.leyCerrada = !S.leyCerrada; store('leyCerrada', S.leyCerrada); leyenda(); }; pintarVista();
   }
 
   /* ---------------- popup de manzana ---------------- */
@@ -2120,7 +2170,7 @@ if (typeof module !== 'undefined') module.exports = CORE;
         var r = { key: rel.n + '@' + q.z + '@mancha', ambito: 'mancha', fecha: rel.fecha, toma: toma, z: q.z, n: a.n, mz: a.mz, copaInt: a.copaInt, fosInt: a.fosInt, pastoInt: a.pastoInt, copaVia: a.copaVia, haVia: a.haVia, haInt: a.haInt,
           tot: { int: a.totZ.mz, via: a.totZ.via }, totZ: a.totZ, totM: a.totM, pxm2: a.pxm2, prm: a.prm, cuando: new Date().toISOString().slice(0, 16).replace('T', ' ') };
         if (!S.hr[r.key]) S.hrOrden.push(r.key);
-        S.hr[r.key] = r; S.hrOrden.sort(function (x, y) { return S.hr[x].fecha < S.hr[y].fecha ? -1 : 1; }); S.hrActual = r.key; guardarHR();
+        S.hr[r.key] = r; S.hrOrden.sort(function (x, y) { return S.hr[x].fecha < S.hr[y].fecha ? -1 : 1; }); S.hrActual = r.key; setTimeout(pintarVista, 0); guardarHR();
         if (a.ov) { var bb = [[a.ov.sw[1], a.ov.sw[0]], [a.ov.ne[1], a.ov.ne[0]]]; lyClasif.clearLayers(); L.imageOverlay(a.ov.url, bb, { pane: paneDe('clasif'), opacity: opOf('clasif') }).addTo(lyClasif); if (!on_('clasif')) setOn('clasif', true); idb('readwrite', function (st) { return st.put({ key: r.key, url: a.ov.url, b: bb }, 'clasif'); }).catch(function () { }); }
         return r;
       });
@@ -2169,7 +2219,7 @@ if (typeof module !== 'undefined') module.exports = CORE;
     };
     if (!S.hr[r.key]) S.hrOrden.push(r.key);
     S.hr[r.key] = r; S.hrOrden.sort(function (a, b) { return S.hr[a].fecha < S.hr[b].fecha ? -1 : 1; });
-    S.hrActual = r.key; guardarHR();
+    S.hrActual = r.key; setTimeout(pintarVista, 0); guardarHR();
     if (pintar) { _pix = pack; _pix.cls = cls; pintarClasif(); }
     return r;
   }
@@ -2533,10 +2583,11 @@ if (typeof module !== 'undefined') module.exports = CORE;
       { c: ['Extensión', 'O ' + bb.getWest().toFixed(5) + '°, S ' + bb.getSouth().toFixed(5) + '°, E ' + bb.getEast().toFixed(5) + '°, N ' + bb.getNorth().toFixed(5) + '°'] },
       { c: ['Tamaño del encuadre', fmt(info.anch / 1000, 2) + ' × ' + fmt(info.alto / 1000, 2) + ' km · ' + fmt(info.anch * info.alto / 1e4) + ' ha'] },
       { c: ['Zoom y resolución', 'z' + fmt(info.z, 1) + ' · ' + fmt(comp.mpx, 2) + ' m por píxel de pantalla'] },
+      { c: ['Imagen de fondo', fondoActual().txt] },
       { c: ['Época de la regla', info.epoca ? (info.epoca.tit || '') + (info.epoca.src ? ' · ' + info.epoca.src : '') : '—'] },
       { c: ['Tema de manzanas', info.tema ? info.tema + (info.temaNota ? '. ' + info.temaNota : '') : 'sin tema'] }], [26, 74]);
     sec('Capas visibles, de arriba hacia abajo');
-    tabla(['Capa', 'Origen', 'Opacidad', 'Fuente o contenido'], info.capas.map(function (e) { return { c: [e.n, ORIG[e.o][0], Math.round(e.op * 100) + ' %', e.f] }; }), [30, 10, 10, 50]);
+    tabla(['Capa', 'Origen', 'Opacidad', 'Imagen, fecha y fuente'], info.capas.map(function (e) { return { c: [e.n, ORIG[e.o][0], Math.round(e.op * 100) + ' %', procDe(e)] }; }), [30, 10, 10, 50]);
     var s = info.sup, P = s.P, V = s.V, tp = P.reduce(function (a, b) { return a + b; }, 0), tv = V.reduce(function (a, b) { return a + b; }, 0), tt = tp + tv;
     sec('Superficies dentro del encuadre');
     if (!s.nl) { g.font = '15px ' + FONT_X; g.fillStyle = TINTA; y = envolver(g, 'No hay parcelas del recorte dentro del encuadre.', X, y + 18, CW, 20) + 16; }
@@ -2599,11 +2650,11 @@ if (typeof module !== 'undefined') module.exports = CORE;
     var ctl = L.control({ position: 'topright' });
     ctl.onAdd = function () {
       var d = L.DomUtil.create('div', 'exp-ctl');
-      d.innerHTML = '<details><summary title="Exportar el mapa visualizado">⤓ Exportar</summary><div class="exp-in"><label>Título del mapa<input type="text" id="expTit" value="Poblamiento y Vegetación · San Andrés de Giles" maxlength="90"></label>' +
+      d.innerHTML = '<details><summary title="Exportar el mapa visualizado">⤓ Exportar</summary><div class="exp-in"><div class="exp-que" id="expQue"></div><label>Título del mapa<input type="text" id="expTit" value="Poblamiento y Vegetación · San Andrés de Giles" maxlength="90"></label>' +
         '<button type="button" class="btn" id="expPdf">PDF · mapa y hoja de datos</button><button type="button" class="btn sec2" id="expPng">PNG del mapa</button><button type="button" class="btn sec2" id="expCsv">CSV de datos</button>' +
         '<p class="nota">El mapa llena una A4 apaisada; el marco punteado sobre el mapa muestra qué parte sale. Para que entre más, plegá el panel derecho o mové el mapa. Dentro del mapa van sólo la escala, el norte y las referencias; el título y las fuentes, abajo y afuera. La hoja 2 trae el encuadre, las capas y las superficies de esa parte.</p><div class="estado" id="expEst" role="status" aria-live="polite" hidden></div></div></details>';
       L.DomEvent.disableClickPropagation(d); L.DomEvent.disableScrollPropagation(d);
-      d.querySelector('details').addEventListener('toggle', marcoExp);
+      d.querySelector('details').addEventListener('toggle', marcoExp); d.querySelector('details').addEventListener('toggle', pintarVista);
       d.querySelector('#expPdf').onclick = function () { exportarMapa('pdf'); };
       d.querySelector('#expPng').onclick = function () { exportarMapa('png'); };
       d.querySelector('#expCsv').onclick = function () { exportarMapa('csv'); };

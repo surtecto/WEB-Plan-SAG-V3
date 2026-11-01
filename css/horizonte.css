@@ -557,3 +557,26 @@ html.hz-eco footer:not(.hzm-pie){padding:14px 24px;font-size:12.5px;line-height:
 html.hz-eco footer:not(.hzm-pie) .wrap{align-items:center;gap:6px 24px}
 /* los botones flotantes de Salud no tapan el pie */
 html.hz body:has(.flotante) .hzm-pie{padding-bottom:70px}
+
+/* SIG: panel contextual «En el mapa ahora» */
+html.hz-sig .qv-sec{background:var(--hz-cardo-claro);border-bottom:1px solid var(--hz-borde)}
+html.hz-sig .qv-f{display:flex;flex-direction:column;gap:2px;margin:6px 0 8px}
+html.hz-sig .qv-f span,html.hz-sig .qv-t{font:700 10.5px/1.2 var(--hz-font);letter-spacing:.09em;text-transform:uppercase;color:var(--hz-g300)}
+html.hz-sig .qv-f b{font-weight:700;font-size:.9rem;color:var(--hz-suelo)}
+html.hz-sig .qv-av{font-size:.8rem;color:var(--hz-suelo);background:var(--hz-blanco);border-left:3px solid var(--hz-bt);border-radius:0 8px 8px 0;padding:6px 9px;margin:6px 0}
+html.hz-sig .qv-av .lnk{font-weight:700;color:var(--hz-cardo-osc);text-decoration:underline;background:none;border:0;padding:0;cursor:pointer;font:inherit}
+html.hz-sig ol.qv{list-style:none;margin:4px 0 8px;padding:0;counter-reset:qv}
+html.hz-sig ol.qv li{counter-increment:qv;position:relative;padding:6px 0 6px 26px;border-top:1px solid var(--hz-borde);display:flex;flex-direction:column;gap:1px}
+html.hz-sig ol.qv li::before{content:counter(qv);position:absolute;left:0;top:7px;width:18px;height:18px;border-radius:50%;background:var(--hz-suelo);color:var(--hz-sobre);font:800 10px/18px var(--hz-font);text-align:center}
+html.hz-sig ol.qv b{font-size:.86rem;font-weight:700;color:var(--hz-suelo)}
+html.hz-sig ol.qv span{font-size:.78rem;line-height:1.35;color:var(--hz-g500)}
+html.hz-sig .qv-fuera{display:none!important}
+html.hz-sig details.qv-gen{padding:0;border-top:1px solid var(--hz-borde)}
+html.hz-sig details.qv-gen>summary{cursor:pointer;padding:12px 18px;font:700 .82rem var(--hz-font);color:var(--hz-g500);list-style-position:inside}
+html.hz-sig details.qv-gen>summary:hover{color:var(--hz-suelo)}
+html.hz-sig details.qv-gen>.sec{border-bottom:0}
+html.hz-sig .exp-que{font-size:.74rem;line-height:1.35;background:var(--hz-g50);border:1px solid var(--hz-borde);border-radius:8px;padding:8px 10px;margin-bottom:8px;max-height:200px;overflow:auto;color:var(--hz-suelo)}
+html.hz-sig .exp-que b{display:block;margin-bottom:4px;font-size:.78rem}
+html.hz-sig .exp-que div{margin:3px 0}
+html.hz-sig .exp-que span{font-weight:700}
+html.hz-sig .cfd{color:var(--hz-g500)}
