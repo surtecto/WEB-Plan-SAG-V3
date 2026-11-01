@@ -91,3 +91,18 @@ for p in pages:
     s = s.replace(anchor, '      ' + GEN)
     open(p, 'w', encoding='utf8').write(s)
     print('ok', p.split('/')[-2])
+
+# ---- fase 2: función protegida durante la carga y actualización tras cada análisis en vivo ----
+for p in pages:
+    s = open(p, encoding='utf8').read()
+    if 'function pintarVista0()' in s:
+        continue
+    a = "  var QV_SEC = {"; b = "  function pintarVista() {\n    var box = $('secVista'); if (!box) return;\n"
+    i = s.find(a); j = s.find(b)
+    qv = s[i:j].replace('  var QV_SEC = {', '    var QV_SEC = {').replace('\n    ', '\n      ')
+    s = s[:i] + "  function pintarVista() { try { pintarVista0(); } catch (err) { /* aún cargando */ } }\n  function pintarVista0() {\n    var box = $('secVista'); if (!box) return;\n" + qv + s[j + len(b):]
+    s = s.replace('S.hrActual = r.key;', 'S.hrActual = r.key; setTimeout(pintarVista, 0);')
+    a = "if (b) arreglarFondo(b.getAttribute('data-fix')); }); })();\n"
+    k = s.find("document.getElementById('secVista')"); j = s.find(a, k)
+    s = s[:j + len(a)] + "  setTimeout(pintarVista, 1200);\n" + s[j + len(a):]
+    open(p, 'w', encoding='utf8').write(s)
