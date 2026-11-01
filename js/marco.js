@@ -46,6 +46,12 @@
   }
   function pintarSelector() {
     var t = tema();
+    Array.prototype.forEach.call(document.querySelectorAll('.hz-tema-uno'), function (b) {
+      var osc = t === 'oscuro';
+      b.innerHTML = osc ? SOL : LUNA;
+      b.setAttribute('aria-label', osc ? 'Pasar a la versión clara' : 'Pasar a la versión oscura');
+      b.setAttribute('title', osc ? 'Versión clara' : 'Versión oscura');
+    });
     Array.prototype.forEach.call(document.querySelectorAll('.hz-tema button'), function (b) {
       b.setAttribute('aria-pressed', b.getAttribute('data-tema') === t ? 'true' : 'false');
     });
@@ -53,6 +59,7 @@
   document.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('.hz-tema button');
     if (b) aplicar(b.getAttribute('data-tema'), true);
+    if (e.target.closest && e.target.closest('.hz-tema-uno')) aplicar(tema() === 'oscuro' ? 'claro' : 'oscuro', true);
   });
 
   /* ---------- gráficos ---------- */
@@ -85,13 +92,6 @@
   }
 
   /* ---------- marco ---------- */
-  var NAV = [
-    ['', 'Inicio', 'plan'], ['#fundamentos', 'De la recta a la senda'], ['#sendas', 'Sendas'], ['#mapa', 'Mapa'],
-    ['#pueblos', 'Pueblos'], ['#lineas', 'Líneas'], ['#educacion', 'Aula'], ['#documentos', 'Tomos'], ['|'],
-    ['censos/', 'Censos', 'censos', '#7A4E33'], ['presupuesto/', 'Presupuesto', 'presupuesto', '#A2934A'],
-    ['salud/', 'Salud', 'salud', '#7B5A8E'], ['crecimiento-urbano/', 'Poblamiento', 'poblamiento', '#C4AE84'],
-    ['#participacion', 'Participar', 'cta']
-  ];
   var SUB = {
     censos: { t: 'Giles en sus censos', p: [['censos/', 'Censos 1980–2022'], ['censos/informe-radios-2022.html', 'Informe Censo 2022']] },
     presupuesto: { t: 'Observatorio económico', p: [['presupuesto/', 'El presupuesto de Giles, 2008–2026'], ['salud/', 'La salud que cuenta']] },
@@ -118,86 +118,70 @@
   }
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
+  function lista(items, rel) {
+    return items.map(function (x) {
+      var cur = x[0] === rel ? ' aria-current="page"' : '';
+      return '<li><a href="' + RAIZ + x[0] + '"' + cur + '>' + (x[2] ? '<small>' + x[2] + '</small>' : '') + esc(x[1]) + '</a></li>';
+    }).join('');
+  }
+
   function armar() {
     if (d.classList.contains('hz-plan')) {           /* portada: ya tiene encabezado y pie */
       var der = document.querySelector('.top-bar-content > span:last-child');
       if (der && !der.querySelector('.hz-tema')) der.insertAdjacentHTML('afterbegin', selectorHTML());
       pintarSelector(); graficos(); return;
     }
-    if (document.querySelector('.hzm-cab')) return;
-    var rel = aqui(), sec = seccion(rel), h = [];
-    h.push('<div class="hzm-barra"><div class="hzm-in"><span class="hzm-inst">Partido de San Andrés de Giles • Consejo Municipal para el Desarrollo y el Ordenamiento Territorial (CMDOT)</span>' +
-      '<span class="hzm-der">' + selectorHTML() + '<a href="https://www.sanandresdegiles.gob.ar/" target="_blank" rel="noopener">Portal Municipalidad ↗</a></span></div></div>');
-    h.push('<header class="hzm-cab"><div class="hzm-in">' +
-      '<a class="hzm-marca" href="' + RAIZ + '" aria-label="PLAN SAG 2020–2035 · Plan de Ordenamiento Territorial de San Andrés de Giles. Ir al inicio del Plan">' +
-      '<img class="hzm-escudo" src="' + RAIZ + 'img/escudo.webp" srcset="' + RAIZ + 'img/escudo.webp 1x, ' + RAIZ + 'img/escudo-2x.webp 2x" width="80" height="112" alt="">' +
-      '<img class="hzm-logo" src="' + RAIZ + 'img/logo-plan.webp" srcset="' + RAIZ + 'img/logo-plan.webp 1x, ' + RAIZ + 'img/logo-plan-2x.webp 2x" width="400" height="121" alt=""></a>' +
-      '<button class="hzm-hamb" type="button" aria-expanded="false" aria-controls="hzm-nav" aria-label="Abrir menú del Plan"><span class="hamb" aria-hidden="true"><i></i><i></i><i></i></span><span class="hzm-hamb-t">Menú</span></button>' +
-      '<nav class="hzm-nav" id="hzm-nav" aria-label="Secciones de la web del Plan">');
-    NAV.forEach(function (n) {
-      if (n[0] === '|') { h.push('<span class="hzm-sep" aria-hidden="true"></span>'); return; }
-      var cls = n[2] === 'cta' ? 'hzm-cta' : (n[3] ? 'hzm-dato' : '');
-      var cur = n[2] && n[2] === sec ? ' aria-current="page"' : '';
-      h.push('<a href="' + RAIZ + n[0] + '"' + (cls ? ' class="' + cls + '"' : '') + (n[3] ? ' style="--c:' + n[3] + '"' : '') + cur + '>' + esc(n[1]) + '</a>');
-    });
-    h.push('</nav></div></header>');
-    var s = SUB[sec];
-    if (s) {
-      h.push('<nav class="hzm-sub" aria-label="Páginas de ' + esc(s.t) + '"><div class="hzm-in"><span class="hzm-miga">' + esc(s.t) + '</span>');
-      s.p.forEach(function (p) {
-        var cur = p[0] === rel ? ' aria-current="page"' : '';
-        h.push('<a href="' + RAIZ + p[0] + '"' + cur + '>' + (p[2] ? '<small>' + p[2] + '</small>' : '') + esc(p[1]) + '</a>');
-      });
-      h.push('</div></nav>');
-    }
-    var arriba = document.createElement('div');
-    arriba.className = 'hzm-arriba';
-    arriba.innerHTML = h.join('');
+    if (document.querySelector('.hzm-tira')) return;
+    var rel = aqui(), sec = seccion(rel), s = SUB[sec];
+    var pagina = '';
+    if (s) s.p.forEach(function (p) { if (p[0] === rel) pagina = (p[2] ? p[2] + ' · ' : '') + p[1]; });
+    var titulo = s ? s.t : 'Plan SAG';
+    if (pagina === titulo) pagina = '';
+
+    /* ---- tira superior mínima con panel desplegable ---- */
+    var t = document.createElement('header');
+    t.className = 'hzm-tira';
+    t.innerHTML =
+      '<div class="hzm-in">' +
+      '<a class="hzm-casa" href="' + RAIZ + '" title="Ir al inicio del Plan"><img src="' + RAIZ + 'img/escudo.webp" width="80" height="112" alt=""><b>PLAN SAG</b><span class="hzm-anios">2020–2035</span></a>' +
+      '<span class="hzm-donde"><span class="hzm-sec">' + esc(titulo) + '</span>' + (pagina ? '<span class="hzm-pag">' + esc(pagina) + '</span>' : '') + '</span>' +
+      '<button type="button" class="hz-tema-uno" aria-pressed="false"></button>' +
+      '<button type="button" class="hzm-abrir" aria-expanded="false" aria-controls="hzm-panel"><span>Secciones</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+      '</div>' +
+      '<div class="hzm-panel" id="hzm-panel" hidden><div class="hzm-in"><div class="hzm-cols">' +
+      '<nav aria-label="El Plan"><h6>El Plan</h6><ul>' + lista([['', 'Inicio'], ['#fundamentos', 'De la recta a la senda'], ['#sendas', 'Sendas y Ocasiones'], ['#mapa', 'Mapa de Ocasiones'], ['#pueblos', 'Pueblos rurales'], ['#lineas', 'Líneas propositivas'], ['#educacion', 'Espacio Educativo'], ['#documentos', 'Los siete tomos'], ['#participacion', 'Participar']], rel) + '</ul></nav>' +
+      '<nav aria-label="Datos abiertos"><h6>Datos abiertos</h6><ul>' + lista([['censos/', 'Giles en sus censos'], ['censos/informe-radios-2022.html', 'Informe Censo 2022'], ['presupuesto/', 'El presupuesto de Giles'], ['salud/', 'La salud que cuenta'], ['crecimiento-urbano/', 'Poblamiento y Vegetación']], rel) + '</ul></nav>' +
+      (s && sec === 'poblamiento' ? '<nav aria-label="' + esc(s.t) + '" class="hzm-col-ancha"><h6>' + esc(s.t) + '</h6><ul>' + lista(s.p, rel) + '</ul></nav>' : '') +
+      '</div><div class="hzm-panel-pie"><span>Partido de San Andrés de Giles · Consejo Municipal para el Desarrollo y el Ordenamiento Territorial (CMDOT)</span>' +
+      selectorHTML() + '<a href="https://www.sanandresdegiles.gob.ar/" target="_blank" rel="noopener">Portal Municipalidad ↗</a></div>' +
+      '</div></div>';
     var primero = document.body.firstElementChild;
     while (primero && /(^|\s)(sr|skip-link|cargando)(\s|$)/.test(primero.className)) primero = primero.nextElementSibling;
-    /* barra y subnavegación quedan como hermanas del encabezado para que este quede fijo arriba */
-    var nodos = Array.prototype.slice.call(arriba.children);
-    nodos.forEach(function (n) { document.body.insertBefore(n, primero); });
+    document.body.insertBefore(t, primero);
 
+    /* ---- pie en una tira ---- */
     var pie = document.createElement('footer');
     pie.className = 'hzm-pie';
-    pie.innerHTML = '<div class="hzm-in"><div class="hzm-pie-grid">' +
-      '<div class="hzm-pie-marca"><div class="hzm-pie-ins">' +
-      '<img class="hzm-logo" src="' + RAIZ + 'img/logo-plan-2x.webp" width="800" height="241" alt="PLAN 2020–2035 de Ordenamiento Territorial, San Andrés de Giles: planeando diversidades crecientes" loading="lazy">' +
-      '<img class="hzm-escudo" src="' + RAIZ + 'img/escudo-2x.webp" width="172" height="240" alt="Escudo de la Municipalidad de San Andrés de Giles" loading="lazy"></div>' +
-      '<h5>Consejo Municipal para el Desarrollo y el Ordenamiento Territorial</h5>' +
-      '<p>Partido de San Andrés de Giles, Provincia de Buenos Aires.<br>Integrado por el Departamento Ejecutivo Municipal, el Honorable Concejo Deliberante y asesores técnicos externos. Creado por Ordenanza 2239/19 y prorrogado hasta 2035 por Ordenanza 2747/25.</p></div>' +
-      '<div><h6>Navegación</h6><ul>' +
-      [['', 'Inicio'], ['#fundamentos', 'De la recta a la senda'], ['#sendas', 'Sendas y Ocasiones'], ['#mapa', 'Mapa de Ocasiones'], ['#pueblos', 'Pueblos rurales'], ['#lineas', 'Líneas propositivas'], ['#educacion', 'Espacio Educativo'], ['#documentos', 'Los siete tomos']]
-        .map(function (x) { return '<li><a href="' + RAIZ + x[0] + '">' + esc(x[1]) + '</a></li>'; }).join('') + '</ul></div>' +
-      '<div><h6>Datos abiertos</h6><ul>' +
-      [['censos/', 'Giles en sus censos (1980–2022)'], ['censos/informe-radios-2022.html', 'Informe: los radios del Censo 2022'], ['presupuesto/', 'El presupuesto de Giles (2008–2026)'], ['crecimiento-urbano/', 'Poblamiento y Vegetación (1874–2026)'], ['salud/', 'La salud que cuenta: salud y coparticipación']]
-        .map(function (x) { return '<li><a href="' + RAIZ + x[0] + '">' + esc(x[1]) + '</a></li>'; }).join('') + '</ul></div>' +
-      '<div><h6>Vínculos oficiales</h6><ul><li><a href="https://www.sanandresdegiles.gob.ar/" target="_blank" rel="noopener">Municipalidad de S. A. de Giles</a></li>' +
-      '<li><a href="' + RAIZ + '#documentos">Descargar el Plan (siete tomos)</a></li><li><a href="' + RAIZ + '#participacion">Buzón Ciudadano</a></li></ul></div>' +
-      '</div></div><p class="hzm-lema" aria-hidden="true">planeando diversidades crecientes</p>' +
-      '<div class="hzm-in"><div class="hzm-pie-fin"><span>PLAN SAG 2020–2035 • Edición digital 2026 • San Andrés de Giles, Buenos Aires, Argentina. Información pública y accesible para toda la comunidad.</span>' +
-      '<a href="#">↑ Volver arriba</a></div></div>';
+    pie.innerHTML = '<div class="hzm-in">' +
+      '<span class="hzm-pie-id"><b>PLAN SAG 2020–2035</b> · CMDOT · San Andrés de Giles · Ord. 2239/19 y 2747/25</span>' +
+      '<nav class="hzm-pie-links" aria-label="Enlaces del pie">' +
+      [['', 'Inicio'], ['#documentos', 'Tomos'], ['censos/', 'Censos'], ['presupuesto/', 'Presupuesto'], ['salud/', 'Salud'], ['crecimiento-urbano/', 'Poblamiento'], ['#participacion', 'Participar']]
+        .map(function (x) { return '<a href="' + RAIZ + x[0] + '">' + esc(x[1]) + '</a>'; }).join('') +
+      '<a href="https://www.sanandresdegiles.gob.ar/" target="_blank" rel="noopener">Municipalidad ↗</a></nav>' +
+      '<a class="hzm-pie-arriba" href="#">↑ Arriba</a></div>';
     document.body.appendChild(pie);
 
-    var bt = document.querySelector('.hzm-hamb'), nav = document.getElementById('hzm-nav');
-    bt.addEventListener('click', function () {
-      var abre = bt.getAttribute('aria-expanded') !== 'true';
-      bt.setAttribute('aria-expanded', abre ? 'true' : 'false');
-      bt.setAttribute('aria-label', abre ? 'Cerrar menú del Plan' : 'Abrir menú del Plan');
-      nav.classList.toggle('show', abre);
-    });
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && nav.classList.contains('show')) { nav.classList.remove('show'); bt.setAttribute('aria-expanded', 'false'); bt.focus(); }
-    });
-    var actual = document.querySelector('.hzm-sub a[aria-current]');
-    if (actual) { var c = actual.parentNode, x = actual.getBoundingClientRect().left - c.getBoundingClientRect().left + c.scrollLeft; if (x + actual.offsetWidth > c.clientWidth) c.scrollLeft = x - c.clientWidth / 2 + actual.offsetWidth / 2; }
-    /* alto real del marco superior, para que las páginas a pantalla completa (SIG) no se desborden */
-    function medir() {
-      var alto = 0;
-      ['.hzm-barra', '.hzm-cab', '.hzm-sub'].forEach(function (q) { var e = document.querySelector(q); if (e) alto += e.offsetHeight; });
-      d.style.setProperty('--hzm-arriba', alto + 'px');
+    var bt = t.querySelector('.hzm-abrir'), panel = t.querySelector('.hzm-panel');
+    function abrir(si) {
+      bt.setAttribute('aria-expanded', si ? 'true' : 'false');
+      panel.hidden = !si;
     }
+    bt.addEventListener('click', function () { abrir(bt.getAttribute('aria-expanded') !== 'true'); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) { abrir(false); bt.focus(); } });
+    document.addEventListener('click', function (e) { if (!panel.hidden && !t.contains(e.target)) abrir(false); });
+
+    /* alto real de la tira, para que las páginas a pantalla completa (SIG) no se desborden */
+    function medir() { d.style.setProperty('--hzm-arriba', t.querySelector('.hzm-in').offsetHeight + 'px'); }
     medir(); window.addEventListener('resize', medir);
     setTimeout(function () { try { window.dispatchEvent(new Event('resize')); } catch (e) { /* navegador viejo */ } }, 60);
     pintarSelector(); graficos();
