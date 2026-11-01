@@ -365,10 +365,28 @@
   /* ---------- correr un período ---------- */
   function estado(t, err) { var e = $('mlEst'); if (e) { e.hidden = !t; e.innerHTML = t || ''; e.classList.toggle('err', !!err); } }
   /* lee las imágenes de un período para un conjunto de zonas y devuelve los rasgos del año por zona */
-  function leerPeriodo(sensor, per, zs, t0, rotulo) {
-    var fechasP = sensor === 's2'
-      ? catalogoS2(zs, per.anio).then(function (it) { if (!it.length) throw new Error('no hay escenas Sentinel-2 con menos de 40 % de nubes en ' + per.anio); return elegirFechas(it, 0.35); })
-      : Promise.resolve(elegirFechas(per.escenas, 0.6));
+  function fechasDe(sensor, per, zs, selector) {
+    var sel = selector || function (it) { return elegirFechas(it, sensor === 's2' ? 0.35 : 0.6); };
+    return sensor === 's2'
+      ? catalogoS2(zs, per.anio).then(function (it) { if (!it.length) throw new Error('no hay escenas Sentinel-2 con menos de 40 % de nubes en ' + per.anio); return sel(it); })
+      : Promise.resolve(sel(per.escenas));
+  }
+  // para calibrar un período de pocas fechas: las fechas de 2023 de los mismos meses
+  function fechasComo(plantilla, nubeMax) {
+    return function (escenas) {
+      var porFecha = {};
+      escenas.forEach(function (e) { (porFecha[e.fecha] = porFecha[e.fecha] || []).push(e); });
+      var fs = Object.keys(porFecha).map(function (f) { var it = porFecha[f]; return { fecha: f, items: it, nube: it.reduce(function (a, e) { return a + (e.nube == null ? 0.5 : e.nube); }, 0) / it.length }; }).filter(function (x) { return x.nube <= nubeMax; });
+      var usadas = {};
+      return plantilla.map(function (pf) {
+        var m = +pf.fecha.slice(5, 7), d = +pf.fecha.slice(8, 10);
+        var best = fs.filter(function (x) { return !usadas[x.fecha]; }).map(function (x) { var dd = Math.abs((+x.fecha.slice(5, 7) - m) * 30 + (+x.fecha.slice(8, 10) - d)); dd = Math.min(dd, 360 - dd); return { x: x, s: dd + x.nube * 60 }; }).sort(function (a, b) { return a.s - b.s; })[0];
+        if (!best) return null; usadas[best.x.fecha] = 1; return { fecha: best.x.fecha, items: best.x.items, estacion: 'como ' + dmy(pf.fecha).slice(0, 5) };
+      }).filter(Boolean);
+    };
+  }
+  function leerPeriodo(sensor, per, zs, t0, rotulo, fechasP) {
+    fechasP = fechasP || fechasDe(sensor, per, zs);
     return Promise.all([cargarGeoTIFF(), fechasP]).then(function (v) {
       var fechas = v[1]; if (!fechas.length) throw new Error('no hay fechas con pocas nubes en ' + per.t);
       var paso = 0, total = fechas.length * zs.length, res = zs.map(function (z) { return { z: z, stack: [] }; });
@@ -393,15 +411,17 @@
   }
 
   /* calibración: el modelo de fracción de techo se ajusta con las huellas de Google sobre las imágenes de 2023 del mismo sensor */
-  function modelo(sensor, resM, t0) {
-    var k = 'mod.' + sensor + '.' + resM, m = S.mod[k] || store(k);
+  function modelo(sensor, resM, t0, plantilla) {
+    var sig = plantilla ? plantilla.map(function (f) { return f.fecha.slice(5, 7); }).join('-') : '4est';
+    var k = 'mod.' + sensor + '.' + resM + '.' + sig, m = S.mod[k] || store(k);
     if (m && m.v === 4) { S.mod[k] = m; return Promise.resolve(m); }
     if (!EDIF.length) return Promise.reject(new Error('esta página no tiene huellas de edificios para calibrar'));
     var per = (sensor === 's2' ? PER.s2 : PER.ls).filter(function (p) { return p.anio === 2023; })[0];
     if (!per) return Promise.reject(new Error('no hay período 2023 para calibrar'));
     var amb = D.pueblos && D.pueblos.features && D.pueblos.features.length ? 'pueblos' : 'ter';
     var zs = zonas(amb, resM);
-    return leerPeriodo(sensor, per, zs, t0, 'calibración con las huellas de Google').then(function (L2) {
+    var fp = plantilla ? fechasDe(sensor, per, zs, fechasComo(plantilla, sensor === 's2' ? 0.35 : 0.6)) : null;
+    return leerPeriodo(sensor, per, zs, t0, 'calibración con las huellas de Google' + (plantilla ? ', mismas fechas del año' : ''), fp).then(function (L2) {
       var X = [], y = [], nbs = [];
       var kc = lado(resM);
       L2.zonas.forEach(function (zz) { zz.A = celdas(zz.R, zz.z.grid, kc, techoZona(zz.z)); for (var q = 0; q < zz.A.n.length; q++) if (zz.A.n[q] && zz.A.nb[q] === zz.A.nb[q]) nbs.push(zz.A.nb[q]); });
@@ -414,7 +434,7 @@
       var c = ajustar(X, y), se = 0, st = 0, my = y.reduce(function (a, b) { return a + b; }, 0) / y.length, tp = 0, fp = 0, fn = 0;
       for (var i = 0; i < X.length; i++) { var f = predecir(c, X[i]); se += (f - y[i]) * (f - y[i]); st += (y[i] - my) * (y[i] - my); var a = f >= 0.05, b = y[i] >= 0.05; if (a && b) tp++; else if (a) fp++; else if (b) fn++; }
       var m2 = { v: 4, k: kc, c: c, nbMedio: nbMedio, r2: 1 - se / st, ecm: Math.sqrt(se / X.length), n: X.length, nEdif: EDIF.length, periodo: per.t, fechas: L2.fechas.map(function (f) { return f.fecha; }),
-        precision: tp / Math.max(1, tp + fp), sensibilidad: tp / Math.max(1, tp + fn), ambito: amb };
+        precision: tp / Math.max(1, tp + fp), sensibilidad: tp / Math.max(1, tp + fn), ambito: amb, sig: sig };
       S.mod[k] = m2; store(k, m2); return m2;
     });
   }
@@ -423,8 +443,13 @@
     var zs = zonas(ambito, resM), npx = pixeles(zs);
     if (npx > 9e6) return Promise.reject(new Error('el ámbito tiene ' + fmt(npx) + ' píxeles a ' + resM + ' m; elegí una resolución más gruesa o un ámbito menor'));
     var t0 = Date.now();
-    return modelo(sensor, resM, t0).then(function (mod) {
-      return leerPeriodo(sensor, per, zs, t0).then(function (L2) {
+    return fechasDe(sensor, per, zs).then(function (fechas) {
+      if (!fechas.length) throw new Error('no hay fechas con pocas nubes en ' + per.t);
+      // con menos de tres fechas el modelo se calibra con 2023 en los mismos meses, para que las trayectorias sean comparables
+      return modelo(sensor, resM, t0, fechas.length < 3 && per.anio !== 2023 ? fechas : null).then(function (mod) { return { mod: mod, fechas: fechas }; });
+    }).then(function (o) {
+      var mod = o.mod;
+      return leerPeriodo(sensor, per, zs, t0, null, Promise.resolve(o.fechas)).then(function (L2) {
         var conts = [0, 0, 0, 0, 0, 0, 0, 0], porZona = {};
         var items = L2.zonas.map(function (zz) {
           var g = zz.z.grid, N = g.w * g.h, k = clasificar(zz.R, N, g.w, g.h, prm, mod), cz = [0, 0, 0, 0, 0, 0, 0, 0], techo = 0;
