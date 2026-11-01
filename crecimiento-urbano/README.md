@@ -95,3 +95,12 @@ Manzanas suman `fos`, `ocup_lotes`, `edif_ha`, `veg_int`, `veg_calle`, `vida_hab
 
 ## Fuentes
 Google Open Buildings v3 (CC BY 4.0 / ODbL) · Esri World Imagery (Vantor, 26/01/2025) · Humacata, L. y Di Paolo, M. J. (2024), «Análisis espacial de la expansión urbana en localidades menores de la cuenca del río Luján», Locale 9 · Atlas de Mensuras de Giles (AHG) · INDEC (procesamiento CMDOT) · Parcelario COU 2024 · USGS/NASA Landsat vía Esri (Landsat/MS) · Esri World Imagery y Wayback · EOX Sentinel-2 cloudless (CC BY 4.0 2016–2017; CC BY-NC-SA 4.0 desde 2018) · DLR WSF Evolution (CC BY 4.0) · ESA WorldCover 2021 (CC BY 4.0).
+
+## Capa de Pagos ajustada (01/11/2026)
+
+`datos/pagos_SAG.geojson` y la tabla `territorios` de `datos/pagos_SAG_territorios.gpkg` contienen ahora una cobertura limpia: los nueve Pagos y la Ciudad comparten sus límites, sin huecos ni superposiciones, y suman la superficie del partido (validada con `shapely.coverage_is_valid`). La capa municipal original está en `datos/pagos_SAG_original_2026-11-01.geojson`.
+
+- Los 591 ha que la capa dejaba sin Pago (franjas ferroviarias y de la autopista, parte de Azcuénaga, Villa Espil y San Alberto) y las 58 ha superpuestas se repartieron por su eje (Voronoi por cercanía) entre los territorios vecinos.
+- Azcuénaga: su zona urbana completa (27,7 ha) y las franjas que la separaban de Cañada de la Cruz se asignaron al Pago Campo y Ciudad, por decisión del CMDOT.
+- La tabla `suelo_sin_pago` queda vacía. En el SIG, `DATA.limites`, `ter.poly`, `ter.box`, `recorte`, `stats` y `pueblos` se actualizaron. La población de los antiguos huecos (535 personas) se reparte según las parcelas que caen en cada Pago (`pob22_estimado_ex_sin_pago`, con ≈ en la portada).
+- Pendiente: las parcelas, edificaciones, series Landsat y vegetación de esas franjas (sobre todo las 22,7 ha urbanas de Azcuénaga, con 130 parcelas) se suman cuando se vuelva a correr el estudio sobre el parcelario y la zonificación completos.
