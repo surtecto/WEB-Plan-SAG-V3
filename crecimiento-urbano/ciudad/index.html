@@ -935,6 +935,18 @@ main.cuerpo.sin-panel aside.panel { display: none; }
 header.cab { grid-template-columns: minmax(0,1fr) auto auto auto; }
 .ter-w { margin: 0; }
 @media (max-width: 900px) { header.cab { grid-template-columns: minmax(0,1fr) auto; } .ter-w { grid-column: 1 / -1; order: 0; } }
+.guia-l { margin: 6px 0 10px; padding-left: 1.2em; font-size: .86rem; line-height: 1.45; }
+.guia-l li { margin: 3px 0; }
+#secVivo { border-left: 3px solid var(--pasto, #355C2D); }
+/* recorridos del Pago */
+.rec-g { margin: 10px 0 4px; }
+.rec-g > span { display: block; font: 600 .72rem/1.2 var(--f-texto); letter-spacing: .1em; text-transform: uppercase; color: var(--tinta-3); margin-bottom: 2px; }
+.rec-g .botones { margin: 4px 0; }
+.btn.rec { text-transform: none; letter-spacing: .01em; font-size: .84rem; padding: 7px 10px; }
+.btn.rec[aria-pressed="true"] { background: var(--tierra); color: var(--papel); }
+.rec-g .sel-ter { width: 100%; max-width: 280px; }
+.rec-txt { border-left: 3px solid var(--loes); padding: 7px 10px; margin: 10px 0; font-size: .86rem; line-height: 1.45; background: color-mix(in srgb, var(--loes) 8%, transparent); }
+.rec-txt .nota { display: block; margin-top: 4px; }
 
 </style>
 </head>
@@ -952,7 +964,7 @@ header.cab { grid-template-columns: minmax(0,1fr) auto auto auto; }
     <button class="btn-tema" id="btnTema" title="Cambiar tema claro u oscuro" aria-label="Cambiar tema">◐</button>
     <nav class="tabs" role="tablist">
       <button role="tab" id="tab-crec" aria-selected="true" data-v="crec">Crecimiento</button>
-      <button role="tab" id="tab-arb" aria-selected="false" data-v="arb">Arbolado</button>
+      <button role="tab" id="tab-arb" aria-selected="false" data-v="arb">Vegetación</button>
       <button role="tab" id="tab-lec" aria-selected="false" data-v="lec">Lecturas</button>
       <button role="tab" id="tab-cap" aria-selected="false" data-v="cap">Datos</button>
     </nav>
@@ -969,6 +981,10 @@ header.cab { grid-template-columns: minmax(0,1fr) auto auto auto; }
     <aside class="panel" id="panel">
       <!-- CRECIMIENTO -->
       <section class="vista" id="v-crec">
+        <div class="sec guia" id="secGuia"><div class="eyebrow">Cómo se usa</div>
+          <ol class="guia-l"><li><b>Regla de épocas</b> (abajo del mapa): elegí un año y cambian la imagen y las capas de esa época.</li><li><b>Capas</b> (arriba a la derecha): prendé, apagá, transparentá y ordená cada capa. El color de cada una se explica en la <b>Leyenda</b>.</li><li><b>Analizar una imagen</b>: mide en vivo lo construido y la vegetación de la vista o de los pueblos, en cualquier fecha desde 2014.</li><li><b>Menú de territorios</b> (arriba): pasá de la Ciudad a cualquier Pago; en el mapa, un clic en otro Pago abre su página.</li></ol>
+          <div class="botones"><button class="btn" id="irAnalisis">Analizar una imagen →</button><button class="btn sec2" id="irSerie">Serie anual 2014–2026 →</button></div>
+        </div>
         <div class="sec" id="resCiudad" hidden></div>
         <div class="sec" id="sec-pago" hidden><div id="resPago"></div></div>
         <div class="sec" id="fichaEpoca"></div>
@@ -1005,15 +1021,9 @@ header.cab { grid-template-columns: minmax(0,1fr) auto auto auto; }
       </section>
       <!-- ARBOLADO -->
       <section class="vista" id="v-arb" hidden>
-        <div class="sec" id="sec-veg" hidden><div class="eyebrow">Vegetación productiva · verano 2020/21</div><h2>Qué se siembra y qué no</h2><div id="resVeg"></div></div>
-        <div class="sec" id="sec-copa25">
-          <div class="eyebrow">Alta resolución · 26/01/2025</div>
-          <h2>Vegetación en la calle y en el interior, ya calculada</h2>
-          <div id="resCopa25"></div>
-        </div>
-        <div class="sec">
+        <div class="sec" id="secVivo">
           <div class="eyebrow">Análisis en vivo · 2014–2026</div>
-          <h2>Vegetación en la calle y vegetación en el corazón de manzana</h2>
+          <h2>Analizar una imagen: crecimiento (construido) y vegetación</h2>
           <p>Clasifica las imágenes fechadas de Esri Wayback en vegetación arbórea, pasto, superficie construida o impermeable y sombra. La vegetación se cuenta por separado en la vía pública (veredas y calzada, frente de cada manzana) y en el interior de las manzanas (patios y fondos).</p>
           <label class="nota" for="selRel">Imagen</label>
           <select id="selRel"></select>
@@ -1035,6 +1045,12 @@ header.cab { grid-template-columns: minmax(0,1fr) auto auto auto; }
             <p class="nota">Los valores de partida (verde 0,09; luminancia 75; textura 18) se ajustaron para que la vegetación coincida con la clasificación fija en muestras de la imagen del 26/01/2025; con valores más laxos el pasto oscuro se cuenta como árbol. Mueva los umbrales mirando la clasificación sobre la imagen hasta que la vegetación coincida con los árboles. Los resultados se recalculan sin volver a descargar.</p>
           </details>
           <div id="resHR"></div>
+        </div>
+        <div class="sec" id="sec-veg" hidden><div class="eyebrow">Vegetación productiva · verano 2020/21</div><h2>Qué se siembra y qué no</h2><div id="resVeg"></div></div>
+        <div class="sec" id="sec-copa25">
+          <div class="eyebrow">Alta resolución · 26/01/2025</div>
+          <h2>Vegetación en la calle y en el interior, ya calculada</h2>
+          <div id="resCopa25"></div>
         </div>
         <div class="sec">
           <div class="eyebrow">Comparar dos fechas · en vivo</div>
@@ -1330,6 +1346,8 @@ if (typeof module !== 'undefined') module.exports = CORE;
     var corto = s.sensor.replace('Landsat ', 'Landsat ').replace(' OLI', '');
     var txt = 'Poblamiento de ' + fmt(s.ha) + ' ha: ' + fmt(s.alta) + ' de densidad alta, ' + fmt(s.media) + ' media y ' + fmt(s.baja) + ' baja. NDVI máximo de ' + s.escenas + ' escena' + (s.escenas > 1 ? 's' : '') + ' (' + (s.escenas > 3 ? f[0] + ' a ' + f[f.length - 1] : f.join(' y ')) + ').';
     if (ES_PAGO) txt = 'Imagen Landsat de la época: NDVI máximo de ' + s.escenas + ' escena' + (s.escenas > 1 ? 's' : '') + ' (' + (s.escenas > 3 ? f[0] + ' a ' + f[f.length - 1] : f.join(' y ')) + '). En la cabecera esta imagen se clasificó en poblamiento por densidad; en el Pago se la lee directamente, porque a 30 m las casas, los cascos y los galpones dispersos no se distinguen del campo.';
+    if (ES_PAGO && s.ha != null) txt += ' En ' + (s.pue && s.pue.length ? (s.pue.length > 1 ? s.pue.slice(0, -1).join(', ') + ' y ' + s.pue[s.pue.length - 1] : s.pue[0]) : 'los pueblos del Pago') + ', el poblamiento de esta época suma ' + fmt(s.ha, 1) + ' ha (' + fmt(s.alta, 1) + ' de densidad alta, ' + fmt(s.media, 1) + ' media y ' + fmt(s.baja, 1) + ' baja): la huella de las edificaciones 2025 fechada con esta imagen' + (s.fechable === false ? ' (esta época no se pudo fechar y repite la anterior)' : '') + '.';
+    else if (ES_PAGO && TER.hr && TER.hr.series && Object.keys(TER.hr.series).length) txt += ' En esta época Landsat todavía no distingue los pueblos del Pago del campo que los rodea.';
     if (s.anio === 1976 && !ES_PAGO) txt += ' Es el primer dato satelital: la escena del 11 de julio de 1976 cubre el 62 % del casco; la del 2 de enero de 1980 lo cubre entero.';
     EPOCAS.push({ id: 'l' + s.anio, y: s.anio, anio: s.anio, k: 'landsat', svc: s.anio < 2013 ? 'gls' : 'ms', t0: f[0], t1: f[f.length - 1], lab: s.anio < 2013 ? corto.replace('Landsat ', 'L') : 'Landsat', tit: (ES_PAGO ? 'Imagen Landsat ' : 'Poblamiento ') + s.epoca + ' · ' + s.sensor, src: ES_PAGO ? 'USGS/NASA Landsat vía Esri' : 'USGS/NASA Landsat vía Esri · clasificación propia', res: s.anio === 1976 ? '60 m' : '30 m', txt: txt });
   });
@@ -1502,7 +1520,7 @@ if (typeof module !== 'undefined') module.exports = CORE;
       '<tr><td class="k">FOS aparente</td><td>' + fmt(p.fos * 100) + ' %</td></tr>' +
       '<tr><td class="k">Vegetación en el lote libre</td><td>' + fmt(p.ar) + ' %</td></tr>' +
       '<tr><td class="k">Pileta</td><td>' + (p.pi ? 'sí' : 'no') + '</td></tr></table>' +
-      '<p class="nota" style="margin-top:6px">Edificios: Google Open Buildings v3. Imagen: Vantor 26/01/2025.</p></div>';
+      '<p class="nota" style="margin-top:6px">Edificios: Google Open Buildings v3. Imagen: ' + (ES_PAGO ? 'Esri World Imagery, nivel 18' : 'Vantor 26/01/2025') + '.</p></div>';
   }
   function estiloVida(f) { var op = opOf('hrVida'), p = f.properties; if (p.v == null) return { renderer: R('hrVida'), stroke: false, fill: false }; return { renderer: R('hrVida'), color: '#1C1A14', weight: 0.25, opacity: 0.55 * op, fillColor: VCOL[p.v], fillOpacity: 0.8 * op }; }
   var lyVida = L.geoJSON(D.parcelas, { style: estiloVida, onEachFeature: function (f, l) { l.on('click', function (e) { L.popup({ maxWidth: 300 }).setLatLng(e.latlng).setContent(popParcHR(f.properties)).openOn(map); }); } });
@@ -1533,9 +1551,9 @@ if (typeof module !== 'undefined') module.exports = CORE;
     { id: 'satEmb', g: 'Fondo', n: 'Satélite embebido', f: 'Esri World Imagery z13 (≈16 m), siempre disponible', ly: satEmb, on: false, op: 1, tipo: 'img' },
     { id: 'epoca', g: 'Fondo', n: 'Imagen de la época', f: 'La que elige la regla: Landsat, Wayback o Sentinel-2', ly: lyEpoca, on: true, op: 1, tipo: 'grp' },
     { id: 'hrMancha', g: 'Alta resolución 2025', n: 'Poblamiento urbano 2025', f: 'Manzanas con construcciones conectadas por calles: área compacta y áreas residenciales extraurbanas', ly: lyHM, on: true, op: 1, tipo: 'vec', st: estiloHM },
-    { id: 'hrEdif', g: 'Alta resolución 2025', n: 'Edificaciones (Google Open Buildings)', f: '18.569 huellas detectadas por Google en imagen de alta resolución, confianza ≥ 0,70', ly: lyEd, on: false, op: 0.9, tipo: 'fn', ap: estiloEd },
+    { id: 'hrEdif', g: 'Alta resolución 2025', n: 'Edificaciones (Google Open Buildings)', f: ES_PAGO ? fmt(HR.edif.b.length) + ' huellas detectadas por Google en el Pago fuera de la Ciudad, confianza ≥ 0,65' : '18.569 huellas detectadas por Google en imagen de alta resolución, confianza ≥ 0,70', ly: lyEd, on: false, op: 0.9, tipo: 'fn', ap: estiloEd },
     { id: 'hrVida', g: 'Alta resolución 2025', n: 'Parcelas por señales de vida', f: 'Sin construcción, incipiente, habitada, arraigada, compacta', ly: lyVida, on: false, op: 0.85, tipo: 'vec', st: estiloVida },
-    { id: 'hrPil', g: 'Alta resolución 2025', n: 'Piletas', f: 'Agua turquesa detectada en la imagen del 26/01/2025', ly: lyPil, on: false, op: 1, tipo: 'fn', ap: estiloPil },
+    { id: 'hrPil', g: 'Alta resolución 2025', n: 'Piletas', f: ES_PAGO ? 'Agua turquesa detectada en la imagen Esri de nivel 18' : 'Agua turquesa detectada en la imagen del 26/01/2025', ly: lyPil, on: false, op: 1, tipo: 'fn', ap: estiloPil },
     { id: 'hrCalle', g: 'Alta resolución 2025', n: 'Vegetación en la vía pública', f: 'Porcentaje de vegetación arbórea en el frente de cada manzana', ly: lyCalle, on: false, op: 0.9, tipo: 'vec', st: estiloCalle },
     { id: 'satDens', g: 'Poblamiento Landsat 1976–2026', n: 'Poblamiento por densidad (época de la regla)', f: 'Clasificación Landsat propia, polígonos por año: alta, media, baja', ly: lySatD, on: true, op: 0.9, tipo: 'vec', st: estiloSatD },
     { id: 'cmp', g: 'Poblamiento Landsat 1976–2026', n: 'Comparación entre dos años', f: 'Azul: ya estaba en el primer año; naranja: lo que se suma hasta el segundo (pestaña Crecimiento → Comparar dos años)', ly: lyCmp, on: false, op: 0.9, tipo: 'vec', st: estiloCmp },
@@ -1548,13 +1566,19 @@ if (typeof module !== 'undefined') module.exports = CORE;
     { id: 'radios', g: 'Censos', n: 'Radios censales', f: 'INDEC 1991–2022 · viviendas por ha de tejido', ly: lyRad, on: false, op: 1, tipo: 'vec', st: estiloRad },
     { id: 'r1874', g: 'Histórico', n: 'Registro gráfico c. 1874', f: 'Atlas de Mensuras · AHG', ly: ly74, on: false, op: 1, tipo: 'vec', st: estilo74 },
     { id: 'p1884', g: 'Histórico', n: 'Planta urbana 1884', f: 'Atlas de Mensuras · ocupación por parcela', ly: ly84, on: false, op: 0.9, tipo: 'vec', st: estilo84 },
-    { id: 'clasif', g: 'Análisis en vivo', n: 'Clasificación de alta resolución', f: 'Vegetación, pasto, construido, sombra (pestaña Arbolado)', ly: lyClasif, on: true, op: 0.75, tipo: 'grp' }
+    { id: 'clasif', g: 'Análisis en vivo', n: 'Clasificación de alta resolución', f: 'Vegetación, pasto, construido, sombra (pestaña Vegetación)', ly: lyClasif, on: true, op: 0.75, tipo: 'grp' }
   ];
   (EXT.ref || []).forEach(function (r) {
     var ly = r.wms ? L.tileLayer.wms(r.url, { layers: r.layers, styles: r.styles || '', format: 'image/png', transparent: true, crossOrigin: r.cors !== false, pane: paneDe(r.id), attribution: r.attr, version: r.version || '1.1.1' }) : L.tileLayer(r.url, { crossOrigin: r.cors !== false, pane: paneDe(r.id), attribution: r.attr, maxNativeZoom: r.maxNativeZoom || 18, maxZoom: 20 });
     LISTA.push({ id: r.id, g: 'Referencias satelitales', n: r.n, f: r.f, ly: ly, on: false, op: 0.7, tipo: 'img' });
   });
-  if (ES_PAGO) LISTA = LISTA.filter(function (e) { return ['satEmb', 'hrMancha', 'hrEdif', 'hrVida', 'hrPil', 'hrCalle', 'satDens', 'cmp', 'hrSerie', 'satComp', 'satIng', 'p1884'].indexOf(e.id) < 0; });
+  if (ES_PAGO) {
+    var vacio = function (fc) { return !fc || !fc.features || !fc.features.length; };
+    var sinDato = { satEmb: !D.sat, p1884: true, hrSerie: true, cmp: true, hrMancha: vacio(HR.mancha), hrEdif: !HR.edif.b.length, hrPil: vacio(HR.piletas),
+      hrVida: !D.parcelas.features.some(function (f) { return f.properties.v != null; }), hrCalle: !D.manzanas.features.some(function (f) { return f.properties.copa_calle != null; }),
+      satDens: vacio(SAT.densidad), satIng: vacio(SAT.ingreso), satComp: vacio(SAT.compacta) };
+    LISTA = LISTA.filter(function (e) { return !sinDato[e.id]; });
+  }
   (function () { var extra = capasTerritorio(), k = LISTA.map(function (e) { return e.id; }).indexOf('epoca') + 1; Array.prototype.splice.apply(LISTA, [k, 0].concat(extra)); })();
   LISTA.forEach(function (e) { e.o = e.id === 'satEmb' ? 'fijo' : (e.tipo === 'img' || e.id === 'epoca') ? 'linea' : e.id === 'clasif' ? 'local' : 'fijo'; });
   var ORIG = { fijo: ['fijo', 'Precalculado: está en esta web y en el GeoPackage, no cambia'], linea: ['en línea', 'Imagen que se descarga al mirarla; no se guarda'], local: ['en vivo', 'Calculado en este navegador; queda guardado sólo aquí'] };
@@ -1823,6 +1847,7 @@ if (typeof module !== 'undefined') module.exports = CORE;
 
   /* ---------------- leyenda ---------------- */
   function rampaHTML(stops, a, b, tit) { return '<b>' + tit + '</b><div class="rampa" style="background:linear-gradient(90deg,' + stops.join(',') + ')"></div><div class="extremos"><span>' + a + '</span><span>' + b + '</span></div>'; }
+  function sumaHM(t) { return HR.mancha.features.reduce(function (a, f) { return a + (f.properties.tipo === t ? f.properties.ha || 0 : 0); }, 0); }
   function leyenda() {
     var L2 = [], t = S.tema;
     if (on_('manzanas') && t !== 'ninguno') {
@@ -1845,7 +1870,7 @@ if (typeof module !== 'undefined') module.exports = CORE;
       else if (t === 'cmp_ocup') L2.push(rampaHTML(R_DENS, '0', '+80 pts', 'Ocupación sumada ' + CMP.epocas[S.cmpA] + ' → ' + CMP.epocas[S.cmpB]));
       else if (t === 'cmp_den') L2.push(rampaHTML(R_DIV, 'menos densa', 'más densa', 'Densidad ' + CMP.epocas[S.cmpA] + ' → ' + CMP.epocas[S.cmpB]) + '<div class="fila"><span class="sw" style="background:#ff7a3d"></span>Entra al poblamiento</div>');
     }
-    if (on_('hrMancha')) L2.push('<b>Poblamiento 2025</b><div class="fila"><span class="sw" style="background:' + HMCOL.compacta + '"></span>Área compacta · ' + fmt(HS.mancha.compacta.ha) + ' ha</div><div class="fila"><span class="sw" style="background:' + HMCOL.extraurbana + '"></span>Residencial extraurbana · ' + fmt(HS.mancha.extraurbana.ha) + ' ha</div>');
+    if (on_('hrMancha')) L2.push('<b>Poblamiento 2025</b><div class="fila"><span class="sw" style="background:' + HMCOL.compacta + '"></span>Área compacta · ' + fmt(HS ? HS.mancha.compacta.ha : sumaHM('compacta')) + ' ha</div><div class="fila"><span class="sw" style="background:' + HMCOL.extraurbana + '"></span>Residencial extraurbana · ' + fmt(HS ? HS.mancha.extraurbana.ha : sumaHM('extraurbana')) + ' ha</div>');
     if (on_('hrVida')) L2.push('<b>Señales de vida por parcela</b>' + VNOM.map(function (n, k) { return '<div class="fila"><span class="sw" style="background:' + VCOL[k] + '"></span>' + n + '</div>'; }).join(''));
     if (on_('hrEdif')) L2.push('<b>Edificaciones (Google)</b>' + ED_NOM.map(function (n, k) { return '<div class="fila"><span class="sw" style="background:' + ED_COL[k] + '"></span>' + n + '</div>'; }).join(''));
     if (on_('hrPil')) L2.push('<b>Piletas</b><div class="fila"><span class="sw" style="background:#3fd6ff;border-radius:50%"></span>' + fmt(HR.piletas.features.length) + ' lotes con pileta</div>');
@@ -1855,7 +1880,7 @@ if (typeof module !== 'undefined') module.exports = CORE;
     if (on_('p1884')) L2.push('<b>Planta 1884</b>' + ['MURO', 'CERCO', 'ALAMBRADO', 'BALDIO'].map(function (k) { return '<div class="fila"><span class="sw" style="background:' + OC84[k] + '"></span>' + OC84T[k] + '</div>'; }).join(''));
     if (on_('radios')) L2.push(rampaHTML(R_DENS, '0', '35', 'Radios ' + S.censo + ' · viv/ha de tejido'));
     if (on_('parcelas')) L2.push('<b>Parcelas por partida</b><div class="fila"><span class="sw" style="background:#4a3520"></span>Registro inicial (≤ ' + fmt(T0) + ')</div>' + rampaHTML(['#d8c08a', '#8fae5a', '#3f7a52'], fmt(T0), fmt(T9), '').replace('<b></b>', '') + '<div class="fila"><span class="sw" style="background:#c0392b"></span>Desde 2009 aprox. (≥ ' + fmt(T9) + ')</div>');
-    if (on_('satDens')) { var se = SERIE.filter(function (s) { return s.anio === S.satAnio; })[0]; L2.push('<b>Poblamiento ' + (se ? se.epoca : '') + ' · ' + (se ? fmt(se.ha) + ' ha' : '') + '</b>' + [3, 2, 1].map(function (v) { return '<div class="fila"><span class="sw" style="background:' + DCOL[v] + '"></span>' + DNOM[v] + '</div>'; }).join('')); }
+    if (on_('satDens')) { var se = SERIE.filter(function (s) { return s.anio === S.satAnio; })[0]; L2.push('<b>Poblamiento ' + (se ? se.epoca : '') + ' · ' + (se && se.ha != null ? fmt(se.ha, 1) + ' ha' : 'sin dato en esta época') + '</b>' + [3, 2, 1].map(function (v) { return '<div class="fila"><span class="sw" style="background:' + DCOL[v] + '"></span>' + DNOM[v] + '</div>'; }).join('')); }
     if (on_('satIng')) L2.push('<b>Anillos de crecimiento</b>' + GRUPOS.map(function (g, i) { return '<div class="fila"><span class="sw" style="background:' + colGrupo(i) + '"></span>' + g[0] + '</div>'; }).join(''));
     if (S.hrActual && on_('clasif')) L2.push('<b>Clasificación</b>' + [['#1f6b33', 'Vegetación arbórea'], ['#b9cf6a', 'Pasto'], ['#d9825b', 'Construido o impermeable'], ['#333', 'Sombra']].map(function (r) { return '<div class="fila"><span class="sw" style="background:' + r[0] + '"></span>' + r[1] + '</div>'; }).join(''));
     leyendaTerritorio(L2);
@@ -2072,7 +2097,7 @@ if (typeof module !== 'undefined') module.exports = CORE;
     });
   }
   function ambitoHR() {
-    if (ES_PAGO) return 'vista'; var el = document.querySelector('input[name="ambHR"]:checked'); return el ? el.value : 'mancha'; }
+    if (ES_PAGO && !(HR.mancha && HR.mancha.features.length)) return 'vista'; var el = document.querySelector('input[name="ambHR"]:checked'); return el ? el.value : 'mancha'; }
   function vistaBounds() {
     var b = map.getBounds();
     return [Math.max(b.getWest(), BOX[0]), Math.max(b.getSouth(), BOX[1]), Math.min(b.getEast(), BOX[2]), Math.min(b.getNorth(), BOX[3])];
@@ -2573,7 +2598,7 @@ if (typeof module !== 'undefined') module.exports = CORE;
     var tam = 0; try { tam = (localStorage.getItem(PFX + 'hrRes') || '').length; } catch (e) { }
     box.innerHTML = '<div class="gd"><span class="tag t-fijo">fijo</span><div><b>Precalculado.</b> Está dentro de esta web y en el GeoPackage de la carpeta datos; no cambia ni se pierde. Encendido ahora: ' + lst('fijo') + '.</div></div>' +
       '<div class="gd"><span class="tag t-linea">en línea</span><div><b>Imágenes que se descargan al mirarlas</b> (Esri, Landsat, Wayback, Sentinel-2 y referencias). No se guardan: sin conexión no se ven. Encendido ahora: ' + lst('linea') + '.</div></div>' +
-      '<div class="gd"><span class="tag t-local">en vivo</span><div><b>Análisis en vivo de la pestaña Arbolado.</b> ' + (S.hrOrden.length ? S.hrOrden.length + ' guardado' + (S.hrOrden.length > 1 ? 's' : '') + ' en este navegador (' + fmt(tam / 1024) + ' KB): ' + S.hrOrden.map(function (k) { var r = S.hr[k]; return escH(r.fecha) + ' z' + r.z; }).join(' · ') + '. Se recuperan al volver a abrir la página en este navegador; no viajan a otros equipos.' : 'Ninguno guardado todavía.') + '</div></div>' +
+      '<div class="gd"><span class="tag t-local">en vivo</span><div><b>Análisis en vivo de la pestaña Vegetación.</b> ' + (S.hrOrden.length ? S.hrOrden.length + ' guardado' + (S.hrOrden.length > 1 ? 's' : '') + ' en este navegador (' + fmt(tam / 1024) + ' KB): ' + S.hrOrden.map(function (k) { var r = S.hr[k]; return escH(r.fecha) + ' z' + r.z; }).join(' · ') + '. Se recuperan al volver a abrir la página en este navegador; no viajan a otros equipos.' : 'Ninguno guardado todavía.') + '</div></div>' +
       '<div class="gd"><span class="tag">ajustes</span><div>Capas encendidas, opacidades, orden de dibujo, tema y pestaña se recuerdan en este navegador.</div></div>' +
       '<div class="botones"><button class="btn sec2" id="btnBorrarHR"' + (S.hrOrden.length ? '' : ' disabled') + '>Borrar análisis guardados</button><button class="btn sec2" id="btnResetCapas">Restablecer capas y orden</button></div>';
     $('btnBorrarHR').onclick = borrarHR;
@@ -2586,10 +2611,11 @@ if (typeof module !== 'undefined') module.exports = CORE;
   function centro(g) { var c = g.type === 'Polygon' ? g.coordinates[0] : g.coordinates[0][0], x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9; c.forEach(function (p) { if (p[0] < x0) x0 = p[0]; if (p[0] > x1) x1 = p[0]; if (p[1] < y0) y0 = p[1]; if (p[1] > y1) y1 = p[1]; }); return L.latLng((y0 + y1) / 2, (x0 + x1) / 2); }
   D.parcelas.features.forEach(function (f) { f._c = centro(f.geometry); });
   D.frentes.features.forEach(function (f) { f._c = centro(f.geometry); });
-  S.sup = store('sup3') || 'ciudad';
+  if (ES_PAGO) { delete SUP_AL.ciudad; SUP_AL.urbana = 'Pueblos (urbana y suburbana)'; SUP_AL.recorte = 'Todo el Pago'; }
+  S.sup = store('sup3') || (ES_PAGO ? 'urbana' : 'ciudad'); if (!SUP_AL[S.sup]) S.sup = ES_PAGO ? 'urbana' : 'ciudad';
   function pasa(f, sc, bb) { var p = f.properties; return sc === 'recorte' ? true : sc === 'ciudad' ? p.ci === 1 : sc === 'urbana' ? (p.mt === 1 || p.mt === 2) : sc === 'compacta' ? p.mt === 1 : sc === 'extraurbana' ? p.mt === 2 : bb.contains(f._c); }
   function pintarSup() {
-    var box = $('resSup'); if (!box || ES_PAGO) return;
+    var box = $('resSup'); if (!box || (ES_PAGO && !TER.hr)) return;
     var sc = S.sup, bb = map.getBounds(), P = [0, 0, 0, 0, 0, 0], V = [0, 0, 0, 0, 0, 0], nl = 0, hl = 0, vida = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0]], ned = 0, npi = 0;
     D.parcelas.features.forEach(function (f) { var p = f.properties; if (!p.sa || !pasa(f, sc, bb)) return; for (var k = 0; k < 6; k++) P[k] += p.sa[k]; nl++; hl += p.ha * 1e4; if (p.v != null) { vida[p.v][0]++; vida[p.v][1] += p.ha * 1e4; } ned += p.ne || 0; npi += p.pi || 0; });
     D.frentes.features.forEach(function (f) { var p = f.properties; if (!p.sa || !pasa(f, sc, bb)) return; for (var k = 0; k < 6; k++) V[k] += p.sa[k]; });
@@ -2602,7 +2628,7 @@ if (typeof module !== 'undefined') module.exports = CORE;
     html += '<div class="bv-f"><span>Parcelas</span>' + barra(P, tp) + '</div><div class="bv-f"><span>Vía pública</span>' + barra(V, tv) + '</div><div class="bv-ley">' + SUP_T.map(function (t) { return '<span><i style="background:' + t[1] + '"></i>' + t[0].replace(' (patios, pavimento, tierra)', '') + '</span>'; }).join('') + '</div>';
     html += '<div class="tabla-w"><table class="t"><thead><tr><th>Superficie</th><th>Parcelas</th><th>Vía pública</th><th>Total</th><th>%</th></tr></thead><tbody>' + SUP_T.map(function (t, k) { return '<tr><td>' + t[0] + '</td><td>' + ha(P[k]) + '</td><td>' + ha(V[k]) + '</td><td>' + ha(P[k] + V[k]) + '</td><td>' + pc(P[k] + V[k], tt) + '</td></tr>'; }).join('') + '<tr><td><b>Total</b></td><td><b>' + ha(tp) + '</b></td><td><b>' + ha(tv) + '</b></td><td><b>' + ha(tt) + '</b></td><td>100 %</td></tr></tbody></table></div>';
     html += '<div class="tabla-w"><table class="t"><thead><tr><th>Lotes por señales de vida</th><th>Lotes</th><th>Superficie</th><th>%</th></tr></thead><tbody>' + VNOM.map(function (n, k) { return '<tr><td><span class="sw" style="background:' + VCOL[k] + '"></span> ' + n + '</td><td>' + fmt(vida[k][0]) + '</td><td>' + ha(vida[k][1]) + '</td><td>' + pc(vida[k][1], hl) + '</td></tr>'; }).join('') + '<tr><td><b>Total</b></td><td><b>' + fmt(nl) + '</b></td><td><b>' + ha(hl) + '</b></td><td>100 %</td></tr></tbody></table></div>';
-    html += '<p class="nota">' + fmt(ned) + ' edificaciones y ' + fmt(npi) + ' piletas en ' + fmt(nl) + ' parcelas. ' + (sc === 'vista' ? 'Cuenta las parcelas y frentes con centro dentro del mapa visible; se actualiza al moverlo. ' : sc === 'urbana' || sc === 'compacta' || sc === 'extraurbana' ? 'Cuenta las parcelas y frentes con centro dentro del poblamiento urbano 2025; quedan afuera las quintas y el campo del recorte. ' : '') + 'Poblamiento 2025 completa: ' + fmt(HS.mancha.compacta.ha) + ' ha compactas y ' + fmt(HS.mancha.extraurbana.ha) + ' extraurbanas, con calles. Fuente fija: huellas de Google Open Buildings e imagen Vantor del 26/01/2025. La vía pública medida es la franja de 10 m frente a cada manzana; el resto de las calles no entra. El pasto seco de enero se cuenta como suelo sin verde, de modo que el pasto queda subestimado.</p>';
+    html += '<p class="nota">' + fmt(ned) + ' edificaciones y ' + fmt(npi) + ' piletas en ' + fmt(nl) + ' parcelas. ' + (sc === 'vista' ? 'Cuenta las parcelas y frentes con centro dentro del mapa visible; se actualiza al moverlo. ' : sc === 'urbana' || sc === 'compacta' || sc === 'extraurbana' ? 'Cuenta las parcelas y frentes con centro dentro del poblamiento urbano 2025; quedan afuera las quintas y el campo del recorte. ' : '') + (ES_PAGO ? 'Poblamiento 2025 de los pueblos: ' + fmt(sumaHM('compacta'), 1) + ' ha compactas y ' + fmt(sumaHM('extraurbana'), 1) + ' extraurbanas. Fuente fija: huellas de Google Open Buildings v3 e imagen Esri World Imagery de nivel 18. En los pueblos la vía pública no se mide por superficie: sólo el porcentaje de copa en el frente de cada manzana (tema «Vegetación en la calle 2025»).</p>' : 'Poblamiento 2025 completa: ' + fmt(HS.mancha.compacta.ha) + ' ha compactas y ' + fmt(HS.mancha.extraurbana.ha) + ' extraurbanas, con calles. Fuente fija: huellas de Google Open Buildings e imagen Vantor del 26/01/2025. La vía pública medida es la franja de 10 m frente a cada manzana; el resto de las calles no entra. El pasto seco de enero se cuenta como suelo sin verde, de modo que el pasto queda subestimado.</p>');
     box.innerHTML = html; enlazarSup();
   }
   function enlazarSup() { $('resSup').querySelectorAll('[data-sc]').forEach(function (b) { b.onclick = function () { S.sup = b.getAttribute('data-sc'); store('sup3', S.sup); pintarSup(); }; }); }
@@ -2683,8 +2709,8 @@ if (typeof module !== 'undefined') module.exports = CORE;
       ['A', 'B', 'C', 'D'].map(function (k) { var x = per[k]; return '<tr><td>' + CLASES_P[k].t + '</td><td>' + fmt(x.n) + '</td><td>' + fmt(x.lote) + ' m²</td><td>' + fmt(x.cloaca * 100) + ' %</td><td>' + fmt(x.viv22, 1) + '</td></tr>'; }).join('') + '</tbody></table></div>' +
       '<p class="nota">' + NOTAS.periodo + ' A nivel de parcela, ' + fmt(st.parc.P3) + ' de las ' + fmt(st.parc.total) + ' parcelas urbanas (' + fmt(st.parc.P3 / st.parc.total * 100) + ' %) tienen partida posterior al umbral de 2009: también hay subdivisión dentro de la traza vieja.</p></div>';
 
-    html += '<div class="sec"><div class="eyebrow">Arbolado</div><h3>Qué mide y qué no mide la vegetación</h3>' +
-      '<p>La pestaña Arbolado separa la vegetación de la calle, que el Estado planta y poda, de la vegetación del interior de manzana, que depende de cada vecino. Las dos se miden sobre el mismo recorte para cada imagen fechada. Las imágenes de alta resolución empiezan en 2014; antes de eso la vegetación de una vereda es más chica que un píxel Landsat y sólo podría leerse en fotografías aéreas.</p>' +
+    html += '<div class="sec"><div class="eyebrow">Vegetación</div><h3>Qué mide y qué no mide la vegetación</h3>' +
+      '<p>La pestaña Vegetación separa la vegetación de la calle, que el Estado planta y poda, de la vegetación del interior de manzana, que depende de cada vecino. Las dos se miden sobre el mismo recorte para cada imagen fechada. Las imágenes de alta resolución empiezan en 2014; antes de eso la vegetación de una vereda es más chica que un píxel Landsat y sólo podría leerse en fotografías aéreas.</p>' +
       '<div class="pregunta">¿La ciudad gana sombra en la calle mientras pierde fondo de manzana? Si el interior se impermeabiliza con cada ampliación y cada pileta, la ordenanza de arbolado público sola no compensa: ¿hace falta un indicador de suelo absorbente y vegetación por parcela en el Código?</div></div>';
 
     html += '<div class="sec"><div class="eyebrow">Método y fuentes</div>' +
@@ -2733,7 +2759,15 @@ if (typeof module !== 'undefined') module.exports = CORE;
   var PARTIDO = D.partido || { territorios: [] };
   var BASE = TER ? TER.base : '../';
   function urlTer(slug) { return slug === 'portada' ? BASE : slug === 'ciudad' ? BASE + 'ciudad/' : BASE + 'pagos/' + slug + '/'; }
-  if (ES_PAGO) TEMAS = TEMAS.filter(function (t) { return ['periodo', 'viv2022', 'lote', 'serv', 'hr_copa_int', 'hr_copa_fr', 'hr_fos', 'hr_dcopa', 'ninguno'].indexOf(t[0]) >= 0; });
+  if (ES_PAGO) {
+    var MZF = (D.manzanas || VACIO).features, conA = MZF.some(function (f) { return f.properties.fos != null; }), conS = MZF.some(function (f) { return f.properties.sat_anio != null; });
+    TEMAS = TEMAS.filter(function (t) { return ['periodo', 'viv2022', 'lote', 'serv', 'hr_copa_int', 'hr_copa_fr', 'hr_fos', 'hr_dcopa', 'ninguno'].indexOf(t[0]) >= 0 || (conA && t[0].indexOf('a_') === 0) || (conS && t[0].indexOf('sat_') === 0); });
+    NOTAS.a_fos = 'Superficie de techo de las edificaciones de Google Open Buildings v3 sobre la superficie de las parcelas urbanas de la manzana.';
+    NOTAS.a_cint = 'Vegetación arbórea dentro de las parcelas sobre su superficie total. Imagen Esri World Imagery leída a nivel 18 (≈ 0,6 m).';
+    NOTAS.a_ccalle = 'Vegetación arbórea sobre la vía pública frente a cada manzana. Imagen Esri World Imagery, nivel 18 (≈ 0,6 m).';
+    NOTAS.sat_anio = 'Primera época Landsat en que la mitad de la manzana ya tiene poblamiento, según la huella de las edificaciones 2025 fechada con Landsat. Gris: manzana que todavía no se ocupa.';
+    NOTAS.sat_ocup = 'Proporción de la manzana cubierta por el poblamiento 2025 (huella de las edificaciones de Google, en celdas de 30 m).';
+  }
 
   function ZCOL(z) { z = z || ''; return /^R7/.test(z) ? '#d6913f' : /^(CRE|CRA)/.test(z) ? '#E0457B' : /^(CM|CAgr|SR)/.test(z) ? '#c9b43a' : /^(DI|ZIE|DIC|PUN)/.test(z) ? '#7a5232' : /^EV/.test(z) ? '#6E9A50' : /^(DDR|UE|DBC|DUE|R\d)/.test(z) ? '#b85a2c' : '#8a8676'; }
   var ACOL = { Galpon: '#a970ff', Feedlot: '#8B2020', Horno: '#e07a2e' }, ANOM = { Galpon: 'Galpón (avícola o porcino)', Feedlot: 'Feedlot', Horno: 'Horno de ladrillos' };
@@ -2741,6 +2775,8 @@ if (typeof module !== 'undefined') module.exports = CORE;
 
   function capasTerritorio() {
     var out = [];
+    AGN = { aislada: 'Casa aislada', 'casco o puesto': 'Casco o puesto', agrupamiento: 'Agrupamiento de viviendas', productivo: 'Núcleo productivo (galpones)' };
+    AGC = { aislada: '#f2c46d', 'casco o puesto': '#e07a2e', agrupamiento: '#E0457B', productivo: '#a970ff' };
     var lyLim = L.geoJSON(D.limites || VACIO, {
       style: estiloLim,
       onEachFeature: function (f, l) {
@@ -2770,8 +2806,27 @@ if (typeof module !== 'undefined') module.exports = CORE;
     lyEst.on('click', function (e) { var p = e.layer._p; L.popup().setLatLng(e.latlng).setContent('<div class="pop"><h4>' + escH(p.nombre || 'Sin nombre') + '</h4><table><tr><td class="k">Tipo</td><td>' + escH(p.tipo || '') + '</td></tr></table><p class="nota">Estancias y puestos en el plano de 1884 (Atlas de Mensuras).</p></div>').openOn(map); });
     function estiloEst() { var op = opOf('estancias'); lyEst.eachLayer(function (m) { m.setStyle({ color: '#1C1A14', weight: 1, opacity: op, fillColor: /puesto/i.test(m._p.tipo || '') ? '#F2DC9B' : '#C8973A', fillOpacity: 0.95 * op }); }); }
     out.push({ id: 'estancias', g: 'Histórico', n: 'Estancias y puestos 1884', f: 'Casas de estancia y puestos dibujados en 1884: el primer poblamiento rural registrado', ly: lyEst, on: false, op: 1, tipo: 'fn', ap: estiloEst });
+    var HX = TER.hr || {};
+    if (D.agrup && D.agrup.features.length) {
+      var lyAg = L.geoJSON(D.agrup, { style: estiloAg, onEachFeature: function (f, l) { var p = f.properties; l.on('click', function (e) { L.popup().setLatLng(e.latlng).setContent('<div class="pop"><h4>' + AGN[p.tipo] + '</h4><table><tr><td class="k">Viviendas</td><td>' + fmt(p.viv) + '</td></tr><tr><td class="k">Galpones</td><td>' + fmt(p.galp) + '</td></tr><tr><td class="k">Techo</td><td>' + fmt(p.techo) + ' m²</td></tr></table><p class="nota">Edificaciones de Google Open Buildings v3 a menos de 80 m entre sí.</p></div>').openOn(map); }); } });
+      out.push({ id: 'agrup', g: 'Poblamiento rural', n: 'Agrupamientos de edificaciones rurales', f: 'Casas, cascos, puestos y galpones a menos de 80 m entre sí (Google Open Buildings v3)', ly: lyAg, on: false, op: 1, tipo: 'vec', st: estiloAg });
+    }
+    if (D.forestal) {
+      var lyFo = L.imageOverlay(D.forestal.img, D.forestal.bounds, { pane: paneDe('forestal'), interactive: false });
+      out.push({ id: 'forestal', g: 'Vegetación', n: 'Vegetación forestal (montes, cortinas, arboledas)', f: 'Árboles detectados en las imágenes Esri World Imagery a ≈2 m, en celdas de ≈13 m', ly: lyFo, on: true, op: 0.9, tipo: 'img' });
+    }
+    if (D.mapbiomas) {
+      S.mbAnio = store('mbAnio') || D.mapbiomas.anios[D.mapbiomas.anios.length - 1];
+      var lyMb = L.imageOverlay(D.mapbiomas.img[S.mbAnio], D.mapbiomas.bounds, { pane: paneDe('mapbiomas'), interactive: false });
+      lyMb._mb = true; window.__lyMb = lyMb;
+      out.push({ id: 'mapbiomas', g: 'Vegetación', n: 'Coberturas MapBiomas (año elegido)', f: 'MapBiomas Argentina, colección 2: agricultura, pasturas, pastizal, forestales, agua y áreas urbanas, a 30 m', ly: lyMb, on: false, op: 0.75, tipo: 'img' });
+    }
     return out;
   }
+  var AGN = { aislada: 'Casa aislada', 'casco o puesto': 'Casco o puesto', agrupamiento: 'Agrupamiento de viviendas', productivo: 'Núcleo productivo (galpones)' };
+  var AGC = { aislada: '#f2c46d', 'casco o puesto': '#e07a2e', agrupamiento: '#E0457B', productivo: '#a970ff' };
+  function estiloAg(f) { var op = opOf('agrup'), c = AGC[f.properties.tipo] || '#999'; return { renderer: R('agrup'), color: c, weight: 1.5, opacity: 0.95 * op, fillColor: c, fillOpacity: 0.25 * op }; }
+  function ponerMb(y) { S.mbAnio = y; store('mbAnio', y); if (window.__lyMb) window.__lyMb.setUrl(D.mapbiomas.img[y]); if (!on_('mapbiomas')) setOn('mapbiomas', true); pintarVegPago(); leyenda(); }
   function estiloLim(f) {
     var op = opOf('limites'), p = f.properties, es = TER ? TER.slug === p.slug : p.slug === 'ciudad';
     return { renderer: R('limites'), color: es ? '#F6F2E7' : (p.color || '#F6F2E7'), weight: es ? 3.2 : 1.4, opacity: (es ? 1 : 0.85) * op, dashArray: es ? null : '5 4', fill: true, fillColor: p.color || '#999', fillOpacity: (es ? 0 : 0.10) * op };
@@ -2788,6 +2843,9 @@ if (typeof module !== 'undefined') module.exports = CORE;
     if (on_('zonas')) L2.push('<b>Zonificación COU 2024</b>' + [['#d6913f', 'Urbana del pueblo (R7)'], ['#b85a2c', 'Distritos urbanos y de ampliación'], ['#E0457B', 'Residencial extraurbana'], ['#c9b43a', 'Complementaria'], ['#7a5232', 'Industrial'], ['#6E9A50', 'Espacio verde']].map(function (z) { return '<div class="fila"><span class="sw" style="background:' + z[0] + '"></span>' + z[1] + '</div>'; }).join(''));
     if (on_('vial')) L2.push('<b>Red vial 2017</b>' + [['#c0392b', 'Pavimento'], ['#e9c46a', 'Mejorado'], ['#f2efe0', 'Tierra']].map(function (z) { return '<div class="fila"><span class="sw" style="background:' + z[0] + ';height:4px"></span>' + z[1] + '</div>'; }).join(''));
     if (on_('mensuras')) L2.push('<div class="fila"><span class="sw" style="background:transparent;border:1.5px solid #8E6620"></span>Mensuras del siglo XIX</div>');
+    if (on_('forestal')) L2.push('<div class="fila"><span class="sw" style="background:#1f6b33"></span>Vegetación forestal (árboles)</div>');
+    if (on_('mapbiomas') && D.mapbiomas) { var hy = D.mapbiomas.ha[S.mbAnio] || {}; L2.push('<b>MapBiomas ' + S.mbAnio + '</b>' + Object.keys(hy).sort(function (a, b) { return hy[b] - hy[a]; }).slice(0, 8).map(function (k) { var c = D.mapbiomas.clases[k] || ['Otra', '#999']; return '<div class="fila"><span class="sw" style="background:' + c[1] + '"></span>' + c[0] + '</div>'; }).join('')); }
+    if (on_('agrup')) L2.push('<b>Edificaciones rurales</b>' + Object.keys(AGN).map(function (k) { return '<div class="fila"><span class="sw" style="background:' + AGC[k] + '"></span>' + AGN[k] + '</div>'; }).join(''));
     if (on_('estancias')) L2.push('<b>1884</b><div class="fila"><span class="sw" style="background:#C8973A;border-radius:50%"></span>Estancia</div><div class="fila"><span class="sw" style="background:#F2DC9B;border-radius:50%"></span>Puesto</div>');
   }
 
@@ -2810,14 +2868,81 @@ if (typeof module !== 'undefined') module.exports = CORE;
     var i = vals.map(function (x) { return x.s; }).indexOf(slug); return { pos: i + 1, n: vals.length, vals: vals };
   }
 
+  /* ---------------- recorridos: qué capas mirar para cada pregunta ---------------- */
+  var TEMATICAS = ['epoca', 'satDens', 'satIng', 'satComp', 'hrMancha', 'hrEdif', 'hrPil', 'hrVida', 'hrCalle', 'agrup', 'forestal', 'mapbiomas', 'manzanas', 'parcelas', 'actividades', 'zonas', 'vial', 'mensuras', 'estancias', 'radios', 'clasif'];
+  var REC = {
+    crec: { t: 'Crecimiento de los pueblos, 1976–2026', req: 'satDens', on: ['satDens', 'hrMancha'], z: 'pueblos', ep: 'l2025', g: 'c',
+      txt: 'Rojo, naranja y amarillo: el poblamiento de la época elegida en la <b>regla</b> (densidad alta, media y baja). Contorno naranja: área urbana compacta 2025; rosa: residencial extraurbana. <b>Mové la regla de épocas</b> (abajo del mapa) y el pueblo crece o se achica.' },
+    anillos: { t: 'Anillos de crecimiento', req: 'satIng', on: ['satIng', 'hrMancha'], z: 'pueblos', g: 'c',
+      txt: 'Cada color es la época en que ese sector entra al poblamiento: del más oscuro (lo más viejo que Landsat alcanza a fechar) al más claro (lo reciente). Tocá un sector para ver su época.' },
+    anio: { t: 'Año de ocupación por manzana', req: 'satDens', on: ['manzanas', 'hrMancha'], tema: 'sat_anio', z: 'pueblos', g: 'c',
+      txt: 'Cada manzana toma la primera época en que la mitad de su superficie ya tiene poblamiento. Gris: todavía sin ocupar.' },
+    pob25: { t: 'Poblamiento 2025 y edificaciones', req: 'hrMancha', on: ['hrMancha', 'hrEdif'], z: 'pueblos', g: 'c',
+      txt: 'Huellas de Google Open Buildings: rojo, viviendas u otras edificaciones de 40 a 600 m²; violeta, galpones; amarillo, construcciones menores. Naranja y rosa: área compacta y extraurbana que forman.' },
+    vida: { t: 'Lotes por señales de vida', req: 'hrVida', on: ['hrVida'], z: 'pueblos', g: 'c',
+      txt: 'Cada lote urbano clasificado por su edificación, la vegetación del lote libre y las piletas: sin construcción, incipiente, habitada, arraigada o compacta.' },
+    rural: { t: 'Edificación rural', req: 'hrEdif', on: ['hrEdif', 'agrup', 'actividades'], z: 'pago', g: 'r',
+      txt: 'Todas las edificaciones del Pago fuera de la Ciudad. Los contornos agrupan las que están a menos de 80 m: casa aislada (amarillo), casco o puesto (naranja), agrupamiento de viviendas (rosa), núcleo productivo (violeta). Acercate para ver cada techo.' },
+    vegpue: { t: 'Vegetación en los pueblos', req: 'hrCalle', on: ['manzanas', 'hrCalle'], tema: 'a_cint', z: 'pueblos', g: 'v',
+      txt: 'Verde de las manzanas: vegetación arbórea en el interior (patios y fondos). Franjas de los frentes: vegetación en la vía pública. Más oscuro, más copa.' },
+    forestal: { t: 'Vegetación forestal del campo', req: 'forestal', on: ['forestal'], z: 'pago', g: 'v',
+      txt: 'Verde oscuro: montes, cortinas, arboledas de camino y árboles sueltos detectados en la imagen de alta resolución, en celdas de ≈ 13 m.' },
+    mapbiomas: { t: 'Coberturas MapBiomas año por año', req: 'mapbiomas', on: ['mapbiomas'], z: 'pago', g: 'v',
+      txt: 'Agricultura, pasturas, pastizal, forestales, agua y áreas urbanas a 30 m. El año se elige en la pestaña Vegetación.' }
+  };
+  function bbPueblos(q) {
+    var fs = (D.pueblos || VACIO).features.filter(function (f) { return q ? f.properties.n === q.n : true; }); if (!fs.length) return null;
+    var b = L.geoJSON({ type: 'FeatureCollection', features: fs }).getBounds(); return b.isValid() ? b : null;
+  }
+  function recorrido(id, q) {
+    var r = REC[id]; if (!r) return;
+    TEMATICAS.forEach(function (k) { if (CAPAS[k] && on_(k) && r.on.indexOf(k) < 0) setOn(k, false); });
+    ['sat', 'limites', 'pueblosA'].concat(r.on).forEach(function (k) { if (CAPAS[k] && !on_(k)) setOn(k, true); });
+    if (r.tema) { S.tema = r.tema; store('tema', S.tema); $('temaMz').value = S.tema; $('temaNota').textContent = NOTAS[S.tema] || ''; lyMz.setStyle(estiloMz); }
+    if (r.ep && (!S.epoca || S.epoca.k !== 'landsat')) { var e = EPOCAS.filter(function (x) { return x.id === r.ep; })[0]; if (e) { elegirEpoca(e); if (on_('epoca')) setOn('epoca', false); } }
+    var b = r.z === 'pago' && !q ? null : bbPueblos(q);
+    map.fitBounds(b || [[BOX[1], BOX[0]], [BOX[3], BOX[2]]], padMapa());
+    var box = $('recTxt'); if (box) { box.hidden = false; box.innerHTML = '<b>' + r.t + (q ? ' · ' + escH(q.n) : '') + '</b><br>' + r.txt + ' <span class="nota">La leyenda, abajo a la izquierda del mapa, explica cada color; el panel Capas permite prender, apagar y transparentar.</span>'; }
+    document.querySelectorAll('[data-rec]').forEach(function (bt) { bt.setAttribute('aria-pressed', bt.getAttribute('data-rec') === id ? 'true' : 'false'); });
+    store('rec', id); leyenda();
+  }
+  function hayCapa(id) { return !!CAPAS[id]; }
+  function padMapa() {
+    var mr = map.getContainer().getBoundingClientRect(), lg = $('leyenda'), cc = document.querySelector('details.cc'), tl = [24, 24], br = [24, 84];
+    if (lg) { var lr = lg.getBoundingClientRect(); if (lr.width && lr.height > 90) tl[0] = Math.min(lr.right - mr.left + 12, mr.width * 0.38); }
+    if (cc && cc.open) { var cr = cc.getBoundingClientRect(); br[0] = Math.min(mr.right - cr.left + 12, mr.width * 0.38); }
+    if (mr.width - tl[0] - br[0] < 280 && cc && cc.open) { cc.open = false; br[0] = 24; }
+    return { paddingTopLeft: tl, paddingBottomRight: br, maxZoom: 16 };
+  }
+  function guiaPago() {
+    var g = $('secGuia'); if (!g || !ES_PAGO) return;
+    var P = (TER.pueblos || []), lis = function (grp) { return Object.keys(REC).filter(function (k) { return REC[k].g === grp && hayCapa(REC[k].req) && (!REC[k].tema || TEMAS.some(function (t) { return t[0] === REC[k].tema; })); }).map(function (k) { return '<button type="button" class="btn sec2 rec" data-rec="' + k + '" aria-pressed="false">' + REC[k].t + '</button>'; }).join(''); };
+    var hc = lis('c'), hr_ = lis('r'), hv = lis('v');
+    g.innerHTML = '<div class="eyebrow">Cómo se mira este Pago</div>' +
+      '<p class="nota">Cada botón prende sólo las capas de esa pregunta, encuadra el mapa y explica los colores. Después podés sumar o quitar capas desde el panel <b>Capas</b> (arriba a la derecha) y cambiar de época con la <b>regla</b> (abajo).</p>' +
+      (hc ? '<div class="rec-g"><span>Crecimiento de los pueblos</span><div class="botones">' + hc + '</div></div>' : '<p class="nota">Este Pago no tiene pueblos con zona urbana: su crecimiento es el de la edificación rural.</p>') +
+      (hr_ ? '<div class="rec-g"><span>Poblamiento rural</span><div class="botones">' + hr_ + '</div></div>' : '') +
+      (hv ? '<div class="rec-g"><span>Vegetación urbana y rural</span><div class="botones">' + hv + '</div></div>' : '') +
+      (P.length ? '<div class="rec-g"><span>Ir a un pueblo</span><select id="selPue" class="sel-ter" aria-label="Ir a un pueblo"><option value="">Elegir…</option>' + P.map(function (q, i) { return '<option value="' + i + '">' + escH(q.n) + (q.tipo === 'paraje' ? ' (paraje)' : '') + '</option>'; }).join('') + '</select></div>' : '') +
+      '<div class="rec-txt" id="recTxt" hidden></div>' +
+      '<div class="rec-g"><span>Herramienta en vivo</span><div class="botones"><button class="btn" id="irAnalisis">Analizar una imagen: crecimiento y vegetación →</button><button class="btn sec2" id="irSerie">Serie anual 2014–2026 →</button></div><p class="nota">Clasifica en vivo cualquier imagen fechada de Esri Wayback (2014–2026) en construido, pasto, árboles y sombra, en los pueblos del Pago o en la vista del mapa. Está arriba de todo en la pestaña <b>Vegetación</b>.</p></div>';
+    g.querySelectorAll('[data-rec]').forEach(function (b) { b.onclick = function () { recorrido(b.getAttribute('data-rec')); }; });
+    var sp = $('selPue'); if (sp) sp.onchange = function () { if (sp.value === '') return; var q = P[+sp.value]; recorrido(hayCapa('satDens') && q.tipo === 'pueblo' && (TER.hr && TER.hr.series && TER.hr.series[q.n]) ? 'crec' : (hayCapa('hrMancha') ? 'pob25' : 'rural'), q); };
+  }
+
   /* ---------------- paneles del Pago ---------------- */
   function mostrar(id, si) { var el = $(id); if (el) el.hidden = !si; }
   function pintarTerritorio() {
     menuTerritorios();
     ['sec-cmp', 'sec-sup', 'sec-hr25', 'sec-sat', 'sec-copa25'].forEach(function (id) { mostrar(id, !ES_PAGO); });
-    ['sec-pago', 'sec-pueblos', 'sec-rural', 'sec-veg', 'sec-pend'].forEach(function (id) { mostrar(id, ES_PAGO); });
-    mostrar('ambFS', !ES_PAGO);
+    var TIENE = ES_PAGO && !!TER.hr;
+    ['sec-pago', 'sec-pueblos', 'sec-rural', 'sec-veg'].forEach(function (id) { mostrar(id, ES_PAGO); });
+    mostrar('sec-pend', ES_PAGO && !TIENE);
+    if (TIENE) { var sv = $('sec-veg'); if (sv) { sv.querySelector('.eyebrow').textContent = 'Vegetación urbana, forestal y productiva'; sv.querySelector('h2').textContent = 'Árboles en los pueblos y en el campo, y lo que se siembra'; } }
+    if (TIENE) mostrar('sec-sup', true);
+    mostrar('ambFS', !ES_PAGO || (HR.mancha && HR.mancha.features.length > 0));
     if (!ES_PAGO) { pintarCiudadCifras(); return; }
+    guiaPago();
     var st = TER.stats, ac = st.act || {};
     var tot = PARTIDO.territorios.reduce(function (a, t) { return a + (t.stats.pob22 || 0); }, 0);
     var html = '<div class="eyebrow">Pago ' + TER.num + (TER.trabajo && TER.trabajo !== TER.nombre ? ' · nombre de trabajo «' + escH(TER.trabajo) + '»' : '') + '</div><h2>' + escH(TER.nombre) + '</h2><p>' + escH(TER.desc) + '</p>';
@@ -2837,7 +2962,10 @@ if (typeof module !== 'undefined') module.exports = CORE;
         '<p class="nota">Habitantes: radios censales 2022 que caen en el área del pueblo. Agua y cloaca: proporción de parcelas urbanas con red según el parcelario 2024. Las manzanas de los pueblos tienen los mismos temas que la cabecera (orden del parcelamiento, lote, redes y viviendas por hectárea).</p>';
     }
     $('resPueblos').innerHTML = hp;
-    $('resPueblos').querySelectorAll('[data-pu]').forEach(function (b) { b.onclick = function () { var q = P[+b.getAttribute('data-pu')]; map.setView([q.centro[0], q.centro[1]], q.tipo === 'paraje' ? 15 : 15); if (!on_('manzanas') && q.tipo === 'pueblo') { S.tema = 'periodo'; $('temaMz').value = 'periodo'; setOn('manzanas', true); lyMz.setStyle(estiloMz); leyenda(); } }; });
+    $('resPueblos').querySelectorAll('[data-pu]').forEach(function (b) { b.onclick = function () { var q = P[+b.getAttribute('data-pu')];
+      if (TER.hr && TER.hr.series && TER.hr.series[q.n] && hayCapa('satDens')) return recorrido('crec', q);
+      if (hayCapa('hrMancha')) return recorrido('pob25', q);
+      map.setView([q.centro[0], q.centro[1]], 15); if (!on_('manzanas') && q.tipo === 'pueblo') { S.tema = 'periodo'; $('temaMz').value = 'periodo'; setOn('manzanas', true); lyMz.setStyle(estiloMz); leyenda(); } }; });
     // poblamiento rural
     var tr = st.rur_menor2 + st.rur_2_10 + st.rur_10_50 + st.rur_mayor50;
     var hr = '<p>El campo también se puebla, pero de otra manera: con parcelas que se dividen, con casas sueltas, cascos y galpones. El parcelario 2024 y los relevamientos municipales permiten medirlo.</p>' +
@@ -2854,8 +2982,71 @@ if (typeof module !== 'undefined') module.exports = CORE;
       grafBarras([{ n: 'Soja', v: it.soja / it.total * 100, col: '#D9502E' }, { n: 'Maíz', v: it.maiz / it.total * 100, col: '#3E8E3A' }, { n: 'No agrícola', v: it.noagr / it.total * 100, col: '#E8C547' },
         { n: 'Partido: soja', v: sum('soja') / tP * 100, col: '#e8a58f' }, { n: 'Partido: no agrícola', v: sum('noagr') / tP * 100, col: '#f2e2a0' }], { ml: 128, max: 100, f: function (v) { return fmt(v, 1) + ' %'; }, aria: 'Uso agrícola de verano en el Pago y en el Partido' }) +
       '<p class="nota">' + fmt(it.soja) + ' ha de soja, ' + fmt(it.maiz) + ' de maíz y ' + fmt(it.noagr) + ' no agrícolas (pasturas, pastizales, montes, cascos, bajos y caminos). Fuente: planilla «Actividades Pagos SAG», mapeo INTA verano 2020/21 (Dirección de Planeamiento).</p>';
-    $('resVeg').innerHTML = hv;
+    VEG_INTA = hv; pintarVegPago();
     $('resPend').innerHTML = '<p>Para este Pago faltan tres capas que se calculan en el navegador, como la alta resolución de la cabecera, y se suman a esta página cuando estén:</p><ul class="nota"><li><b>Edificaciones de Google</b> (Open Buildings v3) en todo el Pago: viviendas, cascos y galpones, su densidad y sus agrupamientos; en los pueblos, el área urbana compacta, la ocupación y las señales de vida lote por lote.</li><li><b>Vegetación forestal</b> en alta resolución: montes, cortinas, arboledas de caminos y bosques en galería; en los pueblos, la vegetación de la calle y del interior de manzana.</li><li><b>Coberturas anuales MapBiomas 2019–2024</b> (30 m): agricultura, pasturas, pastizal, plantaciones forestales y áreas urbanas, año por año.</li></ul><p class="nota">Mientras tanto, la pestaña Vegetación mide en vivo cualquier vista del Pago sobre las imágenes fechadas de Esri.</p>';
+    pintarPueblosHR(); pintarRuralHR();
+  }
+  var VEG_INTA = '';
+  function btns(arr) { return '<div class="botones">' + arr.map(function (b) { return '<button type="button" class="btn sec2" data-ver="' + b[0] + '">' + b[1] + '</button>'; }).join('') + '</div>'; }
+  function enlazarVer(box) { box.querySelectorAll('[data-ver]').forEach(function (b) { b.onclick = function () { var ids = b.getAttribute('data-ver').split(','); if (ids[0].indexOf('rec:') === 0) { recorrido(ids[0].slice(4)); return; } ids.forEach(function (id) { if (id.indexOf('tema:') === 0) { S.tema = id.slice(5); $('temaMz').value = S.tema; if (!on_('manzanas')) setOn('manzanas', true); lyMz.setStyle(estiloMz); } else if (CAPAS[id] && !on_(id)) setOn(id, true); }); leyenda(); }; }); }
+  function pintarPueblosHR() {
+    var H = TER.hr; if (!H || !H.pueblos_hr || !H.pueblos_hr.length) return;
+    var box = $('resPueblos'), P = H.pueblos_hr, ser = H.series || {};
+    var h = '<h3>Alta resolución 2025, pueblo por pueblo</h3><p>Con las edificaciones que Google detectó y la imagen satelital, cada pueblo se lee como la cabecera: su área urbana compacta (manzanas con construcciones conectadas por calles), sus agrupamientos residenciales afuera, cuántos lotes tienen construcción, cuánto suelo cubren los techos, las señales de vida de cada lote y la vegetación de la calle y del interior.</p>' +
+      '<div class="tabla-w"><table class="t"><thead><tr><th>Pueblo</th><th>Compacta</th><th>Extraurbana</th><th>Edificaciones</th><th>Lotes construidos</th><th>FOS</th><th>Veg. calle</th><th>Veg. interior</th><th>Piletas</th></tr></thead><tbody>' +
+      P.map(function (q) { return '<tr><td>' + escH(q.n) + '</td><td>' + fmt(q.comp_ha, 1) + ' ha</td><td>' + (q.ext_ha ? fmt(q.ext_ha, 1) + ' ha (' + q.ext_n + ')' : '—') + '</td><td>' + fmt(q.edif) + '</td><td>' + (q.ocup != null ? fmt(q.ocup * 100) + ' %' : '—') + '</td><td>' + (q.fos != null ? fmt(q.fos * 100) + ' %' : '—') + '</td><td>' + (q.copa_calle != null ? fmt(q.copa_calle * 100) + ' %' : '—') + '</td><td>' + (q.copa_int != null ? fmt(q.copa_int * 100) + ' %' : '—') + '</td><td>' + fmt(q.piletas) + '</td></tr>'; }).join('') + '</tbody></table></div>';
+    var conV = P.filter(function (q) { return q.vida && q.lotes; });
+    if (conV.length) h += '<h3>Señales de vida por lote</h3>' + conV.map(function (q) { return '<div class="bv-f"><span>' + escH(q.n) + '</span>' + barrasVida({ vida: q.vida }) + '</div>'; }).join('') + '<div class="bv-ley">' + VNOM.map(function (n, k) { return '<span><i style="background:' + VCOL[k] + '"></i>' + n + '</span>'; }).join('') + '</div>';
+    var nombres = Object.keys(ser).filter(function (n) { return ser[n].some(function (r) { return r.ha != null; }); }), LM = H.ls_meta || {};
+    if (nombres.length) {
+      var colS = ['#8B2020', '#2A5C7E', '#C8973A', '#355C2D', '#6B4E8C', '#A0661C', '#2f8a8a', '#e07a2e'];
+      var val = function (n, a) { var r = ser[n].filter(function (x) { return x.anio === a; })[0]; return r ? r.ha : null; };
+      h += '<h3>Crecimiento de los pueblos, 1976–2026</h3>' + grafLineas(nombres.map(function (n, i) { return { n: n, col: colS[i % colS.length], pts: ser[n].filter(function (r) { return r.ha != null; }).map(function (r) { return [r.anio, r.ha]; }) }; }), { xt: [1976, 1987, 2000, 2011, 2025], aria: 'Superficie poblada de cada pueblo por época Landsat' }) +
+        '<div class="tabla-w"><table class="t"><thead><tr><th>Pueblo</th><th>Primera época fechable</th><th>ha entonces</th><th>2013</th><th>2025–26</th><th>Sin fecha</th></tr></thead><tbody>' +
+        nombres.map(function (n) { var m = LM[n] || {}, p0 = m.primera, h0 = p0 != null ? val(n, p0) : null; return '<tr><td>' + escH(n) + '</td><td>' + (p0 ? (p0 === 1976 ? '1976–1980' : p0 === 2000 ? '1999–2000' : p0 === 2006 ? '2005–2006' : p0) : '—') + '</td><td>' + (h0 != null ? fmt(h0, 1) : '—') + '</td><td>' + (val(n, 2013) != null ? fmt(val(n, 2013), 1) : '—') + '</td><td>' + fmt(val(n, 2025), 1) + '</td><td>' + (m.sin_fecha_ha ? fmt(m.sin_fecha_ha, 1) + ' ha' : '—') + '</td></tr>'; }).join('') + '</tbody></table></div>' +
+        '<p class="nota">Método: la huella de 2025 sale de las edificaciones de Google (celdas de 30 m con techo cerca); Landsat fecha cuándo cada celda de esa huella empezó a comportarse como construida (NDVI máximo de cada época por debajo del punto medio entre lo edificado y el campo que rodea al pueblo, y que se mantiene así en al menos 6 de cada 10 épocas siguientes). Lo que Landsat no alcanza a fechar (lotes muy arbolados) toma la época del vecino fechado a menos de 90 m; el resto queda en 2025–26. Antes de la primera época fechable no se dibuja nada: no es que el pueblo no existiera, es que la imagen no lo distingue del campo. A 30 m un pueblo chico son pocas decenas de celdas: la serie dice hacia dónde y cuándo creció más que su medida exacta.</p>';
+      var fr_ = P.filter(function (q) { return q.falta_edif; });
+      if (fr_.length) h += '<p class="nota"><b>' + fr_.map(function (q) { return escH(q.n); }).join(', ') + ':</b> sin edificaciones de Google. El pueblo cae en la celda 95bd de Open Buildings (650 MB, el extremo sur del Partido), que todavía no se procesó; sus lotes tienen vegetación pero no techos ni crecimiento.</p>';
+    }
+    h += btns([['rec:crec', 'Ver crecimiento por época'], ['rec:anillos', 'Ver anillos de crecimiento'], ['rec:pob25', 'Ver poblamiento 2025 y techos'], ['rec:vida', 'Ver lotes por señales de vida'], ['rec:vegpue', 'Ver vegetación de los pueblos']].filter(function (b) { return hayCapa(REC[b[0].slice(4)].req); }));
+    var d = document.createElement('div'); d.innerHTML = h; box.appendChild(d); enlazarVer(d);
+  }
+  function pintarRuralHR() {
+    var H = TER.hr; if (!H || !H.rural) return;
+    var r = H.rural, st = TER.stats, a = r.agr || {}, box = $('resRural');
+    var h = '<h3>Edificaciones rurales detectadas</h3><p>Fuera de los pueblos, Google detectó en las imágenes de alta resolución:</p>' +
+      '<div class="cifras"><div><b>' + fmt(r.viv) + '</b><span>casas u otras edificaciones de 40 a 600 m² · ' + fmt(r.viv_km2, 1) + ' por km²</span></div><div><b>' + fmt(r.galp) + '</b><span>galpones o naves (más de 600 m² o alargados)</span></div>' +
+      '<div><b>' + fmt(r.menor) + '</b><span>construcciones menores de 40 m²</span></div><div><b>' + fmt(r.techo_ha, 1) + ' ha</b><span>de techo en el campo</span></div></div>' +
+      grafBarras(Object.keys(AGN).map(function (k) { return { n: AGN[k], v: a[k] || 0, col: AGC[k] }; }), { ml: 190, f: function (v) { return fmt(v); }, aria: 'Agrupamientos de edificaciones rurales por tipo' }) +
+      '<p class="nota">Agrupamientos: edificaciones a menos de 80 m entre sí. Casa aislada: una sola vivienda. Casco o puesto: de 2 a 7 construcciones. Agrupamiento: 8 viviendas o más. Núcleo productivo: dos galpones o más que suman más del 60 % del techo. ' + (st.edif2022 != null ? 'El SIG municipal contó en 2022 ' + fmt(st.edif2022) + ' edificaciones rurales en el Pago; la diferencia con Google sale de qué se cuenta como una edificación (un casco con galpones puede ser una o varias).' : '') + ' Google Open Buildings v3, confianza ≥ 0,65.</p>' +
+      (r.sin_edif_pct ? '<p class="nota">El ' + fmt(r.sin_edif_pct, 1) + ' % del Pago, en el extremo sur del Partido, cae en una celda de Open Buildings que todavía no se procesó: allí faltan edificaciones.</p>' : '') +
+      btns([['rec:rural', 'Ver edificación rural y agrupamientos'], ['hrEdif', 'Sumar edificaciones'], ['actividades', 'Sumar actividades intensivas 2021']]);
+    var d = document.createElement('div'); d.innerHTML = h; box.insertBefore(d, box.querySelector('.pregunta')); enlazarVer(d);
+  }
+  function pintarVegPago() {
+    var H = TER.hr, h = '';
+    var PV = H && H.pueblos_hr ? H.pueblos_hr.filter(function (q) { return q.copa_int != null; }) : [];
+    if (PV.length) {
+      h += '<h3>Vegetación en los pueblos</h3><p>Árboles en la calle (vía pública frente a cada manzana) y en el interior de los lotes (patios y fondos), medidos sobre la imagen de alta resolución:</p>' +
+        grafBarras(PV.map(function (q) { return { n: q.n + ' · calle', v: (q.copa_calle || 0) * 100, col: '#2f8a4a' }; }).concat(PV.map(function (q) { return { n: q.n + ' · interior', v: q.copa_int * 100, col: '#185c2c' }; })), { ml: 150, max: 100, f: function (v) { return fmt(v) + ' %'; }, aria: 'Vegetación en la calle y en el interior de cada pueblo' }) +
+        '<p class="nota">Porcentaje de la superficie con copa de árbol. Un pueblo con mucha copa interior y poca en la calle es un pueblo de quintas: el verde es privado. ¿Quién planta y cuida el árbol de la vereda cuando no hay vereda? Cuidado al comparar: el mosaico Esri no tiene la misma fecha en todos los pueblos, y una toma de invierno deja sin hoja a plátanos, fresnos y paraísos. Para comparar con la misma estación, usá «Analizar una imagen» con una fecha Wayback de verano.</p>' + btns([['rec:vegpue', 'Ver vegetación de los pueblos en el mapa'], ['tema:a_ccalle', 'Manzanas por vegetación en la calle']]);
+    }
+    if (H && H.forestal) {
+      var f = H.forestal;
+      h += '<h3>Vegetación forestal</h3><p>Montes, cortinas, arboledas de caminos y árboles sueltos detectados en las imágenes de alta resolución:</p><div class="cifras"><div><b>' + fmt(f.ha) + ' ha</b><span>con árboles · ' + fmt(f.pct, 1) + ' % del Pago</span></div><div><b>' + fmt(f.montes_ha) + ' ha</b><span>en ' + fmt(f.montes_n) + ' montes de media hectárea o más</span></div><div><b>' + fmt(f.cortinas_ha) + ' ha</b><span>en ' + fmt(f.cortinas_n) + ' cortinas y arboledas lineales</span></div><div><b>' + fmt(f.aislados_ha) + ' ha</b><span>en árboles y grupos chicos</span></div></div>' +
+        '<p class="nota">Imagen Esri World Imagery leída a ≈2 m y agrupada en celdas de ≈13 m: una celda es «árbol» cuando su textura y su verde oscuro son de copa. Los cultivos en pleno verde pueden confundirse; MapBiomas, abajo, es el contraste.</p>' + btns([['rec:forestal', 'Ver vegetación forestal en el mapa']]);
+    }
+    if (D.mapbiomas) {
+      var M = D.mapbiomas, y = S.mbAnio, hy = M.ha[y] || {}, tot = Object.keys(hy).reduce(function (a, k) { return a + hy[k]; }, 0) || 1, y0 = M.anios[0], h0 = M.ha[y0] || {};
+      var ks = Object.keys(hy).sort(function (a, b) { return hy[b] - hy[a]; });
+      h += '<h3>Coberturas año por año (MapBiomas)</h3><div class="seg" role="group" aria-label="Año">' + M.anios.map(function (a) { return '<button type="button" data-mb="' + a + '" aria-pressed="' + (a == y) + '">' + a + '</button>'; }).join('') + '</div>' +
+        grafBarras(ks.slice(0, 9).map(function (k) { return { n: (M.clases[k] || ['Otra'])[0], v: hy[k] / tot * 100, col: (M.clases[k] || ['', '#999'])[1] }; }), { ml: 168, max: 100, f: function (v) { return fmt(v, 1) + ' %'; }, aria: 'Coberturas MapBiomas ' + y }) +
+        '<div class="tabla-w"><table class="t"><thead><tr><th>Cobertura</th><th>' + y0 + '</th><th>' + y + '</th><th>Cambio</th></tr></thead><tbody>' + ks.slice(0, 9).map(function (k) { var a0 = h0[k] || 0, a1 = hy[k] || 0; return '<tr><td>' + (M.clases[k] || ['Otra'])[0] + '</td><td>' + fmt(a0) + ' ha</td><td>' + fmt(a1) + ' ha</td><td>' + (a1 - a0 >= 0 ? '+' : '') + fmt(a1 - a0) + ' ha</td></tr>'; }).join('') + '</tbody></table></div>' +
+        '<p class="nota">MapBiomas Argentina, colección 2 (Landsat, 30 m), copia en formato COG de Source Cooperative. Las clases son las de la leyenda oficial: «Cultivo» es agricultura de ciclo corto; «Pastura», forraje implantado; «Pastizal», vegetación herbácea natural.</p>' + btns([['rec:mapbiomas', 'Ver coberturas en el mapa']]);
+    }
+    var box = $('resVeg'); box.innerHTML = h + (h ? '<h3>Verano 2020/21 según INTA</h3>' : '') + VEG_INTA;
+    box.querySelectorAll('[data-mb]').forEach(function (b) { b.onclick = function () { ponerMb(+b.getAttribute('data-mb')); }; });
+    enlazarVer(box);
   }
   var PREG = {
     'tuyuti': 'Tuyutí es casi un tercio del Partido y el único Pago donde lo no agrícola supera a la soja. Si preservar es no subdividir, ¿cómo se sostiene la gente que todavía vive en el campo sin convertir la preservación en despoblamiento?',
@@ -2886,14 +3077,14 @@ if (typeof module !== 'undefined') module.exports = CORE;
       'De las ' + fmt(st.viv22) + ' viviendas censadas, ' + fmt(st.viv_sin) + ' (' + fmt(st.viv22 ? st.viv_sin / st.viv22 * 100 : 0) + ' %) no tenían personas el día del censo.</p>' +
       '<p>El parcelario muestra cómo se divide el suelo: ' + fmt(tr) + ' parcelas rurales con una mediana de ' + fmt(st.rur_med_ha, 1) + ' ha; ' + fmt(st.rur_menor2) + ' tienen menos de 2 ha. En el verano 2020/21 el ' + fmt(it.soja / it.total * 100) + ' % del Pago era soja y el ' + fmt(it.noagr / it.total * 100) + ' % uso no agrícola. ' +
       ((st.act || {}).Galpon ? 'El relevamiento de 2021 encontró ' + fmt(st.act.Galpon) + ' galpones' + (st.act.Horno ? ', ' + fmt(st.act.Horno) + ' hornos de ladrillo' : '') + (st.act.Feedlot ? ' y ' + fmt(st.act.Feedlot) + ' feedlot' + (st.act.Feedlot > 1 ? 's' : '') : '') + '. ' : '') + '</p>' +
+      (TER.hr ? '<p>De cerca, el campo se ve distinto que en el censo: Google detectó en el Pago ' + fmt(TER.hr.rural.viv) + ' casas u otras edificaciones de entre 40 y 600 m² fuera de los pueblos (' + fmt(TER.hr.rural.viv_km2, 1) + ' por km²) y ' + fmt(TER.hr.rural.galp) + ' galpones. Los árboles cubren ' + fmt(TER.hr.forestal.ha) + ' ha (' + fmt(TER.hr.forestal.pct, 1) + ' % del Pago): ' + fmt(TER.hr.forestal.montes_n) + ' montes y ' + fmt(TER.hr.forestal.cortinas_n) + ' cortinas o arboledas lineales, que casi siempre señalan dónde vive o vivió alguien.</p>' : '') +
       '<p>En 1884 el plano registraba ' + fmt(st.puestos1884) + ' estancias y puestos dentro de lo que hoy es el Pago. Entonces el campo se poblaba con puestos de estancia; hoy se puebla con parcelas que se achican y con galpones. Cambió la forma, no la pregunta por quién vive en el campo y en qué condiciones.</p>' +
       '<div class="pregunta">' + escH(preguntaRural()) + '</div></div>';
     html += '<div class="sec"><div class="eyebrow">Método y fuentes</div><p class="nota">Límites de los Pagos: SIG municipal (capa Pagos_SAG, CMDOT). Población, hogares y viviendas: INDEC, Censo 2022, por radio censal con la cartografía corregida del sitio de censos del Plan; los radios urbanos se reparten por tejido urbano y los rurales por superficie. Parcelario 2024 (COU), zonificación COU 2024, actividades intensivas rurales 2021 y red vial 2017: SIG municipal. Uso agrícola: planilla «Actividades Pagos SAG», mapeo INTA verano 2020/21. Mensuras, registro gráfico 1874 y estancias y puestos 1884: Atlas de Mensuras de Giles (Archivo Histórico de Geodesia, PBA). Imágenes: USGS/NASA Landsat vía Esri, Esri World Imagery y Wayback, Sentinel-2 cloudless de EOX.</p><p class="nota">Arq. Juan Patricio Addesso, Asesor del Consejo Municipal para el Desarrollo y el Ordenamiento Territorial (CMDOT).</p></div>';
     box.innerHTML = html;
   }
-
   /* ---------------- arranque ---------------- */
-  var vOk = store('ver'); if (vOk !== 4) { (ES_PAGO ? ['sat', 'epoca', 'limites', 'pueblosA', 'actividades', 'parcelas'] : ['hrMancha', 'satDens', 'manzanas', 'sat', 'epoca', 'limites']).forEach(function (k) { if (CAPAS[k]) { CAPAS[k].on = true; store('on.' + k, true); } }); store('ver', 4); }
+  var vOk = store('ver'), PRIMERA = vOk !== 5; if (PRIMERA) { if (ES_PAGO) LISTA.forEach(function (e) { if (e.g !== 'Fondo' || e.id === 'epoca') { e.on = false; store('on.' + e.id, false); } }); (ES_PAGO ? (TER.hr ? ['sat', 'limites', 'pueblosA', 'satDens', 'hrMancha'] : ['sat', 'epoca', 'limites', 'pueblosA', 'actividades', 'parcelas']) : ['hrMancha', 'satDens', 'manzanas', 'sat', 'epoca', 'limites']).forEach(function (k) { if (CAPAS[k]) { CAPAS[k].on = true; store('on.' + k, true); } }); store('ver', 5); }
   LISTA.forEach(function (e) { if (e.on) { e.ly.addTo(map); aplicarOp(e); } });
   var t0 = store('tema'); if (t0 && t0.indexOf('hr_') !== 0 && t0 !== 'sat_imp') S.tema = t0;
   controlExportar(); map.on('resize', marcoExp); pintarCapas(); pintarTemas(); pintarPrm(); pintarLecturas(); pintarSelRel(); pintarSat(); $('btnPanel').addEventListener('click', function () { plegarPanel(!S.panelOculto); }); if (store('panelOculto')) plegarPanel(true);
@@ -2902,9 +3093,12 @@ if (typeof module !== 'undefined') module.exports = CORE;
   $('cmpSwap').addEventListener('click', function () { var a = $('cmpA').value; $('cmpA').value = $('cmpB').value; $('cmpB').value = a; cambiarCmp(); });
   $('cmpMapa').addEventListener('click', function () { setOn('cmp', true); if (on_('satDens')) setOn('satDens', false); });
   $('cmpMz').addEventListener('click', function () { S.tema = 'cmp_ocup'; $('temaMz').value = S.tema; store('tema', S.tema); $('temaNota').textContent = NOTAS[S.tema]; if (!on_('manzanas')) setOn('manzanas', true); lyMz.setStyle(estiloMz); leyenda(); });
+  $('irAnalisis').addEventListener('click', function () { verTab('arb'); var sv = $('secVivo'); if (sv) sv.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+  $('irSerie').addEventListener('click', function () { verTab('arb'); var sv = $('secVivo'); if (sv) sv.scrollIntoView({ behavior: 'smooth', block: 'start' }); var b = $('btnHRserie'); if (b) setTimeout(function () { b.focus(); }, 400); });
   $('hcGo').addEventListener('click', compararHC); $('hcSwap').addEventListener('click', function () { var a = $('hcA').value; $('hcA').value = $('hcB').value; $('hcB').value = a; });
   var ep0 = store('epoca'), e0 = EPOCAS.filter(function (e) { return e.id === ep0; })[0] || EPOCAS.filter(function (e) { return e.id === 'l2025'; })[0];
   elegirEpoca(e0);
+  if (ES_PAGO && TER.hr) { var r0 = store('rec'); if (PRIMERA || !r0) r0 = hayCapa('satDens') ? 'crec' : 'rural'; if (PRIMERA) recorrido(r0); else document.querySelectorAll('[data-rec="' + r0 + '"]').forEach(function (b) { b.setAttribute('aria-pressed', 'true'); }); }
   verTab(store('tab') || 'crec');
   probarVivo();
   cargarWayback().then(function (arr) { S.wayback = arr; pintarRegla(); pintarSelRel(); });
