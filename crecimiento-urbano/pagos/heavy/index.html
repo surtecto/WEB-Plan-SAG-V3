@@ -3034,7 +3034,7 @@ if (typeof module !== 'undefined') module.exports = CORE;
     if (H && H.forestal) {
       var f = H.forestal;
       h += '<h3>Vegetación forestal</h3><p>Montes, cortinas, arboledas de caminos y árboles sueltos detectados en las imágenes de alta resolución:</p><div class="cifras"><div><b>' + fmt(f.ha) + ' ha</b><span>con árboles · ' + fmt(f.pct, 1) + ' % del Pago</span></div><div><b>' + fmt(f.montes_ha) + ' ha</b><span>en ' + fmt(f.montes_n) + ' montes de media hectárea o más</span></div><div><b>' + fmt(f.cortinas_ha) + ' ha</b><span>en ' + fmt(f.cortinas_n) + ' cortinas y arboledas lineales</span></div><div><b>' + fmt(f.aislados_ha) + ' ha</b><span>en árboles y grupos chicos</span></div></div>' +
-        '<p class="nota">Imagen Esri World Imagery leída a ≈2 m y agrupada en celdas de ≈13 m: una celda es «árbol» cuando su textura y su verde oscuro son de copa. Los cultivos en pleno verde pueden confundirse; MapBiomas, abajo, es el contraste.</p>' + btns([['rec:forestal', 'Ver vegetación forestal en el mapa']]);
+        '<p class="nota">Imagen Esri World Imagery leída a ≈2 m y agrupada en celdas de ≈13 m: una celda es «árbol» cuando su textura y su verde oscuro son de copa. Los cultivos en pleno verde pueden confundirse; MapBiomas, abajo, es el contraste.</p>' + contrasteMb(f.ha) + btns([['rec:forestal', 'Ver vegetación forestal en el mapa']]);
     }
     if (D.mapbiomas) {
       var M = D.mapbiomas, y = S.mbAnio, hy = M.ha[y] || {}, tot = Object.keys(hy).reduce(function (a, k) { return a + hy[k]; }, 0) || 1, y0 = M.anios[0], h0 = M.ha[y0] || {};
@@ -3047,6 +3047,11 @@ if (typeof module !== 'undefined') module.exports = CORE;
     var box = $('resVeg'); box.innerHTML = h + (h ? '<h3>Verano 2020/21 según INTA</h3>' : '') + VEG_INTA;
     box.querySelectorAll('[data-mb]').forEach(function (b) { b.onclick = function () { ponerMb(+b.getAttribute('data-mb')); }; });
     enlazarVer(box);
+  }
+  function contrasteMb(haF) {
+    if (!D.mapbiomas) return ''; var M = D.mapbiomas, y = M.anios[M.anios.length - 1], hy = M.ha[y] || {}, mb = [3, 4, 6, 9].reduce(function (a, k) { return a + (hy[k] || 0); }, 0);
+    if (!mb) return ''; var q = haF / mb;
+    return '<p class="nota' + (q < 0.4 ? ' guard' : '') + '">Contraste: MapBiomas cuenta ' + fmt(mb) + ' ha de bosque y plantaciones forestales en ' + y + ' (30 m); la detección en alta resolución da ' + fmt(haF) + ' ha' + (q < 0.4 ? '. <b>Aquí la detección se queda corta</b> (' + fmt(q * 100) + ' % de MapBiomas): el mosaico Esri de este sector probablemente tiene otra fecha o tono y el umbral de copa no lo reconoce. Para este Pago, leé MapBiomas.' : q > 1.6 ? ': más del doble, porque cuenta cortinas y árboles sueltos que a 30 m se pierden.' : ': del mismo orden.') + '</p>';
   }
   var PREG = {
     'tuyuti': 'Tuyutí es casi un tercio del Partido y el único Pago donde lo no agrícola supera a la soja. Si preservar es no subdividir, ¿cómo se sostiene la gente que todavía vive en el campo sin convertir la preservación en despoblamiento?',
