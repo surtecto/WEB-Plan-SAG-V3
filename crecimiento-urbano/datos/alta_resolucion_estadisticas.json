@@ -2,10 +2,31 @@
  "fecha_imagen": "26/01/2025",
  "fuente_img": "Vantor (Maxar) Legion, 0,34 m, Esri World Imagery",
  "fuente_edif": "Google Open Buildings v3, confianza ≥ 0,70",
- "n_edif": 18569,
- "n_viv": 11880,
- "n_galpon": 528,
- "techo_ha": 195.2,
+ "n_edif": 16335,
+ "n_viv": 10645,
+ "n_galpon": 278,
+ "techo_ha": 150.1,
+ "mancha": {
+  "compacta": {
+   "ha": 509.9,
+   "n": 1,
+   "viv": 9324
+  },
+  "extraurbana": {
+   "ha": 80.3,
+   "n": 23,
+   "viv": 442
+  }
+ },
+ "hdp": {
+  "1990": 351,
+  "2020_compacta": 451,
+  "2020_extraurbana": 66,
+  "2020_total": 517,
+  "partido_1990": 512,
+  "partido_2020_compacta": 632,
+  "partido_2020_total": 1325
+ },
  "clases": {
   "A": {
    "n": 4754,
@@ -19,9 +40,9 @@
     1796,
     1680
    ],
+   "copa": 0.214,
    "piletas": 250,
-   "vac_ha": 20.2,
-   "vegetacion": 0.214
+   "vac_ha": 20.2
   },
   "B": {
    "n": 127,
@@ -35,25 +56,25 @@
     70,
     2
    ],
+   "copa": 0.298,
    "piletas": 11,
-   "vac_ha": 23.8,
-   "vegetacion": 0.298
+   "vac_ha": 23.8
   },
   "C": {
-   "n": 1163,
-   "ha": 100.3,
-   "fos": 0.173,
-   "ocup": 0.754,
+   "n": 1151,
+   "ha": 97.1,
+   "fos": 0.178,
+   "ocup": 0.757,
    "vida": [
-    271,
-    92,
+    265,
+    91,
     77,
-    511,
+    506,
     212
    ],
+   "copa": 0.315,
    "piletas": 102,
-   "vac_ha": 26.7,
-   "vegetacion": 0.311
+   "vac_ha": 25.4
   },
   "D": {
    "n": 838,
@@ -67,42 +88,49 @@
     313,
     89
    ],
+   "copa": 0.324,
    "piletas": 76,
-   "vac_ha": 59.8,
-   "vegetacion": 0.324
+   "vac_ha": 59.8
   },
   "fuera": {
-   "n": 941,
-   "ha": 1127.5,
-   "fos": 0.028,
-   "ocup": 0.593,
+   "n": 809,
+   "ha": 745.6,
+   "fos": 0.036,
+   "ocup": 0.611,
    "vida": [
-    379,
-    60,
-    67,
-    416,
+    311,
+    50,
+    56,
+    373,
     19
    ],
-   "piletas": 89,
-   "vac_ha": 510.4,
-   "vegetacion": 0.357
+   "copa": 0.348,
+   "piletas": 82,
+   "vac_ha": 317.7
   },
   "todo": {
-   "n": 7823,
-   "ha": 1645.5,
-   "fos": 0.083,
-   "ocup": 0.797,
+   "n": 7679,
+   "ha": 1260.5,
+   "fos": 0.104,
+   "ocup": 0.803,
    "vida": [
-    1546,
-    482,
-    687,
-    3106,
+    1472,
+    471,
+    676,
+    3058,
     2002
    ],
-   "piletas": 528,
-   "vac_ha": 640.9,
-   "vegetacion": 0.332
+   "copa": 0.319,
+   "piletas": 521,
+   "vac_ha": 446.8
   }
+ },
+ "copa_calle": {
+  "A": 0.139,
+  "B": 0.294,
+  "C": 0.255,
+  "D": 0.27,
+  "todo": 0.209
  },
  "calib": {
   "th": 0.05,
@@ -116,88 +144,186 @@
   {
    "anio": 1976,
    "epoca": "1976–1980",
-   "ha": 196.3
+   "ha": 196.4
   },
   {
    "anio": 1987,
    "epoca": "1987",
-   "ha": 241.7
+   "ha": 241.8
   },
   {
    "anio": 2000,
    "epoca": "1999–2000",
-   "ha": 262.4
+   "ha": 262.5
   },
   {
    "anio": 2006,
    "epoca": "2005–2006",
-   "ha": 273.3
+   "ha": 273.4
   },
   {
    "anio": 2011,
    "epoca": "2011",
-   "ha": 310.8
+   "ha": 310.9
   },
   {
    "anio": 2013,
    "epoca": "2013",
-   "ha": 340.0
+   "ha": 340.2
   },
   {
    "anio": 2016,
    "epoca": "2016",
-   "ha": 357.1
+   "ha": 357.3
   },
   {
    "anio": 2019,
    "epoca": "2019",
-   "ha": 368.1
+   "ha": 368.3
   },
   {
    "anio": 2022,
    "epoca": "2022",
-   "ha": 380.3
+   "ha": 380.6
   },
   {
    "anio": 2025,
    "epoca": "2025–2026",
-   "ha": 389.5
+   "ha": 389.7
   }
  ],
  "radios": {
-  "viv": 7613,
-  "hog": 6983,
-  "viv_ob": 9832,
-  "lotes": 6021
+  "viv": 7879,
+  "hog": 7158,
+  "viv_ob": 10364,
+  "lotes": 6151,
+  "radios": 35,
+  "nota": "radios 2022 con al menos 90 % de su tejido dentro de la Ciudad"
  },
- "manzanas_urb": 618,
- "manzanas_urb_ha": 419.1,
- "poblamiento": {
-  "compacta": {
-   "ha": 509.6,
-   "n": 1,
-   "viv": 9357
+ "manzanas_urb": 614,
+ "manzanas_urb_ha": 418.0,
+ "recorte": {
+  "territorio": "la Ciudad",
+  "territorio_de": "de la Ciudad",
+  "ha": 3265.5,
+  "regla": "Parcelas, manzanas, edificaciones y piletas se cuentan si su punto interior cae adentro y se dibujan recortadas; Landsat, poblamiento, radios y cartografía histórica se recortan con el límite. Las cifras se recalcularon con lo que queda adentro.",
+  "aviso": "Quedaron afuera 144 parcelas, 12 manzanas, 2234 edificaciones y 7 piletas del estudio anterior de la cabecera, que excedía el límite de la Ciudad. Se sumaron 134 parcelas del parcelario (1477,5 ha, casi todas rurales y complementarias) que están dentro de la Ciudad pero que el estudio anterior no cubría: se dibujan y se cuentan como parcelas, sin análisis de alta resolución."
+ },
+ "fuentes": {
+  "landsat": {
+   "dato": "Poblamiento Landsat",
+   "producto": "Clasificación propia de Landsat 2 a 9 (USGS/NASA, servicio Esri Landsat)",
+   "fecha": "150 escenas entre el 11/07/1976 y el 15/09/2026, agrupadas en 18 épocas (fechas de cada escena en la ficha de la época)",
+   "res": "30 m (60 m en 1976–1980)",
+   "proceso": "octubre de 2026",
+   "corto": "Landsat · NDVI máximo de cada época · 30 m",
+   "nota": "NDVI máximo por época; umbral entre el casco y el campo de cada época; persistencia hacia atrás"
   },
-  "extraurbana": {
-   "ha": 85.2,
-   "n": 25,
-   "viv": 464
+  "ob3": {
+   "dato": "Edificaciones",
+   "producto": "Google Open Buildings v3 (celda S2 95bb)",
+   "fecha": "Imágenes de 50 cm anteriores a mayo de 2023; Google no publica la fecha de cada toma (la detección se corrió en mayo de 2023)",
+   "res": "50 cm",
+   "proceso": "octubre de 2026 · confianza ≥ 0,70",
+   "corto": "Google Open Buildings v3 · imágenes anteriores a may 2023 · confianza ≥ 0,70",
+   "nota": "Galpón: más de 600 m² o alargado (más de 3,5 veces) y de más de 150 m²; vivienda u otra: 40 a 600 m²; menor: menos de 40 m²."
+  },
+  "img": {
+   "dato": "Vegetación, piletas y señales de vida",
+   "producto": "Esri World Imagery, toma Vantor (Maxar) Legion, teselas z18",
+   "version": "Versión Wayback 29/10/2026 (n.º 43291), la vigente al procesar",
+   "fecha": "26/01/2025 (metadatos de Esri consultados el 31/10/2026)",
+   "res": "0,34 m de origen · 0,49 m de píxel z18",
+   "proceso": "31/10/2026",
+   "corto": "Esri · toma Vantor Legion 26/01/2025 · 0,34 m · Wayback 29/10/2026"
+  },
+  "mapbiomas": {
+   "dato": "Coberturas del suelo",
+   "producto": "MapBiomas Argentina, colección 2 (copia COG en Source Cooperative)",
+   "fecha": "Un mapa por año, 2019–2024, hecho con los mosaicos Landsat de cada año",
+   "res": "30 m",
+   "proceso": "01/11/2026",
+   "corto": "MapBiomas Argentina col. 2 · mapa anual · 30 m"
+  },
+  "inta": {
+   "dato": "Uso agrícola de verano",
+   "producto": "INTA, mapa de cultivos de verano (planilla «Actividades Pagos SAG», Dirección de Planeamiento)",
+   "fecha": "Campaña 2020/21",
+   "res": "—",
+   "proceso": "—",
+   "corto": "INTA · verano 2020/21"
+  },
+  "censo": {
+   "dato": "Población y viviendas",
+   "producto": "INDEC, censos 1991, 2001, 2010 y 2022 por radio (2022 con la cartografía corregida del sitio de censos del Plan)",
+   "fecha": "1991, 2001, 2010 y 18/05/2022",
+   "res": "radio censal",
+   "proceso": "reparto por tejido urbano dentro del límite (por superficie en los radios rurales)",
+   "corto": "INDEC · radios censales · reparto por tejido dentro del límite"
+  },
+  "parcelario": {
+   "dato": "Parcelas, manzanas y vía pública",
+   "producto": "Parcelario COU 2024 (SIG municipal)",
+   "fecha": "2024",
+   "res": "parcela",
+   "proceso": "entidades por su punto interior; dibujo recortado al límite",
+   "corto": "Parcelario COU 2024"
+  },
+  "cou": {
+   "dato": "Zonificación",
+   "producto": "Código de Ordenamiento Urbano 2024 (SIG municipal)",
+   "fecha": "2024",
+   "res": "zona",
+   "proceso": "recortada al límite",
+   "corto": "Zonificación COU 2024"
+  },
+  "act": {
+   "dato": "Actividades intensivas",
+   "producto": "Relevamiento municipal de actividades intensivas rurales",
+   "fecha": "2021",
+   "res": "punto",
+   "proceso": "—",
+   "corto": "Relevamiento municipal 2021"
+  },
+  "vial": {
+   "dato": "Red vial",
+   "producto": "Red vial del SIG municipal",
+   "fecha": "2017",
+   "res": "línea",
+   "proceso": "recortada al límite",
+   "corto": "SIG municipal 2017"
+  },
+  "atlas": {
+   "dato": "Cartografía histórica",
+   "producto": "Atlas de Mensuras de Giles · Archivo Histórico de Geodesia (PBA)",
+   "fecha": "Registro gráfico c. 1874, planta urbana y estancias y puestos 1884, mensuras del siglo XIX",
+   "res": "—",
+   "proceso": "recortada al límite",
+   "corto": "Atlas de Mensuras · 1874–1884"
+  },
+  "pagos": {
+   "dato": "Límites",
+   "producto": "Capa Pagos_SAG (SIG municipal, CMDOT): nueve Pagos y la Ciudad",
+   "fecha": "2026",
+   "res": "—",
+   "proceso": "delimitación de todo lo que muestra esta página",
+   "corto": "Capa Pagos_SAG · CMDOT"
+  },
+  "vivo": {
+   "dato": "Análisis en vivo",
+   "producto": "La imagen Wayback (2014–2026) que se elige en la pestaña Vegetación",
+   "fecha": "La de la versión elegida; la toma real se consulta en los metadatos de Esri y se muestra con el resultado",
+   "res": "z16 a z18",
+   "proceso": "en este navegador",
+   "corto": "Análisis en vivo · imagen Wayback elegida"
+  },
+  "emb": {
+   "dato": "Fondo de respaldo",
+   "producto": "Mosaico Esri World Imagery z13 embebido en la página",
+   "fecha": "Descargado el 30/10/2026 (fecha de toma no registrada)",
+   "res": "≈ 16 m",
+   "proceso": "sólo se usa si no cargan las imágenes en línea",
+   "corto": "Mosaico Esri z13 descargado el 30/10/2026"
   }
- },
- "vegetacion_calle": {
-  "A": 0.139,
-  "B": 0.294,
-  "C": 0.255,
-  "D": 0.27,
-  "todo": 0.209
- },
- "lectura_visual_estudio_2024": {
-  "1990": 351,
-  "2020_compacta": 451,
-  "2020_extraurbana": 66,
-  "2020_total": 517,
-  "partido_1990": 512,
-  "partido_2020_compacta": 632,
-  "partido_2020_total": 1325
  }
 }
