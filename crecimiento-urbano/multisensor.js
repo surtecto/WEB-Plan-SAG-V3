@@ -24,16 +24,20 @@
   var HOY = new Date().getUTCFullYear();
 
   var CLS = [
-    { n: 'Sin dato (nubes o fuera de la escena)', c: 'rgba(0,0,0,0)' },
-    { n: 'Construido o impermeable', c: '#d6453d' },
+    { n: 'Sin dato (nubes en todas las fechas o fuera de la escena)', c: 'rgba(0,0,0,0)' },
+    { n: 'Construido denso (techos estimados ≥ 25 % del píxel)', c: '#b3201b' },
+    { n: 'Construido medio (techos 10 a 25 %)', c: '#e0602f' },
+    { n: 'Construido disperso (techos 4 a 10 %)', c: '#f0a94a' },
     { n: 'Vegetación verde todo el año (montes, cortinas, arboledas y pasturas perennes)', c: '#1d6a34' },
     { n: 'Cultivos y pasturas (verdes por temporada)', c: '#b6cf62' },
     { n: 'Suelo con poca vegetación, rastrojo o pastizal ralo', c: '#d9c49b' },
     { n: 'Agua', c: '#2a7ab8' }
   ];
+  var URB = function (k) { return k >= 1 && k <= 3; };
+  function haUrb(r) { return r.ha[1] + r.ha[2] + r.ha[3]; }
   var CAMBIO = [
     { n: 'Sin dato en alguna de las dos fechas', c: 'rgba(0,0,0,0)' },
-    { n: 'Construido en las dos fechas', c: '#6b6157' },
+    { n: 'Construido en las dos fechas (cualquier densidad)', c: '#6b6157' },
     { n: 'Construido nuevo (ampliación)', c: '#e0322a' },
     { n: 'Era construido y ya no lo parece (revisar)', c: '#f2c14e' },
     { n: 'Vegetación permanente nueva', c: '#2fa04a' },
@@ -223,39 +227,74 @@
     })).then(function () { return B; });
   }
 
-  /* ---------- clasificación por trayectoria del año ---------- */
-  function clasificar(stack, N, w, h, prm) {
-    var cls = new Uint8Array(N), nUsadas = stack.length;
-    var mx = new Float32Array(N).fill(-2), mn = new Float32Array(N).fill(2), nb = new Float32Array(N), nw = new Float32Array(N), cnt = new Uint8Array(N), cs = new Uint8Array(N);
+  /* ---------- rasgos del año por píxel ---------- */
+  function rasgos(stack, N) {
+    var mx = new Float32Array(N).fill(-2), mn = new Float32Array(N).fill(2), sm = new Float32Array(N), nb = new Float32Array(N), nw = new Float32Array(N), cnt = new Uint8Array(N), cs = new Uint8Array(N);
     stack.forEach(function (B) {
       for (var p = 0; p < N; p++) {
         var r = B.r[p], n = B.n[p]; if (!(r === r && n === n) || r + n <= 0) continue;
-        var v = (n - r) / (n + r); if (v > mx[p]) mx[p] = v; if (v < mn[p]) mn[p] = v; cnt[p]++;
+        var v = (n - r) / (n + r); if (v > mx[p]) mx[p] = v; if (v < mn[p]) mn[p] = v; sm[p] += v; cnt[p]++;
         var s = B.s[p], g = B.g[p];
         if (s === s && s > 0) { nb[p] += (s - n) / (s + n); if (g === g) nw[p] += (g - s) / (g + s); cs[p]++; }
       }
     });
+    for (var p = 0; p < N; p++) { if (cnt[p]) sm[p] /= cnt[p]; if (cs[p]) { nb[p] /= cs[p]; nw[p] /= cs[p]; } else { nb[p] = NaN; nw[p] = NaN; } }
+    return { mx: mx, mn: mn, me: sm, nb: nb, nw: nw, cnt: cnt };
+  }
+  // vector de rasgos para el modelo de fracción de techo
+  function vec(R, p, nbMedio) { var nb = R.nb[p] === R.nb[p] ? R.nb[p] : nbMedio; return [1, R.me[p], R.mn[p], R.mx[p], nb, R.me[p] * R.me[p], R.mx[p] - R.mn[p]]; }
+
+  /* ---------- verdad de terreno: huellas de Google Open Buildings (≤ mayo 2023) ---------- */
+  var EDIF = (function () {
+    var H = D.hr && D.hr.edif; if (!H || !H.b || !H.b.length) return [];
+    var o = H.o;
+    return H.b.map(function (r) { var x = r[2], y = r[3], ring = [[o[0] + x / 1e6, o[1] + y / 1e6]]; for (var k = 4; k < r.length; k += 2) { x += r[k]; y += r[k + 1]; ring.push([o[0] + x / 1e6, o[1] + y / 1e6]); } ring.push(ring[0]); return { type: 'Feature', geometry: { type: 'Polygon', coordinates: [ring] } }; });
+  })();
+  function techoZona(z) {
+    if (z.techo) return z.techo;
+    var g = z.grid, N = g.w * g.h, k = N > 250000 ? 2 : 4, fg = { x0: g.x0, y0: g.y0, sx: g.sx / k, sy: g.sy / k, w: g.w * k, h: g.h * k };
+    var lab = C.rasterizeFeatures(EDIF, fg, function () { return 1; }), fr = new Float32Array(N);
+    for (var j = 0; j < fg.h; j++) for (var i = 0; i < fg.w; i++) if (lab[j * fg.w + i] >= 0) fr[Math.floor(j / k) * g.w + Math.floor(i / k)] += 1 / (k * k);
+    z.techo = fr; return fr;
+  }
+  // mínimos cuadrados (ecuaciones normales con un pequeño término de regularización)
+  function ajustar(X, y) {
+    var m = X[0].length, A = [], b = new Array(m).fill(0), i, j, k;
+    for (i = 0; i < m; i++) { A.push(new Array(m).fill(0)); A[i][i] = i ? 1e-3 : 0; }
+    for (var n = 0; n < X.length; n++) { var x = X[n]; for (i = 0; i < m; i++) { b[i] += x[i] * y[n]; for (j = 0; j < m; j++) A[i][j] += x[i] * x[j]; } }
+    for (i = 0; i < m; i++) { var piv = i; for (k = i + 1; k < m; k++) if (Math.abs(A[k][i]) > Math.abs(A[piv][i])) piv = k; var t = A[i]; A[i] = A[piv]; A[piv] = t; var tb = b[i]; b[i] = b[piv]; b[piv] = tb;
+      for (k = i + 1; k < m; k++) { var f = A[k][i] / A[i][i]; for (j = i; j < m; j++) A[k][j] -= f * A[i][j]; b[k] -= f * b[i]; } }
+    var c = new Array(m).fill(0); for (i = m - 1; i >= 0; i--) { var sum = b[i]; for (j = i + 1; j < m; j++) sum -= A[i][j] * c[j]; c[i] = sum / A[i][i]; }
+    return c;
+  }
+  function predecir(c, x) { var v = 0; for (var i = 0; i < c.length; i++) v += c[i] * x[i]; return v < 0 ? 0 : v > 1 ? 1 : v; }
+
+  /* ---------- clasificación: techo estimado por el modelo + trayectoria de la vegetación ---------- */
+  function clasificar(R, N, w, h, prm, mod) {
+    var cls = new Uint8Array(N), fr = new Float32Array(N);
     for (var p = 0; p < N; p++) {
-      if (!cnt[p]) { cls[p] = 0; continue; }
-      var ndbi = cs[p] ? nb[p] / cs[p] : null, mndwi = cs[p] ? nw[p] / cs[p] : null;
-      if (mndwi != null && mndwi > 0.05 && mx[p] < 0.3) cls[p] = 5;
-      else if (mx[p] < prm.urb && (ndbi == null || ndbi > -0.12)) cls[p] = 1;
-      else if (cnt[p] >= 2 && mn[p] >= prm.perm) cls[p] = 2;
-      else if (mx[p] >= 0.5) cls[p] = 3;
-      else cls[p] = 4;
+      if (!R.cnt[p]) { cls[p] = 0; continue; }
+      var f = predecir(mod.c, vec(R, p, mod.nbMedio)); fr[p] = f;
+      if (R.nw[p] === R.nw[p] && R.nw[p] > 0.05 && R.mx[p] < 0.3) cls[p] = 7;
+      else if (f >= 0.25) cls[p] = 1;
+      else if (f >= 0.10) cls[p] = 2;
+      else if (f >= prm.urb) cls[p] = 3;
+      else if (R.cnt[p] >= 2 && R.mn[p] >= prm.perm) cls[p] = 4;
+      else if (R.mx[p] >= 0.5) cls[p] = 5;
+      else cls[p] = 6;
     }
-    // construido aislado (menos de 3 vecinos construidos): se reasigna a suelo con poca vegetación
+    // construido aislado (sin vecinos construidos): se reasigna según su vegetación
     var out = cls.slice();
     for (var j = 0; j < h; j++) for (var i = 0; i < w; i++) {
-      var q = j * w + i; if (cls[q] !== 1) continue; var c = 0;
-      for (var dj = -1; dj <= 1; dj++) for (var di = -1; di <= 1; di++) { if (!di && !dj) continue; var ii = i + di, jj = j + dj; if (ii < 0 || jj < 0 || ii >= w || jj >= h) continue; if (cls[jj * w + ii] === 1) c++; }
-      if (c < 3) out[q] = 4;
+      var q = j * w + i; if (!URB(cls[q])) continue; var c = 0;
+      for (var dj = -1; dj <= 1; dj++) for (var di = -1; di <= 1; di++) { if (!di && !dj) continue; var ii = i + di, jj = j + dj; if (ii < 0 || jj < 0 || ii >= w || jj >= h) continue; if (URB(cls[jj * w + ii])) c++; }
+      if (c < 1) out[q] = R.mx[q] >= 0.5 ? 5 : 6;
     }
-    return { cls: out, usadas: nUsadas };
+    return { cls: out, fr: fr };
   }
 
   /* ---------- estado y capa en el mapa ---------- */
-  var S = { res: {}, orden: [], actual: null, cambio: null, op: store('op') || 0.8, corriendo: false, cancelar: false };
+  var S = { res: {}, orden: [], mod: {}, actual: null, cambio: null, op: store('op') || 0.8, corriendo: false, cancelar: false };
   var capa = null;
   function paneMulti() { var m = window.SIG_MAP; if (!m.getPane('pMulti')) { m.createPane('pMulti'); m.getPane('pMulti').style.zIndex = 470; } return 'pMulti'; }
   function pintarCapa(lista, paleta) {
@@ -300,45 +339,81 @@
 
   /* ---------- correr un período ---------- */
   function estado(t, err) { var e = $('mlEst'); if (e) { e.hidden = !t; e.innerHTML = t || ''; e.classList.toggle('err', !!err); } }
-  function correr(sensor, per, ambito, resM, prm, pintar) {
-    var zs = zonas(ambito, resM), npx = pixeles(zs);
-    if (npx > 9e6) return Promise.reject(new Error('el ámbito tiene ' + fmt(npx) + ' píxeles a ' + resM + ' m; elegí una resolución más gruesa o un ámbito menor'));
-    var t0 = Date.now();
+  /* lee las imágenes de un período para un conjunto de zonas y devuelve los rasgos del año por zona */
+  function leerPeriodo(sensor, per, zs, t0, rotulo) {
     var fechasP = sensor === 's2'
       ? catalogoS2(zs, per.anio).then(function (it) { if (!it.length) throw new Error('no hay escenas Sentinel-2 con menos de 40 % de nubes en ' + per.anio); return elegirFechas(it, 0.35); })
       : Promise.resolve(elegirFechas(per.escenas, 0.6));
     return Promise.all([cargarGeoTIFF(), fechasP]).then(function (v) {
       var fechas = v[1]; if (!fechas.length) throw new Error('no hay fechas con pocas nubes en ' + per.t);
-      var paso = 0, total = fechas.length * zs.length;
-      var res = zs.map(function (z) { return { z: z, stack: [] }; });
+      var paso = 0, total = fechas.length * zs.length, res = zs.map(function (z) { return { z: z, stack: [] }; });
       var tareas = []; fechas.forEach(function (f) { res.forEach(function (rz) { tareas.push([f, rz]); }); });
-      var etiqueta = sensor === 's2' ? 'Sentinel-2' : 'Landsat';
+      var etiqueta = (sensor === 's2' ? 'Sentinel-2 ' : 'Landsat ') + per.t + (rotulo ? ' (' + rotulo + ')' : '');
       var pool = function () {
         var t = tareas.shift(); if (!t) return Promise.resolve();
         if (S.cancelar) return Promise.reject(new Error('cancelado'));
         var f = t[0], rz = t[1];
-        var lector = sensor === 's2' ? leerS2(f, rz.z) : leerLandsat(f, rz.z);
-        return lector.then(function (B) {
+        return (sensor === 's2' ? leerS2(f, rz.z) : leerLandsat(f, rz.z)).then(function (B) {
           if (B) rz.stack.push(B); paso++;
-          estado('Leyendo ' + etiqueta + ': ' + paso + ' de ' + total + ' imágenes por zona listas · última: ' + dmy(f.fecha) + (f.estacion ? ' (' + f.estacion + ')' : '') + ', ' + esc(rz.z.nom) + ' · ' + Math.round((Date.now() - t0) / 1000) + ' s');
+          estado('Leyendo ' + etiqueta + ': ' + paso + ' de ' + total + ' imágenes por zona · última ' + dmy(f.fecha) + (f.estacion ? ' (' + f.estacion + ')' : '') + ', ' + esc(rz.z.nom) + ' · ' + Math.round((Date.now() - t0) / 1000) + ' s');
         }).then(pool);
       };
       estado('Leyendo ' + etiqueta + ': ' + fechas.length + ' fechas × ' + zs.length + ' zonas…');
       return Promise.all([pool(), pool(), pool(), pool()]).then(function () {
-        var conts = [0, 0, 0, 0, 0, 0], porZona = {};
-        var items = res.map(function (rz) {
-          var g = rz.z.grid, N = g.w * g.h, k = clasificar(rz.stack, N, g.w, g.h, prm), cz = [0, 0, 0, 0, 0, 0];
-          for (var p = 0; p < N; p++) if (rz.z.mask[p]) cz[k.cls[p]]++;
-          var ha = cz.map(function (c) { return c * resM * resM / 1e4; });
-          for (var q = 0; q < 6; q++) conts[q] += ha[q];
-          porZona[rz.z.nom] = ha;
-          return { z: rz.z, cls: k.cls };
-        });
         var escenas = [];
         fechas.forEach(function (f) { f.items.forEach(function (e) { escenas.push((e.nombre || e.id) + ' (' + dmy(e.fecha) + (e.nube != null ? ', nubes ' + fmt(e.nube * 100) + ' %' : '') + ')'); }); });
+        return { fechas: fechas, escenas: escenas, zonas: res.map(function (rz) { var g = rz.z.grid; return { z: rz.z, R: rasgos(rz.stack, g.w * g.h) }; }) };
+      });
+    });
+  }
+
+  /* calibración: el modelo de fracción de techo se ajusta con las huellas de Google sobre las imágenes de 2023 del mismo sensor */
+  function modelo(sensor, resM, t0) {
+    var k = 'mod.' + sensor + '.' + resM, m = S.mod[k] || store(k);
+    if (m && m.v === 2) { S.mod[k] = m; return Promise.resolve(m); }
+    if (!EDIF.length) return Promise.reject(new Error('esta página no tiene huellas de edificios para calibrar'));
+    var per = (sensor === 's2' ? PER.s2 : PER.ls).filter(function (p) { return p.anio === 2023; })[0];
+    if (!per) return Promise.reject(new Error('no hay período 2023 para calibrar'));
+    var amb = D.pueblos && D.pueblos.features && D.pueblos.features.length ? 'pueblos' : 'ter';
+    var zs = zonas(amb, resM);
+    return leerPeriodo(sensor, per, zs, t0, 'calibración con las huellas de Google').then(function (L2) {
+      var X = [], y = [], nbs = [];
+      L2.zonas.forEach(function (zz) { var R = zz.R, N = R.cnt.length; for (var p = 0; p < N; p++) if (R.cnt[p] && R.nb[p] === R.nb[p]) nbs.push(R.nb[p]); });
+      nbs.sort(function (a, b) { return a - b; }); var nbMedio = nbs.length ? nbs[Math.floor(nbs.length / 2)] : -0.15;
+      L2.zonas.forEach(function (zz) {
+        var R = zz.R, fr = techoZona(zz.z), N = R.cnt.length;
+        for (var p = 0; p < N; p++) { if (!R.cnt[p]) continue; X.push(vec(R, p, nbMedio)); y.push(fr[p]); } // todo el rectángulo: pueblo y campo que lo rodea
+      });
+      if (X.length < 200) throw new Error('muy pocos píxeles para calibrar');
+      var c = ajustar(X, y), se = 0, st = 0, my = y.reduce(function (a, b) { return a + b; }, 0) / y.length, tp = 0, fp = 0, fn = 0;
+      for (var i = 0; i < X.length; i++) { var f = predecir(c, X[i]); se += (f - y[i]) * (f - y[i]); st += (y[i] - my) * (y[i] - my); var a = f >= 0.04, b = y[i] >= 0.04; if (a && b) tp++; else if (a) fp++; else if (b) fn++; }
+      var m2 = { v: 2, c: c, nbMedio: nbMedio, r2: 1 - se / st, ecm: Math.sqrt(se / X.length), n: X.length, nEdif: EDIF.length, periodo: per.t, fechas: L2.fechas.map(function (f) { return f.fecha; }),
+        precision: tp / Math.max(1, tp + fp), sensibilidad: tp / Math.max(1, tp + fn), ambito: amb };
+      S.mod[k] = m2; store(k, m2); return m2;
+    });
+  }
+
+  function correr(sensor, per, ambito, resM, prm, pintar) {
+    var zs = zonas(ambito, resM), npx = pixeles(zs);
+    if (npx > 9e6) return Promise.reject(new Error('el ámbito tiene ' + fmt(npx) + ' píxeles a ' + resM + ' m; elegí una resolución más gruesa o un ámbito menor'));
+    var t0 = Date.now();
+    return modelo(sensor, resM, t0).then(function (mod) {
+      return leerPeriodo(sensor, per, zs, t0).then(function (L2) {
+        var conts = [0, 0, 0, 0, 0, 0, 0, 0], porZona = {};
+        var items = L2.zonas.map(function (zz) {
+          var g = zz.z.grid, N = g.w * g.h, k = clasificar(zz.R, N, g.w, g.h, prm, mod), cz = [0, 0, 0, 0, 0, 0, 0, 0], techo = 0;
+          for (var p = 0; p < N; p++) if (zz.z.mask[p]) { cz[k.cls[p]]++; techo += k.fr[p]; }
+          var ha = cz.map(function (c) { return c * resM * resM / 1e4; });
+          for (var q = 0; q < 8; q++) conts[q] += ha[q];
+          ha.techo = techo * resM * resM / 1e4;
+          porZona[zz.z.nom] = { ha: ha, techo: ha.techo };
+          return { z: zz.z, cls: k.cls };
+        });
+        var techoTot = Object.keys(porZona).reduce(function (a, n) { return a + porZona[n].techo; }, 0);
         var key = sensor + '|' + per.k + '|' + ambito + '|' + resM + '|' + prm.urb + '|' + prm.perm;
         var r = { key: key, sensor: sensor, periodo: per.t, anio: per.anio, ambito: ambito, ambitoTxt: ambito === 'pueblos' ? 'pueblos y parajes estudiados' : ambito === 'vista' ? 'vista del mapa' : 'todo ' + NOMBRE, resM: resM, prm: prm,
-          fechas: fechas.map(function (f) { return { fecha: f.fecha, estacion: f.estacion || '' }; }), escenas: escenas, ha: conts, porZona: porZona, items: items, cuando: new Date().toISOString().slice(0, 16).replace('T', ' '), seg: Math.round((Date.now() - t0) / 1000) };
+          fechas: L2.fechas.map(function (f) { return { fecha: f.fecha, estacion: f.estacion || '' }; }), escenas: L2.escenas, ha: conts, techo: techoTot, porZona: porZona, items: items, mod: mod,
+          cuando: new Date().toISOString().slice(0, 16).replace('T', ' '), seg: Math.round((Date.now() - t0) / 1000) };
         if (!S.res[key]) S.orden.push(key);
         S.res[key] = r;
         guardarSerie(r);
@@ -360,7 +435,7 @@
       var ib = B.items[i], N = ia.cls.length, out = new Uint8Array(N);
       for (var p = 0; p < N; p++) {
         if (!ia.z.mask[p]) continue; var a = ia.cls[p], b = ib.cls[p]; if (!a || !b) continue;
-        var k = a === 1 && b === 1 ? 1 : a !== 1 && b === 1 ? 2 : a === 1 && b !== 1 ? 3 : a !== 2 && b === 2 ? 4 : a === 2 && b !== 2 ? 5 : 0;
+        var ua = URB(a), ub = URB(b), k = ua && ub ? 1 : !ua && ub ? 2 : ua && !ub ? 3 : a !== 4 && b === 4 ? 4 : a === 4 && b !== 4 ? 5 : 0;
         out[p] = k; conts[k] += A.resM * A.resM / 1e4;
       }
       return { z: ia.z, cls: out };
@@ -369,7 +444,7 @@
     var box = $('mlCmpRes');
     if (box) box.innerHTML = '<table class="ml-t"><caption>Cambios entre ' + esc(A.periodo) + ' y ' + esc(B.periodo) + ' · ' + esc(A.ambitoTxt) + '</caption><thead><tr><th scope="col">Cambio</th><th scope="col">ha</th></tr></thead><tbody>' +
       CAMBIO.slice(1).map(function (c, i) { return '<tr><th scope="row"><span class="sw" style="background:' + c.c + '"></span>' + esc(c.n) + '</th><td>' + fmt(conts[i + 1], 1) + '</td></tr>'; }).join('') + '</tbody></table>' +
-      '<p class="nota">Lo construido nuevo es lo que en ' + esc(A.periodo) + ' tenía algún momento verde en el año y en ' + esc(B.periodo) + ' ya no lo tiene. Para comparar, los dos períodos tienen que ser del mismo sensor, ámbito y resolución. A 30 m (Landsat) una casa sola no se ve; se ven barrios, loteos ocupados, galpones grandes y rutas.</p>';
+      '<p class="nota">Lo construido nuevo es lo que en ' + esc(A.periodo) + ' tenía menos techo estimado que el umbral y en ' + esc(B.periodo) + ' lo supera. Para comparar, los dos períodos tienen que ser del mismo sensor, ámbito y resolución. A 30 m (Landsat) una casa sola no se ve; se ven barrios, loteos ocupados, galpones grandes y rutas.</p>';
   }
 
   /* ---------- interfaz ---------- */
@@ -379,45 +454,46 @@
     sp.innerHTML = PER[sen].map(function (p) { return '<option value="' + p.k + '">' + esc(p.t) + (p.escenas ? ' · ' + p.escenas.length + ' escena' + (p.escenas.length > 1 ? 's' : '') : '') + '</option>'; }).join('');
     sp.value = PER[sen].length ? PER[sen][PER[sen].length - 1].k : '';
     $('mlRes').innerHTML = sen === 's2' ? '<option value="10">10 m (pueblos o vista)</option><option value="20" selected>20 m (todo el Pago)</option><option value="30">30 m (comparable con Landsat)</option>' : '<option value="30" selected>30 m</option><option value="60">60 m (más rápido)</option>';
-    $('mlUrb').value = sen === 's2' ? 0.40 : 0.38; pintarUmbral();
+    pintarUmbral();
   }
-  function pintarUmbral() { $('mlUrbV').textContent = fmt(+$('mlUrb').value, 2); $('mlPermV').textContent = fmt(+$('mlPerm').value, 2); }
+  function pintarUmbral() { $('mlUrbV').textContent = fmt(+$('mlUrb').value * 100) + ' %'; $('mlPermV').textContent = fmt(+$('mlPerm').value, 2); }
   function prmUI() { return { urb: +$('mlUrb').value, perm: +$('mlPerm').value }; }
   function perUI() { var sen = $('mlSen').value; return PER[sen].filter(function (p) { return p.k === $('mlPer').value; })[0]; }
   function pintarResultado(r) {
     var box = $('mlRes1'); if (!box || !r) return;
     var tot = r.ha.slice(1).reduce(function (a, b) { return a + b; }, 0) + r.ha[0];
-    box.innerHTML = '<div class="ml-que"><b>Qué se usó</b><div>' + esc(descripcion(r)) + '</div><div><span>Escenas</span> ' + esc(r.escenas.join(' · ')) + '</div><div><span>Umbrales</span> construido si el NDVI máximo del año es menor que ' + fmt(r.prm.urb, 2) + '; verde todo el año si el NDVI mínimo es ' + fmt(r.prm.perm, 2) + ' o más</div><div><span>Calculado</span> ' + esc(r.cuando) + ' en ' + r.seg + ' s, en este navegador</div></div>' +
+    box.innerHTML = '<div class="ml-que"><b>Qué se usó</b><div>' + esc(descripcion(r)) + '</div><div><span>Escenas</span> ' + esc(r.escenas.join(' · ')) + '</div><div><span>Modelo de techo</span> calibrado con ' + fmt(r.mod.nEdif) + ' huellas de Google sobre ' + (r.sensor === 's2' ? 'Sentinel-2 ' : 'Landsat ') + esc(r.mod.periodo) + ' (' + r.mod.fechas.map(dmy).join(', ') + '), ' + fmt(r.mod.n) + ' píxeles: R² ' + fmt(r.mod.r2, 2) + ', error medio ' + fmt(r.mod.ecm * 100, 1) + ' puntos de techo; de los píxeles con techo ≥ 4 % detecta ' + fmt(r.mod.sensibilidad * 100) + ' % y acierta en ' + fmt(r.mod.precision * 100) + ' % de los que marca</div><div><span>Umbrales</span> construido desde ' + fmt(r.prm.urb * 100) + ' % de techo estimado; verde todo el año si el NDVI mínimo es ' + fmt(r.prm.perm, 2) + ' o más</div><div><span>Calculado</span> ' + esc(r.cuando) + ' en ' + r.seg + ' s, en este navegador</div></div>' +
       '<table class="ml-t"><caption>Superficie por clase · ' + esc(r.ambitoTxt) + '</caption><thead><tr><th scope="col">Clase</th><th scope="col">ha</th><th scope="col">%</th></tr></thead><tbody>' +
       CLS.map(function (c, i) { return i ? '<tr><th scope="row"><span class="sw" style="background:' + c.c + '"></span>' + esc(c.n) + '</th><td>' + fmt(r.ha[i], 1) + '</td><td>' + fmt(r.ha[i] / tot * 100, 1) + '</td></tr>' : ''; }).join('') +
-      '<tr class="nd"><th scope="row">Sin dato (nubes en todas las fechas o fuera de la escena)</th><td>' + fmt(r.ha[0], 1) + '</td><td>' + fmt(r.ha[0] / tot * 100, 1) + '</td></tr></tbody></table>' +
-      (Object.keys(r.porZona).length > 1 ? '<table class="ml-t"><caption>Construido y vegetación permanente por pueblo</caption><thead><tr><th scope="col">Pueblo o paraje</th><th scope="col">Construido, ha</th><th scope="col">Verde todo el año, ha</th></tr></thead><tbody>' +
-        Object.keys(r.porZona).map(function (n) { var h = r.porZona[n]; return '<tr><th scope="row">' + esc(n) + '</th><td>' + fmt(h[1], 1) + '</td><td>' + fmt(h[2], 1) + '</td></tr>'; }).join('') + '</tbody></table>' : '') +
+      '<tr class="nd"><th scope="row">Sin dato (nubes en todas las fechas o fuera de la escena)</th><td>' + fmt(r.ha[0], 1) + '</td><td>' + fmt(r.ha[0] / tot * 100, 1) + '</td></tr><tr><th scope="row">Techo estimado (suma de fracciones)</th><td>' + fmt(r.techo, 1) + '</td><td></td></tr></tbody></table>' +
+      (Object.keys(r.porZona).length > 1 ? '<table class="ml-t"><caption>Por pueblo o paraje</caption><thead><tr><th scope="col">Pueblo o paraje</th><th scope="col">Área construida, ha</th><th scope="col">Techo estimado, ha</th><th scope="col">Verde todo el año, ha</th></tr></thead><tbody>' +
+        Object.keys(r.porZona).map(function (n) { var h = r.porZona[n].ha; return '<tr><th scope="row">' + esc(n) + '</th><td>' + fmt(h[1] + h[2] + h[3], 1) + '</td><td>' + fmt(r.porZona[n].techo, 1) + '</td><td>' + fmt(h[4], 1) + '</td></tr>'; }).join('') + '</tbody></table>' : '') +
       (r.fechas.length < 2 ? '<p class="nota guard">Un solo día de imagen: un lote arado o un rastrojo seco se confunden con lo construido. Leé esta época sólo dentro de los pueblos.</p>' : '');
     pintarSerie();
   }
   function pintarSerie() {
     var box = $('mlSerie'); if (!box) return;
     var s = store('serie') || {}, sen = $('mlSen').value, amb = ambUI(), res = $('mlRes').value;
-    var rs = Object.keys(s).map(function (k) { return s[k]; }).filter(function (r) { return r.sensor === sen && r.ambito === amb && String(r.resM) === String(res); }).sort(function (a, b) { return a.anio - b.anio; });
+    var rs = Object.keys(s).map(function (k) { return s[k]; }).filter(function (r) { return r.ha && r.ha.length === 8 && r.sensor === sen && r.ambito === amb && String(r.resM) === String(res); }).sort(function (a, b) { return a.anio - b.anio; });
     var mem = S.orden.filter(function (k) { var r = S.res[k]; return r.sensor === sen && r.ambito === amb && String(r.resM) === String(res); });
     $('mlA').innerHTML = $('mlB').innerHTML = mem.map(function (k) { return '<option value="' + esc(k) + '">' + esc(S.res[k].periodo) + '</option>'; }).join('');
     if (mem.length > 1) { $('mlA').value = mem[0]; $('mlB').value = mem[mem.length - 1]; }
     $('mlCmp').disabled = mem.length < 2;
     if (!rs.length) { box.innerHTML = '<p class="nota">Todavía no hay períodos calculados con este sensor, ámbito y resolución.</p>'; return; }
     var W = 320, H = 150, P = 30, xs = rs.map(function (r) { return r.anio; }), x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs);
-    var y1 = Math.max.apply(null, rs.map(function (r) { return Math.max(r.ha[1], r.ha[2]); })) || 1;
+    var y1 = Math.max.apply(null, rs.map(function (r) { return Math.max(haUrb(r), r.ha[4]); })) || 1;
     var X = function (a) { return P + (x1 > x0 ? (a - x0) / (x1 - x0) : 0.5) * (W - P - 10); }, Y = function (v) { return H - 20 - v / y1 * (H - 34); };
-    var linea = function (k, c) { return '<polyline fill="none" stroke="' + c + '" stroke-width="2" points="' + rs.map(function (r) { return X(r.anio).toFixed(1) + ',' + Y(r.ha[k]).toFixed(1); }).join(' ') + '"/>' + rs.map(function (r) { return '<circle cx="' + X(r.anio).toFixed(1) + '" cy="' + Y(r.ha[k]).toFixed(1) + '" r="2.6" fill="' + c + '"><title>' + r.periodo + ': ' + fmt(r.ha[k], 1) + ' ha</title></circle>'; }).join(''); };
+    var val = function (r, k) { return k === 'u' ? haUrb(r) : r.ha[k]; };
+    var linea = function (k, c) { return '<polyline fill="none" stroke="' + c + '" stroke-width="2" points="' + rs.map(function (r) { return X(r.anio).toFixed(1) + ',' + Y(val(r, k)).toFixed(1); }).join(' ') + '"/>' + rs.map(function (r) { return '<circle cx="' + X(r.anio).toFixed(1) + '" cy="' + Y(val(r, k)).toFixed(1) + '" r="2.6" fill="' + c + '"><title>' + r.periodo + ': ' + fmt(val(r, k), 1) + ' ha</title></circle>'; }).join(''); };
     box.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" class="ml-graf" role="img" aria-label="Serie de hectáreas construidas y de vegetación permanente"><line x1="' + P + '" y1="' + (H - 20) + '" x2="' + (W - 10) + '" y2="' + (H - 20) + '" stroke="currentColor" stroke-opacity=".3"/>' +
       '<text x="' + P + '" y="' + (H - 6) + '" font-size="9" fill="currentColor">' + x0 + '</text><text x="' + (W - 10) + '" y="' + (H - 6) + '" font-size="9" text-anchor="end" fill="currentColor">' + x1 + '</text><text x="2" y="12" font-size="9" fill="currentColor">' + fmt(y1) + ' ha</text>' +
-      linea(1, CLS[1].c) + linea(2, CLS[2].c) + '</svg>' +
-      '<table class="ml-t"><caption>Serie · ' + (sen === 's2' ? 'Sentinel-2' : 'Landsat') + ' · ' + esc(rs[0].ambitoTxt) + ' · ' + res + ' m</caption><thead><tr><th scope="col">Período</th><th scope="col">Construido, ha</th><th scope="col">Verde todo el año, ha</th><th scope="col">Fechas</th></tr></thead><tbody>' +
-      rs.map(function (r) { return '<tr><th scope="row">' + esc(r.periodo) + '</th><td>' + fmt(r.ha[1], 1) + '</td><td>' + fmt(r.ha[2], 1) + '</td><td>' + r.fechas.length + '</td></tr>'; }).join('') + '</tbody></table>' +
+      linea('u', CLS[2].c) + linea(4, CLS[4].c) + '</svg>' +
+      '<table class="ml-t"><caption>Serie · ' + (sen === 's2' ? 'Sentinel-2' : 'Landsat') + ' · ' + esc(rs[0].ambitoTxt) + ' · ' + res + ' m</caption><thead><tr><th scope="col">Período</th><th scope="col">Área construida, ha</th><th scope="col">Techo estimado, ha</th><th scope="col">Verde todo el año, ha</th><th scope="col">Fechas</th></tr></thead><tbody>' +
+      rs.map(function (r) { return '<tr><th scope="row">' + esc(r.periodo) + '</th><td>' + fmt(haUrb(r), 1) + '</td><td>' + fmt(r.techo, 1) + '</td><td>' + fmt(r.ha[4], 1) + '</td><td>' + r.fechas.length + '</td></tr>'; }).join('') + '</tbody></table>' +
       '<button type="button" class="btn sec2" id="mlCsv">Descargar la serie (CSV)</button>';
     $('mlCsv').onclick = function () {
-      var L2 = ['sensor;periodo;ambito;resolucion_m;construido_ha;verde_todo_el_anio_ha;cultivos_pasturas_ha;suelo_poca_veg_ha;agua_ha;sin_dato_ha;fechas;escenas'];
-      rs.forEach(function (r) { L2.push([r.sensor === 's2' ? 'Sentinel-2 L2A' : 'Landsat', r.periodo, r.ambitoTxt, r.resM, r.ha[1].toFixed(2), r.ha[2].toFixed(2), r.ha[3].toFixed(2), r.ha[4].toFixed(2), r.ha[5].toFixed(2), r.ha[0].toFixed(2), r.fechas.map(function (f) { return f.fecha; }).join(' '), r.escenas.join(' | ')].join(';')); });
+      var L2 = ['sensor;periodo;ambito;resolucion_m;construido_denso_ha;construido_medio_ha;construido_disperso_ha;techo_estimado_ha;verde_todo_el_anio_ha;cultivos_pasturas_ha;suelo_poca_veg_ha;agua_ha;sin_dato_ha;fechas;escenas'];
+      rs.forEach(function (r) { L2.push([r.sensor === 's2' ? 'Sentinel-2 L2A' : 'Landsat', r.periodo, r.ambitoTxt, r.resM, r.ha[1].toFixed(2), r.ha[2].toFixed(2), r.ha[3].toFixed(2), (r.techo || 0).toFixed(2), r.ha[4].toFixed(2), r.ha[5].toFixed(2), r.ha[6].toFixed(2), r.ha[7].toFixed(2), r.ha[0].toFixed(2), r.fechas.map(function (f) { return f.fecha; }).join(' '), r.escenas.join(' | ')].join(';')); });
       var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + L2.join('\n')], { type: 'text/csv' })); a.download = 'deteccion_multisensor_' + (TER.slug || 'ciudad') + '.csv'; a.click();
     };
   }
@@ -429,7 +505,7 @@
     var sec = document.createElement('div'); sec.className = 'sec ml'; sec.id = 'secMulti';
     sec.innerHTML = '<div class="eyebrow">Detección multisensor · Landsat 1976–2026 · Sentinel-2 2017–2026</div>' +
       '<h2>Ampliación urbana y vegetación con todas las imágenes</h2>' +
-      '<p>Lee las bandas reales (rojo, infrarrojo cercano, infrarrojo de onda corta y verde) de una escena por estación del período elegido y clasifica cada píxel por lo que hace en el año: <b>construido</b> si nunca está verde, <b>verde todo el año</b> si nunca deja de estarlo, <b>cultivos y pasturas</b> si verdea por temporada, <b>suelo con poca vegetación</b> o <b>agua</b>. La imagen Esri de alta resolución sigue siendo la del detalle (techos, árboles de la calle); ésta es la de la serie larga.</p>' +
+      '<p>Lee las bandas reales (rojo, infrarrojo cercano, infrarrojo de onda corta y verde) de una escena por estación del período elegido y estima en cada píxel la <b>fracción de techo</b> (con un modelo calibrado con las huellas de edificios de Google) y lo que hace la vegetación en el año: <b>construido denso, medio o disperso</b>, <b>verde todo el año</b> si nunca deja de estarlo, <b>cultivos y pasturas</b> si verdea por temporada, <b>suelo con poca vegetación</b> o <b>agua</b>. La imagen Esri de alta resolución sigue siendo la del detalle (techos, árboles de la calle); ésta es la de la serie larga.</p>' +
       '<div class="ml-g"><label>Sensor<select id="mlSen"><option value="s2">Sentinel-2 L2A · 10–20 m · 2017–2026</option><option value="ls">Landsat 2 a 9 · 30 m · 1976–2026</option></select></label>' +
       '<label>Período<select id="mlPer"><option>cargando el catálogo…</option></select></label>' +
       '<label>Resolución<select id="mlRes"></select></label></div>' +
@@ -438,9 +514,9 @@
       '<label><input type="radio" name="mlAmb" value="ter"' + (hayP ? '' : ' checked') + '> Todo ' + esc(NOMBRE) + '</label>' +
       '<label><input type="radio" name="mlAmb" value="vista"> Vista del mapa</label></fieldset>' +
       '<details class="ml-prm"><summary>Umbrales de la clasificación</summary>' +
-      '<label>Construido si el NDVI máximo del año es menor que <output id="mlUrbV"></output><input type="range" id="mlUrb" min="0.25" max="0.55" step="0.01" value="0.40"></label>' +
+      '<label>Construido desde un techo estimado de <output id="mlUrbV"></output> del píxel<input type="range" id="mlUrb" min="0.02" max="0.10" step="0.01" value="0.04"></label>' +
       '<label>Verde todo el año si el NDVI mínimo es al menos <output id="mlPermV"></output><input type="range" id="mlPerm" min="0.40" max="0.75" step="0.01" value="0.55"></label>' +
-      '<p class="nota">NDVI = (infrarrojo − rojo) / (infrarrojo + rojo). Se exige además que lo construido refleje más en el infrarrojo de onda corta que en el cercano (NDBI medio mayor que −0,12) y se descartan los píxeles construidos aislados. En Landsat 2 y 3 (1976–1980) no hay onda corta.</p></details>' +
+      '<p class="nota">Cómo se estima lo construido: en los pueblos la casa queda entre árboles y jardines, y a 10 o 30 m casi ningún píxel es «todo techo». Por eso no se usa un corte de color: un modelo aprende, con las ' + fmt(EDIF.length) + ' huellas de edificios de Google (anteriores a mayo de 2023) y las imágenes de 2023 del mismo sensor, qué fracción de techo corresponde a cada combinación de NDVI medio, mínimo y máximo del año y de NDBI (onda corta). Ese modelo se aplica después a cada año. Agua: MNDWI medio mayor que 0,05. NDVI = (infrarrojo − rojo) / (infrarrojo + rojo). En Landsat 2 y 3 (1976–1980) no hay onda corta.</p></details>' +
       '<div class="botones"><button class="btn" id="mlGo">Detectar en el período</button><button class="btn sec2" id="mlSerieGo">Calcular toda la serie</button><button class="btn sec2" id="mlStop" hidden>Detener</button></div>' +
       '<div class="estado" id="mlEst" role="status" aria-live="polite" hidden></div>' +
       '<label class="ml-op">Opacidad en el mapa <input type="range" id="mlOp" min="0" max="1" step="0.05" value="' + S.op + '"></label> <button type="button" class="lnk" id="mlQuitar">Quitar del mapa</button>' +
