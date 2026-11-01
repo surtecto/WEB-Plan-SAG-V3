@@ -1,7 +1,7 @@
 /* La salud que cuenta · Plan SAG — tableros, tablas y mapa */
 const nf = (v, d = 0) => v == null || v === '' || isNaN(v) ? '–' : Number(v).toLocaleString('es-AR', { minimumFractionDigits: d, maximumFractionDigits: d });
-const INK = '#2B3A42', OC = '#B5762B', GR = '#9AA5AB', VE = '#5B7F4A', RO = '#A33B2F', AZ = '#2A5C7E';
-Chart.defaults.font.family = "'Archivo', system-ui, sans-serif"; Chart.defaults.color = '#3B464D';
+const INK = '#3A3027', OC = '#7B5A8E', GR = '#A69C8F', VE = '#A2934A', RO = '#9B3B2F', AZ = '#2A5C7E'; // paleta Horizonte
+Chart.defaults.font.family = "'Plus Jakarta Sans', system-ui, sans-serif"; Chart.defaults.color = '#4A4138';
 const charts = {}; let D, E, LOADED = false;
 function mk(id, cfg) { if (charts[id]) charts[id].destroy(); const el = document.getElementById(id); if (el) charts[id] = new Chart(el, cfg); }
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));

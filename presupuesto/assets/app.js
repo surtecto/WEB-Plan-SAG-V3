@@ -1,9 +1,9 @@
 /* Observatorio del presupuesto de San Andrés de Giles — tableros */
-const C = { ink: '#2B3A42', ocre: '#B5762B', ocreD: '#8A5418', gris: '#9AA5AB', arena: '#D9B98C', verde: '#5B7F4A', rojo: '#A33B2F', pizarra: '#5F7480', claro: '#C9CFD2', marron: '#7A4A17' };
-const PAL = [C.ink, C.ocre, C.pizarra, C.arena, C.verde, C.marron, C.gris, C.rojo, '#8C9DA6', '#C9B79C'];
+const C = { ink: '#3A3027', ocre: '#7B5A8E', ocreD: '#5E4370', gris: '#A69C8F', arena: '#C4AE84', verde: '#A2934A', rojo: '#9B3B2F', pizarra: '#7A4E33', claro: '#E4DED3', marron: '#5E4A3A' }; // paleta Horizonte
+const PAL = [C.ink, C.ocre, C.pizarra, C.arena, C.verde, C.marron, C.gris, C.rojo, '#8FA2AC', '#B79CC8'];
 const nf = (v, d = 0) => v == null || isNaN(v) ? '–' : Number(v).toLocaleString('es-AR', { minimumFractionDigits: d, maximumFractionDigits: d });
 let D = null, TB = null; const charts = {}; const drawn = {};
-Chart.defaults.font.family = "'Archivo', system-ui, sans-serif"; Chart.defaults.font.size = 12; Chart.defaults.color = '#3B464D';
+Chart.defaults.font.family = "'Plus Jakarta Sans', system-ui, sans-serif"; Chart.defaults.font.size = 12; Chart.defaults.color = '#4A4138';
 Chart.defaults.plugins.legend.labels.boxWidth = 12; Chart.defaults.maintainAspectRatio = false;
 
 function mk(id, cfg) { if (charts[id]) charts[id].destroy(); const el = document.getElementById(id); if (!el) return; charts[id] = new Chart(el, cfg); }
