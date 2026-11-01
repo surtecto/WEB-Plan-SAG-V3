@@ -26,8 +26,8 @@
   var CLS = [
     { n: 'Sin dato (nubes en todas las fechas o fuera de la escena)', c: 'rgba(0,0,0,0)' },
     { n: 'Construido denso (techos estimados ≥ 20 % de la celda de ≈55 m)', c: '#b3201b' },
-    { n: 'Construido medio (techos 8 a 20 %)', c: '#e0602f' },
-    { n: 'Construido disperso (techos 3 a 8 %)', c: '#f0a94a' },
+    { n: 'Construido medio (techos 10 a 20 %)', c: '#e0602f' },
+    { n: 'Construido disperso (techos desde el umbral, 5 % por defecto, hasta 10 %)', c: '#f0a94a' },
     { n: 'Vegetación verde todo el año (montes, cortinas, arboledas y pasturas perennes)', c: '#1d6a34' },
     { n: 'Cultivos y pasturas (verdes por temporada)', c: '#b6cf62' },
     { n: 'Suelo con poca vegetación, rastrojo o pastizal ralo', c: '#d9c49b' },
@@ -296,7 +296,7 @@
     for (var q = 0; q < A.n.length; q++) {
       if (A.n[q] < k * k * 0.4) continue;
       var f = predecir(mod.c, vec(A, q, mod.nbMedio)); cf[q] = f;
-      cu[q] = f >= 0.20 ? 1 : f >= 0.08 ? 2 : f >= prm.urb ? 3 : 0;
+      cu[q] = f >= 0.20 ? 1 : f >= 0.10 ? 2 : f >= prm.urb ? 3 : 0;
     }
     // celda construida aislada (sin vecinas construidas): se descarta
     var cu2 = cu.slice();
@@ -395,7 +395,7 @@
   /* calibración: el modelo de fracción de techo se ajusta con las huellas de Google sobre las imágenes de 2023 del mismo sensor */
   function modelo(sensor, resM, t0) {
     var k = 'mod.' + sensor + '.' + resM, m = S.mod[k] || store(k);
-    if (m && m.v === 3) { S.mod[k] = m; return Promise.resolve(m); }
+    if (m && m.v === 4) { S.mod[k] = m; return Promise.resolve(m); }
     if (!EDIF.length) return Promise.reject(new Error('esta página no tiene huellas de edificios para calibrar'));
     var per = (sensor === 's2' ? PER.s2 : PER.ls).filter(function (p) { return p.anio === 2023; })[0];
     if (!per) return Promise.reject(new Error('no hay período 2023 para calibrar'));
@@ -412,8 +412,8 @@
       });
       if (X.length < 60) throw new Error('muy pocas celdas para calibrar');
       var c = ajustar(X, y), se = 0, st = 0, my = y.reduce(function (a, b) { return a + b; }, 0) / y.length, tp = 0, fp = 0, fn = 0;
-      for (var i = 0; i < X.length; i++) { var f = predecir(c, X[i]); se += (f - y[i]) * (f - y[i]); st += (y[i] - my) * (y[i] - my); var a = f >= 0.03, b = y[i] >= 0.03; if (a && b) tp++; else if (a) fp++; else if (b) fn++; }
-      var m2 = { v: 3, k: kc, c: c, nbMedio: nbMedio, r2: 1 - se / st, ecm: Math.sqrt(se / X.length), n: X.length, nEdif: EDIF.length, periodo: per.t, fechas: L2.fechas.map(function (f) { return f.fecha; }),
+      for (var i = 0; i < X.length; i++) { var f = predecir(c, X[i]); se += (f - y[i]) * (f - y[i]); st += (y[i] - my) * (y[i] - my); var a = f >= 0.05, b = y[i] >= 0.05; if (a && b) tp++; else if (a) fp++; else if (b) fn++; }
+      var m2 = { v: 4, k: kc, c: c, nbMedio: nbMedio, r2: 1 - se / st, ecm: Math.sqrt(se / X.length), n: X.length, nEdif: EDIF.length, periodo: per.t, fechas: L2.fechas.map(function (f) { return f.fecha; }),
         precision: tp / Math.max(1, tp + fp), sensibilidad: tp / Math.max(1, tp + fn), ambito: amb };
       S.mod[k] = m2; store(k, m2); return m2;
     });
@@ -488,7 +488,7 @@
   function pintarResultado(r) {
     var box = $('mlRes1'); if (!box || !r) return;
     var tot = r.ha.slice(1).reduce(function (a, b) { return a + b; }, 0) + r.ha[0];
-    box.innerHTML = '<div class="ml-que"><b>Qué se usó</b><div>' + esc(descripcion(r)) + '</div><div><span>Escenas</span> ' + esc(r.escenas.join(' · ')) + '</div><div><span>Modelo de techo</span> calibrado con ' + fmt(r.mod.nEdif) + ' huellas de Google sobre ' + (r.sensor === 's2' ? 'Sentinel-2 ' : 'Landsat ') + esc(r.mod.periodo) + ' (' + r.mod.fechas.map(dmy).join(', ') + '), ' + fmt(r.mod.n) + ' celdas: R² ' + fmt(r.mod.r2, 2) + ', error medio ' + fmt(r.mod.ecm * 100, 1) + ' puntos de techo, en celdas de ' + (r.mod.k * r.resM) + ' m; de las celdas con techo ≥ 3 % detecta ' + fmt(r.mod.sensibilidad * 100) + ' % y acierta en ' + fmt(r.mod.precision * 100) + ' % de los que marca</div><div><span>Umbrales</span> construido desde ' + fmt(r.prm.urb * 100) + ' % de techo estimado; verde todo el año si el NDVI mínimo es ' + fmt(r.prm.perm, 2) + ' o más</div><div><span>Calculado</span> ' + esc(r.cuando) + ' en ' + r.seg + ' s, en este navegador</div></div>' +
+    box.innerHTML = '<div class="ml-que"><b>Qué se usó</b><div>' + esc(descripcion(r)) + '</div><div><span>Escenas</span> ' + esc(r.escenas.join(' · ')) + '</div><div><span>Modelo de techo</span> calibrado con ' + fmt(r.mod.nEdif) + ' huellas de Google sobre ' + (r.sensor === 's2' ? 'Sentinel-2 ' : 'Landsat ') + esc(r.mod.periodo) + ' (' + r.mod.fechas.map(dmy).join(', ') + '), ' + fmt(r.mod.n) + ' celdas: R² ' + fmt(r.mod.r2, 2) + ', error medio ' + fmt(r.mod.ecm * 100, 1) + ' puntos de techo, en celdas de ' + (r.mod.k * r.resM) + ' m; de las celdas con techo ≥ 5 % detecta ' + fmt(r.mod.sensibilidad * 100) + ' % y acierta en ' + fmt(r.mod.precision * 100) + ' % de los que marca</div><div><span>Umbrales</span> construido desde ' + fmt(r.prm.urb * 100) + ' % de techo estimado; verde todo el año si el NDVI mínimo es ' + fmt(r.prm.perm, 2) + ' o más</div><div><span>Calculado</span> ' + esc(r.cuando) + ' en ' + r.seg + ' s, en este navegador</div></div>' +
       '<table class="ml-t"><caption>Superficie por clase · ' + esc(r.ambitoTxt) + '</caption><thead><tr><th scope="col">Clase</th><th scope="col">ha</th><th scope="col">%</th></tr></thead><tbody>' +
       CLS.map(function (c, i) { return i ? '<tr><th scope="row"><span class="sw" style="background:' + c.c + '"></span>' + esc(c.n) + '</th><td>' + fmt(r.ha[i], 1) + '</td><td>' + fmt(r.ha[i] / tot * 100, 1) + '</td></tr>' : ''; }).join('') +
       '<tr class="nd"><th scope="row">Sin dato (nubes en todas las fechas o fuera de la escena)</th><td>' + fmt(r.ha[0], 1) + '</td><td>' + fmt(r.ha[0] / tot * 100, 1) + '</td></tr><tr><th scope="row">Techo estimado (suma de fracciones)</th><td>' + fmt(r.techo, 1) + '</td><td></td></tr></tbody></table>' +
@@ -540,7 +540,7 @@
       '<label><input type="radio" name="mlAmb" value="ter"' + (hayP ? '' : ' checked') + '> Todo ' + esc(NOMBRE) + '</label>' +
       '<label><input type="radio" name="mlAmb" value="vista"> Vista del mapa</label></fieldset>' +
       '<details class="ml-prm"><summary>Umbrales de la clasificación</summary>' +
-      '<label>Construido disperso desde un techo estimado de <output id="mlUrbV"></output> de la celda<input type="range" id="mlUrb" min="0.01" max="0.08" step="0.005" value="0.03"></label>' +
+      '<label>Construido disperso desde un techo estimado de <output id="mlUrbV"></output> de la celda<input type="range" id="mlUrb" min="0.02" max="0.10" step="0.005" value="0.05"></label>' +
       '<label>Verde todo el año si el NDVI mínimo es al menos <output id="mlPermV"></output><input type="range" id="mlPerm" min="0.40" max="0.75" step="0.01" value="0.55"></label>' +
       '<p class="nota">Cómo se estima lo construido: en los pueblos la casa queda entre árboles y jardines, y a 10 o 30 m casi ningún píxel es «todo techo». Por eso no se usa un corte de color: un modelo aprende, con las ' + fmt(EDIF.length) + ' huellas de edificios de Google (anteriores a mayo de 2023) y las imágenes de 2023 del mismo sensor, qué fracción de techo corresponde a cada combinación de NDVI medio, mínimo y máximo del año y de NDBI (onda corta). Ese modelo se aplica después a cada año. Agua: MNDWI medio mayor que 0,05. NDVI = (infrarrojo − rojo) / (infrarrojo + rojo). En Landsat 2 y 3 (1976–1980) no hay onda corta.</p></details>' +
       '<div class="botones"><button class="btn" id="mlGo">Detectar en el período</button><button class="btn sec2" id="mlSerieGo">Calcular toda la serie</button><button class="btn sec2" id="mlStop" hidden>Detener</button></div>' +
