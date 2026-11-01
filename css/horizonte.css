@@ -580,3 +580,30 @@ html.hz-sig .exp-que b{display:block;margin-bottom:4px;font-size:.78rem}
 html.hz-sig .exp-que div{margin:3px 0}
 html.hz-sig .exp-que span{font-weight:700}
 html.hz-sig .cfd{color:var(--hz-g500)}
+
+/* SIG: detección multisensor */
+html.hz-sig .ml .ml-g{display:flex;flex-wrap:wrap;gap:8px 12px;margin:8px 0}
+html.hz-sig .ml .ml-g label{display:flex;flex-direction:column;gap:3px;font-size:.78rem;font-weight:600;color:var(--hz-g500);flex:1;min-width:120px}
+html.hz-sig .ml select{border-radius:8px;padding:6px 8px;border:1px solid var(--hz-borde);background:var(--hz-blanco);color:var(--hz-suelo);font:inherit;font-weight:600}
+html.hz-sig .ml fieldset.amb label{display:block;font-size:.84rem;margin:3px 0}
+html.hz-sig .ml details.ml-prm{margin:8px 0;font-size:.82rem}
+html.hz-sig .ml details.ml-prm summary{cursor:pointer;font-weight:700;color:var(--hz-g500)}
+html.hz-sig .ml details.ml-prm label{display:block;margin:8px 0}
+html.hz-sig .ml details.ml-prm input[type=range]{width:100%}
+html.hz-sig .ml .estado{font-size:.82rem;background:var(--hz-cardo-claro);border-radius:8px;padding:8px 10px;margin:8px 0}
+html.hz-sig .ml .estado.err{background:var(--hz-alerta-fondo)}
+html.hz-sig .ml .ml-op{font-size:.8rem;display:inline-flex;gap:8px;align-items:center;margin:6px 0}
+html.hz-sig .ml .lnk{background:none;border:0;color:var(--hz-cardo-osc);text-decoration:underline;cursor:pointer;font:inherit;font-size:.8rem;font-weight:700}
+html.hz-sig .ml .ml-que{font-size:.78rem;line-height:1.4;background:var(--hz-g50);border:1px solid var(--hz-borde);border-radius:10px;padding:8px 10px;margin:8px 0}
+html.hz-sig .ml .ml-que span{font-weight:700}
+html.hz-sig .ml .ml-que div{margin:3px 0}
+html.hz-sig .ml table.ml-t{width:100%;border-collapse:collapse;font-size:.8rem;margin:8px 0}
+html.hz-sig .ml table.ml-t caption{text-align:left;font-weight:800;padding:4px 0}
+html.hz-sig .ml table.ml-t th,html.hz-sig .ml table.ml-t td{padding:4px 6px;border-bottom:1px solid var(--hz-borde);text-align:left;vertical-align:top}
+html.hz-sig .ml table.ml-t td{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+html.hz-sig .ml table.ml-t thead th{border-bottom:2px solid var(--hz-suelo)}
+html.hz-sig .ml table.ml-t tr.nd{color:var(--hz-g500)}
+html.hz-sig .ml .sw{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+html.hz-sig .ml svg.ml-graf{width:100%;height:auto;color:var(--hz-g500);background:var(--hz-g50);border-radius:10px;margin:6px 0}
+html.hz-sig .ml h3{font-size:.95rem;font-weight:800;margin:14px 0 4px}
+html.hz-sig .multi-ley{border:1px solid rgba(123,90,142,.35);border-radius:8px;padding:6px 8px;margin-bottom:6px}

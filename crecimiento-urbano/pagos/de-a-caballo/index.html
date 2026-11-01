@@ -967,7 +967,7 @@ table.ficha-c td { font-size: .78rem; vertical-align: top; }
 table.ficha-c small { color: var(--tinta-3); }
 
 </style>
-<link rel="stylesheet" href="../../../css/horizonte.css?v=20261101i">
+<link rel="stylesheet" href="../../../css/horizonte.css?v=20261101j">
 <script src="../../../js/marco.js?v=20261101g"></script>
 </head>
 <body>
@@ -1392,7 +1392,7 @@ if (typeof module !== 'undefined') module.exports = CORE;
 
   /* ---------------- mapa ---------------- */
   var map = L.map('mapa', { preferCanvas: true, zoomControl: true, attributionControl: true, zoomSnap: 0.5 }).setView(CENTRO, 14);
-  map.attributionControl.setPrefix(false);
+  map.attributionControl.setPrefix(false); window.SIG_MAP = map;
   if (ES_PAGO) map.fitBounds([[BOX[1], BOX[0]], [BOX[3], BOX[2]]]);
   map.createPane('pBase'); map.getPane('pBase').style.zIndex = 200;
   map.createPane('pEpoca'); map.getPane('pEpoca').style.zIndex = 250;
@@ -1900,6 +1900,7 @@ if (typeof module !== 'undefined') module.exports = CORE;
     return e.fd || e.f || '';
   }
   function pintarVista() { try { pintarVista0(); } catch (err) { /* aún cargando */ } }
+  window.SIG_REPINTAR = pintarVista;
   function pintarVista0() {
     var box = $('secVista'); if (!box) return;
     var QV_SEC = {
@@ -1918,6 +1919,7 @@ if (typeof module !== 'undefined') module.exports = CORE;
       '<div class="qv-f"><span>Imagen de fondo</span><b>' + escH(rf.f.txt) + '</b></div>' +
       rf.av.map(function (a) { return '<div class="qv-av">' + escH(a.t) + (a.b ? ' <button type="button" class="lnk" data-fix="' + a.fix + '">' + escH(a.b) + '</button>' : '') + '</div>'; }).join('') +
       (capas.length ? '<div class="qv-t">Capas, de arriba hacia abajo</div><ol class="qv">' + capas.map(fila).join('') + '</ol>' : '<p class="nota">Sólo el fondo: no hay capas encendidas.</p>') +
+      (window.SIG_EXTRA ? window.SIG_EXTRA() : '') +
       '<p class="nota">Abajo, sólo las lecturas que corresponden a estas capas. El resumen general del territorio está al final del panel.</p>';
     Object.keys(QV_SEC).forEach(function (id) { var el = $(id); if (el) el.classList.toggle('qv-fuera', !QV_SEC[id].some(on_)); });
     var tm = $('temaMz'), tmS = tm && tm.closest('.sec'); if (tmS) tmS.classList.toggle('qv-fuera', !on_('manzanas'));
@@ -3331,5 +3333,6 @@ if (typeof module !== 'undefined') module.exports = CORE;
 })();
 
 </script>
+<script src="../../multisensor.js?v=20261101a"></script>
 </body>
 </html>
