@@ -522,8 +522,13 @@ html.hz-crec body>footer{background:var(--hz-g100);color:var(--hz-g500);border-t
 
 /* ---------- 8. SIG temporal (Ciudad y nueve Pagos) ---------- */
 html.hz-sig[data-hz="claro"],html.hz-crec[data-hz="claro"]{--loes:#7A4E33;--loes-claro:#7A6E2E}
+/* el SIG ocupa exactamente la pantalla que deja libre el marco común: el mapa no se estira con el panel */
 html.hz-sig,html.hz-sig body{height:auto}
-html.hz-sig .app{min-height:calc(100dvh - var(--hzm-alto))}
+@media (min-width:861px){
+  html.hz-sig .app{height:calc(100dvh - var(--hzm-arriba,150px));min-height:480px}
+  html.hz-sig main.cuerpo{min-height:0;overflow:hidden}
+  html.hz-sig aside.panel{min-height:0}
+}
 html.hz-sig aside.panel button,html.hz-sig .panel select,html.hz-sig .regla button{border-radius:8px}
 html.hz-sig header.cab{background:var(--hz-vidrio);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--hz-borde)}
 html.hz-sig .marca h1{font-weight:800;letter-spacing:-.03em;font-size:1.3rem}

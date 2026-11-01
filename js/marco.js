@@ -192,6 +192,14 @@
     });
     var actual = document.querySelector('.hzm-sub a[aria-current]');
     if (actual) { var c = actual.parentNode, x = actual.getBoundingClientRect().left - c.getBoundingClientRect().left + c.scrollLeft; if (x + actual.offsetWidth > c.clientWidth) c.scrollLeft = x - c.clientWidth / 2 + actual.offsetWidth / 2; }
+    /* alto real del marco superior, para que las páginas a pantalla completa (SIG) no se desborden */
+    function medir() {
+      var alto = 0;
+      ['.hzm-barra', '.hzm-cab', '.hzm-sub'].forEach(function (q) { var e = document.querySelector(q); if (e) alto += e.offsetHeight; });
+      d.style.setProperty('--hzm-arriba', alto + 'px');
+    }
+    medir(); window.addEventListener('resize', medir);
+    setTimeout(function () { try { window.dispatchEvent(new Event('resize')); } catch (e) { /* navegador viejo */ } }, 60);
     pintarSelector(); graficos();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', armar); else armar();
