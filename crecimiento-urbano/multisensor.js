@@ -146,7 +146,13 @@
         return { id: f.id, fecha: (p.datetime || '').slice(0, 10), nube: (p['eo:cloud_cover'] || 0) / 100, sensor: p.platform || 'sentinel-2', base: parseFloat(p['s2:processing_baseline'] || '0'),
           tile: p['s2:mgrs_tile'] || p['grid:code'] || f.id.split('_')[1],
           url: { green: a.green && a.green.href, red: a.red && a.red.href, nir: a.nir && a.nir.href, swir16: a.swir16 && a.swir16.href, scl: a.scl && a.scl.href } };
-      }).filter(function (e) { return e.url.red && e.url.nir; });
+      }).filter(function (e) {
+        // sólo COG por https (algunos registros traen JPEG 2000 en s3://, que el navegador no lee)
+        return ['green', 'red', 'nir', 'swir16', 'scl'].every(function (b) { return /^https:.*\.tif$/i.test(e.url[b] || ''); });
+      }).filter(function (e, i, arr) {
+        // una sola versión por fecha y tesela (Earth Search a veces publica dos procesamientos)
+        return arr.findIndex(function (x) { return x.fecha === e.fecha && x.tile === e.tile; }) === i;
+      });
     });
   }
 
@@ -206,7 +212,7 @@
               });
             });
           });
-        }, Promise.resolve()).then(function () {
+        }, Promise.resolve()).catch(function () { cap = {}; /* escena ilegible: se omite */ }).then(function () {
           if (!cap.r || !cap.n) return;
           for (var p = 0; p < N; p++) {
             var X = z.utm[2 * p], Y = z.utm[2 * p + 1];
