@@ -95,3 +95,13 @@ ACTUALIZACIÓN 31/10/2026 · Recorrer el Plan
     Imágenes en img/tarjetas/ (720×450 webp): recortes de las cartografías del Plan, tapas de
     los tomos y capturas de las herramientas. En el celular las tarjetas se ven en horizontal.
   - Menú: los tres accesos de datos se compactan entre 981 y 1520 px para que entren con el logo.
+
+ACTUALIZACIÓN 01/11/2026 · salud/
+  - Nueva sección «La salud que cuenta» (salud/index.html): tableros de coparticipación,
+    presupuesto y economía, red y producción, mapa (Leaflet sobre imagen satelital, capas
+    con encendido y opacidad), región (nueve partidos vecinos), tablas accesibles con CSV,
+    informe Word y planilla Excel en salud/descargas/.
+  - Datos: salud/data/ (datos.json, establecimientos.json, áreas de referencia por
+    polígonos de Thiessen con población urbana del Censo 2022, cobertura, anillos de
+    distancia, límites de partidos y Pagos). Fuentes: Datos Abiertos PBA y DIS.
+  - Enlaces desde el menú, la tarjeta «Recorrer el Plan» y el pie de la página principal.

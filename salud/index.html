@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La salud que cuenta · Plan SAG</title>
+<meta name="description" content="Salud y coparticipación en San Andrés de Giles: estadísticas, presupuesto, personal y economía del sistema de salud, mapa de centros de salud con áreas de influencia y establecimientos de los partidos vecinos.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<link rel="stylesheet" href="../vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="assets/style.css?v=20261101">
+<script src="vendor/chart.umd.js"></script>
+<script src="../vendor/leaflet/leaflet.js"></script>
+</head>
+<body>
+<a class="sr" href="#contenido">Saltar al contenido</a>
+<header class="top"><div class="wrap">
+  <nav class="navbtns" aria-label="Ir a otras secciones de la web del Plan">
+    <a class="prim" href="../">← Volver al Plan</a>
+    <a href="../presupuesto/">Presupuesto municipal ↗</a>
+    <a href="../censos/">Giles en sus censos ↗</a>
+    <a href="../crecimiento-urbano/">Poblamiento y vegetación ↗</a>
+  </nav>
+  <p class="kicker">Plan de Ordenamiento Territorial «Sendas del Habitar» · Observatorio de salud</p>
+  <h1 class="site">La salud que cuenta</h1>
+  <p class="sub">Hospital, red de atención primaria y coparticipación en San Andrés de Giles: qué produce el sistema de salud, cuánto le cuesta al Municipio, cuánto le devuelve la Provincia, dónde está cada centro y qué hay en los partidos vecinos.</p>
+  <nav class="tabs" id="tabs" aria-label="Tableros">
+    <a href="#inicio">Inicio</a><a href="#copa">Coparticipación</a><a href="#presupuesto">Presupuesto y economía</a>
+    <a href="#red">Red y producción</a><a href="#mapa-tab">Mapa</a><a href="#region">Región</a>
+    <a href="#tablas">Tablas</a><a href="#informe">Informe</a><a href="#metodo">Método y fuentes</a>
+  </nav>
+</div></header>
+
+<main id="contenido"><div class="wrap">
+
+<!-- INICIO -->
+<section class="tab" id="t-inicio">
+  <h2>La salud también financia al Municipio</h2>
+  <p class="lead">Cuatro de cada diez pesos del gasto municipal van a salud. Pero el 37 % de la coparticipación provincial se reparte según lo que producen —y registran— los hospitales y salas municipales. En Giles, esa parte explica al menos el 39 % de lo que el Municipio recibe, y probablemente más de la mitad.</p>
+  <div class="kpis">
+    <div class="kpi"><b>$10.655 M</b><span>gasto municipal en salud 2025 (40,1 % del total)</span></div>
+    <div class="kpi o"><b>$6.274 M</b><span>coparticipación anual que genera el sistema de salud (estimación mínima, pesos de 2025)</span></div>
+    <div class="kpi o"><b>–$1.930 M</b><span>por año: lo que se dejó de recibir por la pérdida de peso relativo desde 2012</span></div>
+    <div class="kpi"><b>2,2</b><span>consultas médicas registradas por habitante; los vecinos, entre 5 y 9</span></div>
+    <div class="kpi"><b>11</b><span>camas de terapia intensiva y coronaria, sin interrupción desde 2009</span></div>
+    <div class="kpi o"><b>50.911</b><span>consultas no médicas del Hospital en 2024, que la fórmula no paga</span></div>
+  </div>
+  <div class="read"><h3>Síntesis</h3><div class="list">
+    <p><b>Cada unidad registrada tiene un valor.</b> En coparticipación anual, una consulta médica vale unos $ 4.100; un egreso, $ 160.500; un día de internación en el Hospital, $ 207.000; cada sala o CAPS registrado, $ 92 millones.</p>
+    <p><b>Doce años de pérdida de peso.</b> La Provincia duplicó sus consultas registradas; Giles registra menos que en 2012. El componente de salud cayó una cuarta parte.</p>
+    <p><b>Un hospital de complejidad alta.</b> Terapia intensiva, unidad coronaria, neonatología, maternidad, cirugía y pediatría: los servicios que la normativa provincial asigna a la categoría más alta. Con 79 camas trabaja al 37,5 %.</p>
+    <p><b>Una red densa que produce poco.</b> Diez salas y CAPS reparten el territorio, pero registran unas seis consultas por día hábil cada una. El CAPS San Bernardo figura en el registro sin producción cargada.</p>
+    <p><b>El Hogar sostiene el coeficiente.</b> Con 74 camas al 99 %, aporta siete de cada diez días de internación del partido y tanta coparticipación como el Hospital.</p>
+    <p><b>La maternidad perdió la mitad de sus partos</b> desde 2015 y las cesáreas subieron al 57 %. Dos de cada tres muertes infantiles (2011–2018) fueron neonatales.</p>
+  </div></div>
+  <h3>Tableros</h3>
+  <div class="home-cards">
+    <a href="#copa"><b>Coparticipación</b><span>Cómo se reparte el 37 %, cuánto vale cada unidad y qué mueve cada palanca.</span></a>
+    <a href="#presupuesto"><b>Presupuesto y economía</b><span>Gasto en salud, Hospital, personal, aranceles y recupero.</span></a>
+    <a href="#red"><b>Red y producción</b><span>Consultas, internación, maternidad y mortalidad infantil.</span></a>
+    <a href="#mapa-tab"><b>Mapa</b><span>Centros de salud, áreas de referencia, cobertura y distancia al Hospital.</span></a>
+    <a href="#region"><b>Región</b><span>Los establecimientos de los nueve partidos vecinos, comparados.</span></a>
+    <a href="#tablas"><b>Tablas</b><span>Todas las tablas, ordenables, filtrables y descargables en CSV.</span></a>
+  </div>
+  <div class="ask"><h3>Para pensar</h3><ul>
+    <li>La fórmula provincial mide actividad sanitaria registrada, no salud. ¿Cómo registrar todo lo que corresponde sin dejar que la fórmula decida la política sanitaria?</li>
+    <li>Si la región crece a dos velocidades, ¿a qué población atenderá el Hospital de Giles en 2035? La complejidad se planifica en red, no partido por partido.</li>
+  </ul></div>
+</section>
+
+<!-- COPARTICIPACIÓN -->
+<section class="tab" id="t-copa">
+  <h2>Coparticipación: lo que la salud le devuelve al Municipio</h2>
+  <p class="lead">La Ley 10.559 reparte el 37 % de la coparticipación municipal por salud, con los cinco indicadores de la Ley 10.820. Cuenta sólo lo municipal: si un servicio pasa a la Provincia, deja de sumar.</p>
+  <div class="grid">
+    <div class="card"><h3>Cómo se reparte el régimen de salud</h3><div class="chart"><canvas id="c-pond" role="img" aria-label="Gráfico de torta de las ponderaciones de la Ley 10.820"></canvas></div><p class="cap">Ley 10.820, Anexo I. Camas × complejidad × ocupación equivale, en los hechos, a pacientes-día ponderados por complejidad.</p></div>
+    <div class="card"><h3>Cuánto vale cada unidad registrada</h3><div class="tbox" id="tb-unit"></div><p class="cap">Coparticipación anual en pesos de 2025, con la masa coparticipable de 2024. Cambia cada año con los totales provinciales.</p></div>
+    <div class="card wide"><h3>Peso de Giles en el total provincial de cada indicador (2012 = 100)</h3><div class="chart"><canvas id="c-ind" role="img" aria-label="Evolución del peso de Giles en consultas, egresos, pacientes-día y establecimientos"></canvas></div><p class="cap">Datos Abiertos PBA, rendimientos de establecimientos municipales. En una fórmula relativa, quedarse quieto es retroceder.</p></div>
+    <div class="card"><h3>Componente de salud estimado del coeficiente</h3><div class="chart"><canvas id="c-coef" role="img" aria-label="Componente de salud estimado 2012 a 2024 con rango de complejidad"></canvas></div><p class="cap">Puntos del CUD. Hipótesis central: perfil de complejidad 6 para el Hospital (rango 5 a 8). Es un piso: el control con el coeficiente total sugiere más.</p></div>
+    <div class="card"><h3>De dónde sale lo que Giles cobra por salud (2024)</h3><div class="chart"><canvas id="c-comp" role="img" aria-label="Composición del componente de salud por indicador"></canvas></div><p class="cap">Millones de pesos de 2025 por año. Tres cuartas partes provienen de la internación.</p></div>
+    <div class="card wide"><h3>Cuánto mueve cada palanca</h3><div class="chart tall"><canvas id="c-esc" role="img" aria-label="Coparticipación adicional anual por palanca"></canvas></div><p class="cap">Estimación anual en millones de pesos de 2025, con el resto de los municipios constante. Las palancas no se suman linealmente.</p></div>
+  </div>
+  <div class="read"><h3>Lectura</h3>
+    <p>El 55 % del régimen (35 % + 20 %) depende de los días de internación; el 25 %, de las consultas médicas; el 10 %, de los egresos, y el 10 %, de cuántas salas y CAPS hay. Declarar camas vacías no suma: lo que suma es la internación efectiva, multiplicada por el perfil de complejidad. Por eso la terapia intensiva y la coronaria no son sólo servicios caros: son el multiplicador de todo lo que el Hospital interna.</p>
+    <p>La pérdida más fuerte está en las consultas: el peso de Giles bajó de 0,174 % a 0,059 % del total provincial. Una parte se explica por la guardia, que la fórmula no cuenta, y por las 50.911 consultas que el Hospital carga como «no médicas»: 116 cada 100 médicas, cuando el promedio provincial es 12.</p>
+  </div>
+  <div class="ask"><h3>Para pensar</h3><ul>
+    <li>Si la mitad de la producción ambulatoria del Hospital es interdisciplinaria y la fórmula no la reconoce, ¿conviene defender ese modelo aunque cueste coparticipación, o volver a poner al médico de cabecera en el consultorio programado?</li>
+  </ul></div>
+</section>
+
+<!-- PRESUPUESTO -->
+<section class="tab" id="t-presupuesto">
+  <h2>Presupuesto y economía de la salud</h2>
+  <p class="lead">La salud es la primera finalidad del gasto municipal y el Hospital, el programa más grande. Su financiamiento combina recursos propios, coparticipación y aranceles.</p>
+  <div class="kpis">
+    <div class="kpi"><b>40,1 %</b><span>del gasto total 2025 es salud ($ 10.655 M)</span></div>
+    <div class="kpi"><b>$8.457 M</b><span>gasto del Hospital (programa 70) en 2025; 154 % de su crédito</span></div>
+    <div class="kpi"><b>64,5 %</b><span>del gasto municipal total es personal (2025)</span></div>
+    <div class="kpi o"><b>$1.972 M</b><span>aranceles del Hospital, Hogar y Jardín (2024): 8,6 % de los recursos libres</span></div>
+    <div class="kpi o"><b>≈ 59 %</b><span>del gasto en salud vuelve como coparticipación (estimación mínima)</span></div>
+  </div>
+  <div class="grid">
+    <div class="card"><h3>Hospital Municipal: gasto real y peso en el presupuesto</h3><div class="chart"><canvas id="c-p70" role="img" aria-label="Gasto real del Hospital y su participación en el gasto total"></canvas></div><p class="cap">Programa 70, millones de pesos de 2025, y porcentaje del gasto total devengado. Fuente: RAFAM municipal, informe económico del Plan.</p></div>
+    <div class="card"><h3>Gasto en salud y coparticipación que genera</h3><div class="chart"><canvas id="c-balance" role="img" aria-label="Comparación entre gasto en salud y coparticipación de salud"></canvas></div><p class="cap">Millones de pesos de 2025. Gasto 2025 por finalidad; coparticipación de salud estimada con datos 2024.</p></div>
+    <div class="card"><h3>Personal en el gasto municipal</h3><div class="chart"><canvas id="c-pers" role="img" aria-label="Participación del personal en el gasto total"></canvas></div><p class="cap">Porcentaje del gasto total devengado. El presupuesto no publica el personal por programa; en salud, el personal es el componente principal del gasto del Hospital.</p></div>
+    <div class="card"><h3>Aranceles y coparticipación (recursos de libre disponibilidad)</h3><div class="chart"><canvas id="c-aranc" role="img" aria-label="Aranceles de salud y coparticipación 2021 a 2024"></canvas></div><p class="cap">Millones de pesos de 2025. Formulario 2 de recursos.</p></div>
+  </div>
+  <div class="read"><h3>Lectura</h3>
+    <p>El Hospital gasta en términos reales lo mismo que en 2013 —entre $ 7.800 y $ 9.600 millones de 2025— y absorbe entre el 27 % y el 34 % de todo el gasto municipal. En 2025 devengó el 154 % de su crédito y explicó por sí solo la sobreejecución del Municipio. El presupuesto lo trata como un costo; la coparticipación muestra que también es una fuente: cerca de seis de cada diez pesos que el Municipio gasta en salud vuelven como coparticipación, y el control con el coeficiente total sugiere que más.</p>
+    <p>La otra mitad de la ecuación es el recupero de costos. En el Hospital, más de la mitad de los pacientes no tiene cobertura; la otra mitad sí. El registro como Hospital Público de Gestión Descentralizada (Decreto 939/2000), el convenio con PAMI (Resolución 1392/2024) y un circuito propio con IOMA permiten cobrarle a quien debe pagar —la obra social—, nunca al paciente.</p>
+  </div>
+  <div class="alerta"><b>Lo que no hay que hacer:</b> provincializar o convertir el Hospital en ente SAMIC sin calcular la coparticipación. Su producción dejaría de contar para Giles: unos $ 2.850 millones por año, según la estimación mínima.</div>
+</section>
+
+<!-- RED -->
+<section class="tab" id="t-red">
+  <h2>La red de salud: producción, maternidad y resultados</h2>
+  <p class="lead">Un hospital subzonal con cuidados críticos, un hogar geriátrico siempre lleno y diez salas en la cabecera y los pueblos.</p>
+  <div class="grid">
+    <div class="card"><h3>Hospital: consultas médicas y no médicas</h3><div class="chart"><canvas id="c-param" role="img" aria-label="Consultas médicas y paramédicas del Hospital 2010 a 2024"></canvas></div><p class="cap">Sólo las médicas cuentan para la coparticipación.</p></div>
+    <div class="card"><h3>Camas del Hospital por servicio</h3><div class="chart"><canvas id="c-camas" role="img" aria-label="Camas del Hospital por servicio"></canvas></div><p class="cap">Dirección de Información en Salud, 2018. Las 11 camas críticas se mantienen hasta 2024.</p></div>
+    <div class="card"><h3>Maternidad: partos y cesáreas</h3><div class="chart"><canvas id="c-partos" role="img" aria-label="Partos y cesáreas 2014 a 2024"></canvas></div><p class="cap">Nacimientos en el Hospital. La línea indica el porcentaje de cesáreas.</p></div>
+    <div class="card"><h3>Mortalidad infantil 2011–2018</h3><div class="chart"><canvas id="c-mort" role="img" aria-label="Defunciones infantiles y tasa de mortalidad infantil"></canvas></div><p class="cap">Defunciones de menores de un año (neonatales y posneonatales) y tasa por mil nacidos vivos. Promedio del período: 11,7 por mil.</p></div>
+    <div class="card wide"><h3>Producción de cada establecimiento (2024)</h3><div class="tbox" id="tb-red"></div><p class="cap">Datos Abiertos PBA y registro provincial de establecimientos. El área de referencia y su población urbana se calculan en el mapa.</p></div>
+  </div>
+  <div class="read"><h3>Lectura</h3>
+    <p>La red existe y está bien distribuida: una sala o CAPS cada 2.600 habitantes, con presencia en Solís, Villa Ruiz, Azcuénaga, Cucullú, Villa Espil y Franklin. Lo que falta es producción registrada: las salas suman 14.600 consultas por año, unas seis por día hábil cada una. La maternidad cayó de 340 partos en 2015 a 190 en 2024, en parte por la baja de la natalidad y en parte porque los nacimientos se van a otros partidos. La mortalidad neonatal depende del control del embarazo en las salas y de la atención del parto y la neonatología en el Hospital: es el indicador que mejor resume la calidad de la red, y el que la coparticipación no mide.</p>
+  </div>
+</section>
+
+<!-- MAPA -->
+<section class="tab" id="t-mapa-tab">
+  <h2>Mapa de los centros de salud</h2>
+  <p class="lead">Cada centro de Giles con sus características, su área de referencia y su población urbana; la distancia al Hospital; y los establecimientos de los partidos vecinos. Cada capa se puede prender, apagar y regular en opacidad.</p>
+  <div class="mapwrap">
+    <div id="mapa" role="region" aria-label="Mapa interactivo de establecimientos de salud"></div>
+    <aside class="capas" aria-label="Capas del mapa"><h3>Capas</h3><div id="capas"></div>
+      <div class="leyenda" id="leyenda"></div></aside>
+  </div>
+  <p class="note">Las <b>áreas de referencia</b> asignan cada punto del Partido al centro más cercano (polígonos de Thiessen); la población urbana sale de los radios del Censo 2022. La <b>cobertura</b> marca 1 km alrededor de cada sala de la ciudad y 5 km en los pueblos. Los <b>anillos</b> miden la distancia en línea recta al Hospital. Imagen satelital: Esri World Imagery.</p>
+  <div class="ficha" id="fichas"></div>
+</section>
+
+<!-- REGIÓN -->
+<section class="tab" id="t-region">
+  <h2>Giles y los partidos vecinos</h2>
+  <p class="lead">Establecimientos públicos (municipales, provinciales y nacionales) de los nueve partidos que rodean o comparten región con Giles, con su producción 2024.</p>
+  <div class="grid">
+    <div class="card"><h3>Consultas médicas por habitante</h3><div class="chart"><canvas id="c-reg-cons" role="img" aria-label="Consultas por habitante por partido"></canvas></div><p class="cap">Todos los establecimientos públicos. Exaltación de la Cruz (31 por habitante) merece revisión.</p></div>
+    <div class="card"><h3>Camas públicas por mil habitantes</h3><div class="chart"><canvas id="c-reg-camas" role="img" aria-label="Camas por mil habitantes por partido"></canvas></div><p class="cap">Luján incluye la Colonia Montes de Oca y el Hospital Cabred (psiquiátricos de larga estadía).</p></div>
+    <div class="card wide"><h3>Comparación por partido (2024)</h3><div class="tbox" id="tb-reg"></div></div>
+    <div class="card wide"><h3>Establecimientos de la región</h3><div class="ctl"><label>Partido <select id="f-part"></select></label><label>Tipo <select id="f-tipo"></select></label><button type="button" class="alt" id="csv-est">Descargar CSV</button></div><div class="tbox" id="tb-est"></div></div>
+  </div>
+  <div class="read"><h3>Lectura</h3>
+    <p>Giles tiene una de las coberturas territoriales más densas y más camas por habitante que la mayoría de sus vecinos, pero una de las producciones ambulatorias más bajas. San Antonio de Areco, con la misma población y menos establecimientos, registra cuatro veces más consultas. Mercedes concentra la atención en un hospital provincial, que no suma a su coparticipación. Luján, Mercedes y Exaltación de la Cruz tienen hospitales con cuidados críticos a 30–45 km de Giles: la complejidad se reparte en red, y la fórmula premia a quien atiende, no a quien paga.</p>
+  </div>
+</section>
+
+<!-- TABLAS -->
+<section class="tab" id="t-tablas">
+  <h2>Tablas</h2>
+  <p class="lead">Todas las tablas del tablero. Se ordenan con un clic en el encabezado y se descargan en CSV.</p>
+  <div class="card"><div class="ctl"><label>Tabla <select id="sel-tabla"></select></label><button type="button" id="csv-tabla">Descargar CSV</button></div>
+    <p class="note" id="nota-tabla"></p><div class="tbox" id="tb-gen"></div></div>
+</section>
+
+<!-- INFORME -->
+<section class="tab" id="t-informe">
+  <h2>Informe y planilla</h2>
+  <p class="lead">El informe completo «La salud que cuenta» y la planilla con los supuestos editables, los valores unitarios y los escenarios.</p>
+  <div class="dl">
+    <a href="descargas/Informe_Salud_y_Coparticipacion_Giles.docx" download>Informe en Word<small>La salud que cuenta · 15 páginas</small></a>
+    <a href="descargas/Salud_y_Coparticipacion_Giles.xlsx" download>Planilla Excel<small>Supuestos, valores unitarios, escenarios, pares</small></a>
+    <a href="data/establecimientos.json" download>Establecimientos (JSON)<small>Giles y nueve partidos vecinos, con coordenadas</small></a>
+    <a href="data/areas.geojson" download>Áreas de referencia (GeoJSON)<small>Polígonos de Thiessen con población urbana</small></a>
+  </div>
+  <div class="read"><h3>Hoja de ruta propuesta (12 meses)</h3><div class="tbox" id="tb-ruta"></div></div>
+</section>
+
+<!-- MÉTODO -->
+<section class="tab" id="t-metodo">
+  <h2>Método y fuentes</h2>
+  <div class="read">
+    <p><b>Componente de salud.</b> Se reconstruyó con las ponderaciones de la Ley 10.820 (35 % camas × complejidad × ocupación; 25 % consultas médicas; 20 % pacientes-día; 10 % egresos; 10 % establecimientos sin internación) y los rendimientos de los establecimientos municipales 2012–2024. El total provincial de «valor producido» se tomó del anexo comunicado a 9 de Julio (2023). El método reproduce el coeficiente oficial de 9 de Julio con un error cercano al 10 %.</p>
+    <p><b>Perfil de complejidad.</b> No es público. Se usa 6 para el Hospital (rango 5 a 8) por sus 11 camas críticas sostenidas desde 2009, su neonatología y la escala del Decreto 3.280/90, y 1 para el Hogar. Los hospitales locales municipales de 9 de Julio (8 a 13 camas, sin cuidados críticos) tienen perfil 3; el promedio provincial implícito es 5,4.</p>
+    <p><b>Control.</b> El régimen general de Giles (población, superficie, capacidad tributaria) ronda 0,10 puntos del CUD 2024 (0,364): la salud, y la acción social si correspondiera, explican entre 0,26 y 0,27. La estimación desde abajo (0,14–0,15) es un piso. El anexo que la Provincia comunica cada año al Municipio permite cerrar la cuenta.</p>
+    <p><b>Áreas de referencia.</b> Polígonos de Thiessen de los centros municipales de atención (Hospital, salas y CAPS) recortados al Partido. Población urbana por intersección con los radios del Censo 2022 (19.362 habitantes en la cabecera); la población de pueblos y campo (7.112) no tiene desagregación pública por localidad.</p>
+    <p><b>Valores.</b> Millones de pesos de 2025, con la coparticipación 2024 de Giles (Formulario 2) y el CUD 2024 (0,3638 %).</p>
+  </div>
+  <div class="read"><h3>Fuentes</h3><ul>
+    <li>Ley 10.559 y Ley 10.820 (Anexo I); Resolución 18/2019 (plazos de carga); Decreto 3.280/90 (categorías de establecimientos).</li>
+    <li>Datos Abiertos de la Provincia de Buenos Aires: rendimientos de establecimientos de salud 2005–2024, camas críticas 2009–2024, partos y cesáreas 2014–2024, establecimientos de salud públicos, límites de partidos.</li>
+    <li>Dirección de Información en Salud (PBA): camas por servicio, nacidos vivos y mortalidad infantil 2011–2018, compilados por la Dirección de Planeamiento.</li>
+    <li>Municipalidad de 9 de Julio: CUD 2015–2023 con anexos de salud. CREEBBA, IAE 161.</li>
+    <li>INDEC, Censo 2022 (población por partido y por radio). Informe «Dieciocho años de presupuesto municipal (2008–2026)».</li>
+  </ul></div>
+</section>
+
+</div></main>
+
+<footer><div class="wrap">
+  <div>
+    <nav class="navbtns" aria-label="Navegación del pie">
+      <a class="prim" href="../">← Volver al Plan</a><a href="../presupuesto/">Presupuesto ↗</a><a href="../censos/">Censos ↗</a><a href="#inicio">↑ Inicio de esta página</a>
+    </nav>
+    Municipio de San Andrés de Giles · Plan de Ordenamiento Territorial «Sendas del Habitar» · Noviembre de 2026
+  </div>
+  <div style="text-align:right">Arq. Juan Patricio Addesso<br>Asesor del Consejo Municipal para el Desarrollo y el Ordenamiento Territorial (CMDOT)</div>
+</div></footer>
+<a class="flotante" href="../">← Volver al Plan</a>
+<a class="flotante arriba" href="#inicio" aria-label="Volver al inicio de esta página">↑ Inicio</a>
+<script src="assets/app.js?v=20261101"></script>
+</body>
+</html>
