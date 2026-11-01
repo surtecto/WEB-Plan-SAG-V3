@@ -143,7 +143,7 @@
     return fetch(STAC, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }).then(function (r) { return r.json(); }).then(function (j) {
       return (j.features || []).map(function (f) {
         var p = f.properties, a = f.assets;
-        return { id: f.id, fecha: (p.datetime || '').slice(0, 10), nube: (p['eo:cloud_cover'] || 0) / 100, sensor: p.platform || 'sentinel-2', base: parseFloat(p['s2:processing_baseline'] || '0'),
+        return { id: f.id, bbox: f.bbox, fecha: (p.datetime || '').slice(0, 10), nube: (p['eo:cloud_cover'] || 0) / 100, sensor: p.platform || 'sentinel-2', base: parseFloat(p['s2:processing_baseline'] || '0'), corregido: !!p['earthsearch:boa_offset_applied'],
           tile: p['s2:mgrs_tile'] || p['grid:code'] || f.id.split('_')[1],
           url: { green: a.green && a.green.href, red: a.red && a.red.href, nir: a.nir && a.nir.href, swir16: a.swir16 && a.swir16.href, scl: a.scl && a.scl.href } };
       }).filter(function (e) {
@@ -194,37 +194,33 @@
     }
     var B = { g: new Float32Array(N).fill(NaN), r: new Float32Array(N).fill(NaN), n: new Float32Array(N).fill(NaN), s: new Float32Array(N).fill(NaN), swir: true };
     var bandas = [['green', 'g'], ['red', 'r'], ['nir', 'n'], ['swir16', 's'], ['scl', 'scl']];
-    return fecha.items.reduce(function (pr, it) {
-      return pr.then(function () {
-        var off = it.base >= 4 ? 1000 : 0, cap = {};
-        return bandas.reduce(function (p2, bd) {
-          return p2.then(function () {
-            if (!it.url[bd[0]]) return;
-            return abrirCOG(it.url[bd[0]]).then(function (im) {
-              var o = im.getOrigin(), rs = im.getResolution(), W = im.getWidth(), H = im.getHeight();
-              var px0 = Math.max(0, Math.floor((z.ubox[0] - o[0]) / rs[0])), px1 = Math.min(W, Math.ceil((z.ubox[2] - o[0]) / rs[0]));
-              var py0 = Math.max(0, Math.floor((o[1] - z.ubox[3]) / -rs[1])), py1 = Math.min(H, Math.ceil((o[1] - z.ubox[1]) / -rs[1]));
-              if (px1 <= px0 || py1 <= py0) { cap[bd[1]] = null; return; }
-              var esc_ = Math.max(1, z.res / rs[0]), ww = Math.max(1, Math.round((px1 - px0) / esc_)), hh = Math.max(1, Math.round((py1 - py0) / esc_));
-              if (avance) avance(bd[0]);
-              return im.readRasters({ window: [px0, py0, px1, py1], width: ww, height: hh, resampleMethod: bd[1] === 'scl' ? 'nearest' : 'bilinear', interleave: false }).then(function (ras) {
-                cap[bd[1]] = { a: ras[0], x0: o[0] + px0 * rs[0], y0: o[1] + py0 * rs[1], dx: (px1 - px0) * rs[0] / ww, dy: (py1 - py0) * -rs[1] / hh, w: ww, h: hh };
-              });
-            });
+    var g0 = C.unmerc(g.x0, g.y0 - g.h * g.sy), g1 = C.unmerc(g.x0 + g.w * g.sx, g.y0);
+    var items = fecha.items.filter(function (it) { var bb = it.bbox; return !bb || !(bb[2] < g0[0] || bb[0] > g1[0] || bb[3] < g0[1] || bb[1] > g1[1]); });
+    return Promise.all(items.map(function (it) {
+      var off = it.base >= 4 && !it.corregido ? 1000 : 0, cap = {}; // Earth Search ya resta el desplazamiento de 1000 de la línea de base 04.00
+      return Promise.all(bandas.map(function (bd) {
+        return abrirCOG(it.url[bd[0]]).then(function (im) {
+          var o = im.getOrigin(), rs = im.getResolution(), W = im.getWidth(), H = im.getHeight();
+          var px0 = Math.max(0, Math.floor((z.ubox[0] - o[0]) / rs[0])), px1 = Math.min(W, Math.ceil((z.ubox[2] - o[0]) / rs[0]));
+          var py0 = Math.max(0, Math.floor((o[1] - z.ubox[3]) / -rs[1])), py1 = Math.min(H, Math.ceil((o[1] - z.ubox[1]) / -rs[1]));
+          if (px1 <= px0 || py1 <= py0) { cap[bd[1]] = null; return; }
+          var esc_ = Math.max(1, z.res / rs[0]), ww = Math.max(1, Math.round((px1 - px0) / esc_)), hh = Math.max(1, Math.round((py1 - py0) / esc_));
+          return im.readRasters({ window: [px0, py0, px1, py1], width: ww, height: hh, resampleMethod: bd[1] === 'scl' ? 'nearest' : 'bilinear', interleave: false }).then(function (ras) {
+            if (avance) avance(bd[0]);
+            cap[bd[1]] = { a: ras[0], x0: o[0] + px0 * rs[0], y0: o[1] + py0 * rs[1], dx: (px1 - px0) * rs[0] / ww, dy: (py1 - py0) * -rs[1] / hh, w: ww, h: hh };
           });
-        }, Promise.resolve()).catch(function () { cap = {}; /* escena ilegible: se omite */ }).then(function () {
-          if (!cap.r || !cap.n) return;
-          for (var p = 0; p < N; p++) {
-            var X = z.utm[2 * p], Y = z.utm[2 * p + 1];
-            var smp = function (c) { if (!c) return NaN; var ci = Math.floor((X - c.x0) / c.dx), cj = Math.floor((c.y0 - Y) / c.dy); if (ci < 0 || cj < 0 || ci >= c.w || cj >= c.h) return NaN; return c.a[cj * c.w + ci]; };
-            var sc = smp(cap.scl);
-            if (sc !== sc || sc === 0 || sc === 1 || sc === 3 || sc === 8 || sc === 9 || sc === 10) { if (sc === sc && sc !== 0) { /* nube o sombra */ } continue; }
-            var rd = smp(cap.r), ni = smp(cap.n); if (!(rd > 0 && ni > 0)) continue;
-            B.r[p] = rd - off; B.n[p] = ni - off; B.g[p] = smp(cap.g) - off; B.s[p] = smp(cap.s) - off;
-          }
         });
+      })).catch(function () { cap = {}; /* escena ilegible: se omite */ }).then(function () {
+        if (!cap.r || !cap.n) return;
+        var smp = function (c, X, Y) { if (!c) return NaN; var ci = Math.floor((X - c.x0) / c.dx), cj = Math.floor((c.y0 - Y) / c.dy); if (ci < 0 || cj < 0 || ci >= c.w || cj >= c.h) return NaN; return c.a[cj * c.w + ci]; };
+        for (var p = 0; p < N; p++) {
+          var X = z.utm[2 * p], Y = z.utm[2 * p + 1], sc = smp(cap.scl, X, Y);
+          if (sc !== sc || sc === 0 || sc === 1 || sc === 3 || sc === 8 || sc === 9 || sc === 10) continue; // sin dato, saturado, sombra de nube, nubes, cirros
+          var rd = smp(cap.r, X, Y), ni = smp(cap.n, X, Y); if (!(rd > 0 && ni > 0)) continue;
+          B.r[p] = rd - off; B.n[p] = ni - off; B.g[p] = smp(cap.g, X, Y) - off; B.s[p] = smp(cap.s, X, Y) - off;
+        }
       });
-    }, Promise.resolve()).then(function () { return B; });
+    })).then(function () { return B; });
   }
 
   /* ---------- clasificación por trayectoria del año ---------- */
@@ -315,19 +311,20 @@
       var fechas = v[1]; if (!fechas.length) throw new Error('no hay fechas con pocas nubes en ' + per.t);
       var paso = 0, total = fechas.length * zs.length;
       var res = zs.map(function (z) { return { z: z, stack: [] }; });
-      return fechas.reduce(function (pr, f) {
-        return pr.then(function () {
-          return res.reduce(function (p2, rz) {
-            return p2.then(function () {
-              if (S.cancelar) throw new Error('cancelado');
-              paso++;
-              estado('Leyendo ' + (sensor === 's2' ? 'Sentinel-2' : 'Landsat') + ' del ' + dmy(f.fecha) + (f.estacion ? ' (' + f.estacion + ')' : '') + ' · ' + esc(rz.z.nom) + ' · paso ' + paso + ' de ' + total + ' · ' + Math.round((Date.now() - t0) / 1000) + ' s');
-              var lector = sensor === 's2' ? leerS2(f, rz.z, function (b) { estado('Leyendo Sentinel-2 del ' + dmy(f.fecha) + ' · banda ' + b + ' · ' + esc(rz.z.nom) + ' · paso ' + paso + ' de ' + total + ' · ' + Math.round((Date.now() - t0) / 1000) + ' s'); }) : leerLandsat(f, rz.z);
-              return lector.then(function (B) { if (B) rz.stack.push(B); });
-            });
-          }, Promise.resolve());
-        });
-      }, Promise.resolve()).then(function () {
+      var tareas = []; fechas.forEach(function (f) { res.forEach(function (rz) { tareas.push([f, rz]); }); });
+      var etiqueta = sensor === 's2' ? 'Sentinel-2' : 'Landsat';
+      var pool = function () {
+        var t = tareas.shift(); if (!t) return Promise.resolve();
+        if (S.cancelar) return Promise.reject(new Error('cancelado'));
+        var f = t[0], rz = t[1];
+        var lector = sensor === 's2' ? leerS2(f, rz.z) : leerLandsat(f, rz.z);
+        return lector.then(function (B) {
+          if (B) rz.stack.push(B); paso++;
+          estado('Leyendo ' + etiqueta + ': ' + paso + ' de ' + total + ' imágenes por zona listas · última: ' + dmy(f.fecha) + (f.estacion ? ' (' + f.estacion + ')' : '') + ', ' + esc(rz.z.nom) + ' · ' + Math.round((Date.now() - t0) / 1000) + ' s');
+        }).then(pool);
+      };
+      estado('Leyendo ' + etiqueta + ': ' + fechas.length + ' fechas × ' + zs.length + ' zonas…');
+      return Promise.all([pool(), pool(), pool(), pool()]).then(function () {
         var conts = [0, 0, 0, 0, 0, 0], porZona = {};
         var items = res.map(function (rz) {
           var g = rz.z.grid, N = g.w * g.h, k = clasificar(rz.stack, N, g.w, g.h, prm), cz = [0, 0, 0, 0, 0, 0];
