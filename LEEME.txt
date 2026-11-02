@@ -115,3 +115,9 @@ ACTUALIZACIÓN 01/11/2026 (b) · Aula: tres webs hermanas
       Registro del Patrimonio Cultural https://surtecto.github.io/WEB-Patrimonio/
   - Imágenes en img/tarjetas/atlas.webp, digesto.webp y patrimonio.webp (720×450, capturas
     de cada web). Estilos: .edu-webs y .tarjetas-aula en css/styles.css y css/horizonte.css.
+
+Actualización 02-11-2026 · Aula: «San Andrés de Giles, su proceso»
+  - Espacio Educativo: cuarta tarjeta hacia la web de la línea histórica del Partido
+    (https://surtecto.github.io/proceso-historico-giles/), con su captura en
+    img/tarjetas/proceso.webp. El título pasa a «Cuatro archivos abiertos para investigar
+    el Partido».
