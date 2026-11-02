@@ -105,3 +105,13 @@ ACTUALIZACIÓN 01/11/2026 · salud/
     polígonos de Thiessen con población urbana del Censo 2022, cobertura, anillos de
     distancia, límites de partidos y Pagos). Fuentes: Datos Abiertos PBA y DIS.
   - Enlaces desde el menú, la tarjeta «Recorrer el Plan» y el pie de la página principal.
+
+ACTUALIZACIÓN 01/11/2026 (b) · Aula: tres webs hermanas
+  - En «Espacio Educativo» (#educacion), después del acceso a Censos, nuevo bloque «Tres
+    archivos abiertos para investigar el Partido» con tres tarjetas (imagen, rótulo, título y
+    descripción) que se abren en otra pestaña:
+      Atlas de Mensuras de Giles      https://surtecto.github.io/atlas-mensuras-giles/
+      Digesto Gilense (HCD)           https://surtecto.github.io/HCD-SAG-Digesto2026/
+      Registro del Patrimonio Cultural https://surtecto.github.io/WEB-Patrimonio/
+  - Imágenes en img/tarjetas/atlas.webp, digesto.webp y patrimonio.webp (720×450, capturas
+    de cada web). Estilos: .edu-webs y .tarjetas-aula en css/styles.css y css/horizonte.css.

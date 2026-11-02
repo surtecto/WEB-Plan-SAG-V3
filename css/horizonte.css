@@ -281,6 +281,9 @@ html.hz-plan .tarjeta-tit{font-family:var(--hz-font);font-weight:800;letter-spac
 html.hz-plan .tarjeta-tag{font-weight:700;letter-spacing:.09em;text-transform:uppercase;font-size:.68rem;color:var(--hz-cardo)}
 html.hz-plan .tarjeta-desc{color:var(--hz-g500)}
 html.hz-plan .tarjeta img{border-radius:10px 10px 0 0}
+html.hz-plan .edu-webs{border-top-color:var(--hz-borde)}
+html.hz-plan .edu-webs-tit{font-family:var(--hz-font);font-weight:800;letter-spacing:-.02em;color:var(--hz-suelo)}
+html.hz-plan .edu-webs-txt{color:var(--hz-g500)}
 
 /* acordeón, tomos, lector */
 html.hz-plan .accordion-item{border-bottom-color:var(--hz-borde)}
