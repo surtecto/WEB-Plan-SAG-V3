@@ -97,7 +97,7 @@
     presupuesto: { t: 'Observatorio económico', p: [['presupuesto/', 'El presupuesto de Giles, 2008–2026'], ['salud/', 'La salud que cuenta']] },
     salud: { t: 'Observatorio de salud', p: [['salud/', 'La salud que cuenta'], ['presupuesto/', 'El presupuesto de Giles']] },
     poblamiento: { t: 'Poblamiento y Vegetación', p: [
-      ['crecimiento-urbano/', 'El Partido'], ['crecimiento-urbano/ciudad/', 'Ciudad'],
+      ['crecimiento-urbano/', 'El Partido'], ['crecimiento-urbano/huella/', 'La huella urbana'], ['crecimiento-urbano/ciudad/', 'Ciudad'],
       ['crecimiento-urbano/pagos/de-a-caballo/', 'de a Caballo', '1'], ['crecimiento-urbano/pagos/campo-y-ciudad/', 'Campo y Ciudad', '2'],
       ['crecimiento-urbano/pagos/canada-de-la-cruz/', 'Cañada de la Cruz', '3'], ['crecimiento-urbano/pagos/canada-de-giles/', 'Cañada de Giles', '4'],
       ['crecimiento-urbano/pagos/tuyuti/', 'Tuyutí', '5'], ['crecimiento-urbano/pagos/heavy/', 'Heavy', '6'],
