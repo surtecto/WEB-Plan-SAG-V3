@@ -203,7 +203,7 @@
     else if (ar.tipo === 'ciudad' && CP.p1884.on && (m.fase === 'serie' || m.fase === 'fin')) { var kk = cob84(ar, m.anio); if (kk) nota = 'Planta de 1884 ocupada: ' + fmt(kk.pct) + ' % · huella fuera de ella: ' + fmt(kk.fuera) + ' ha'; }
     else if (ar.tipo === 'pueblo' && (m.fase === 'serie' || m.fase === 'fin') && ar.primera && m.anio < ar.primera) nota = 'Landsat todavía no lo distingue del campo';
     else if (ar.tipo === 'pueblo' && m.anio > 2023.4) nota = S.vista === 'todas' ? 'Sin dato posterior a 2023' : 'Sin dato posterior a 2023. En gris, huella anterior a 2023 que Landsat no logra fechar (lotes muy arbolados)';
-    if (nota) wrap(nota, 10, p.mh - (ar.tipo === 'ciudad' ? 40 : 30), p.w - 20, ar.tipo === 'ciudad' ? 18 : 14);
+    if (nota) wrap(nota, 10, ar.tipo === 'pueblo' && S.vista === 'todas' ? 20 : p.mh - (ar.tipo === 'ciudad' ? 40 : 30), p.w - 20, ar.tipo === 'ciudad' ? 18 : 14);
     ctx.shadowBlur = 0;
     if (ar.tipo === 'ciudad' && S.vista === 'todas') ventanaPueblos(p, C);
     escala(p, C);
