@@ -1,3 +1,3 @@
-# Huella v2 (en curso, 10/11/2026)
+# Huella v2 (10/11/2026)
 
-Huella por edificación fechada: `auditoria.py` (errores de la v1), `entrada.py` (edificaciones y testigos), `trabajo/` (cálculo en el navegador), `edif_landsat.py` (época Landsat por edificación), `fechar.py` (detector de techos y fecha), `tejido.py` + `huella_datos2.py` (huella por época), `construir2.py` (página). Falta procesar `huella_wayback_SAG.zip`.
+Orden: `auditoria.py` → `entrada.py` → navegador (`../../trabajo/`, arma huella_wayback_SAG.zip) → `edif_landsat.py` → `fechar.py` (detector, calidad y validación por toma) → `fechar_cp.py` (fecha por punto de cambio con sensibilidad medida y previa EM) → `huella_datos2.py` (tejido por época con `tejido.py`) → `construir2.py`. Rutas al directorio de trabajo de la sesión (/home/claude/work/huella2).

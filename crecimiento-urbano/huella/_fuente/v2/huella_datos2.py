@@ -28,7 +28,7 @@ for i, r in enumerate(S.itertuples()):
         fecha[i], clase[i], intervalo[i] = min(np.floor(f.visto), 2023), 'wb', f.ausente
     elif f.estado == 'ya_en_primera':
         if ls and ls <= f.primera_toma: fecha[i], clase[i] = ls, 'ls'
-        else: fecha[i], clase[i] = np.floor(f.primera_toma), 'previo'
+        else: fecha[i], clase[i] = min(np.floor(f.primera_toma), 2023), 'previo'
     else:  # nunca visto con techo (copa de árboles, sombra) aunque Google lo detectó antes de mayo de 2023
         if ls and ls <= 2006: fecha[i], clase[i] = ls, 'ls'
         else: fecha[i], clase[i] = 2023, 'sf'
@@ -103,12 +103,13 @@ for a0 in H0['areas']:
     areas.append(a)
     print(a['n'], 'huella', a['huella_ha'], 'previo', a['previo_ha'], 'sin fecha', a['sf_ha'], a['n_clase'], [(x['a'], x['ha']) for x in a['serie']])
 
-GR = [['1976–1980', [1976], '#3b2a5a', 'ls'], ['1987', [1987], '#2A5C7E', 'ls'], ['1999–2000', [2000], '#2f8a8a', 'ls'], ['2005–2006', [2006], '#5f9a62', 'ls'],
-      ['Ya estaba en la primera toma', [], '#9a8fae', 'previo'], ['2010–2016', [2010, 2011, 2012, 2013, 2014, 2015, 2016], '#c9b43a', 'wb'],
-      ['2017–2020', [2017, 2018, 2019, 2020], '#e07a2e', 'wb'], ['2021–2023', [2021, 2022, 2023], '#c0392b', 'wb']]
-ETQ = {1976: '1976–1980', 1987: '1987', 2000: '1999–2000', 2006: '2005–2006', 2011: '2011'}
+GR = [['1976–1980', [1976], '#3b2a5a', 'ls'], ['1987', [1987], '#2A5C7E', 'ls'], ['1999–2000', [2000], '#2f8a8a', 'ls'], ['2005–2011', [2006, 2011], '#5f9a62', 'ls'],
+      ['Ya estaba en la primera toma', [], '#9a8fae', 'previo'], ['2014–2018', list(range(2010, 2019)), '#c9b43a', 'wb'],
+      ['2019–2021', [2019, 2020, 2021], '#e07a2e', 'wb'], ['2022–2023', [2022, 2023], '#c0392b', 'wb']]
+ETQ = {1976: '1976–1980', 1987: '1987', 2000: '1999–2000', 2006: '2005–2006', 2011: '2011', 2010: '2010', 2013: '2013'}
 eps = sorted({x['a'] for a in areas for x in a['serie']})
 out = dict(version=2, areas=areas, limites=H0['limites'], grupos=GR, epocas=[dict(a=e, ep=ETQ.get(e, str(e))) for e in eps],
-           fuentes=H0['fuentes'], fondo=H0['fondo'], validacion=(pd.read_csv(W + 'validacion_tomas.csv').to_dict('records') if os.path.exists(W + 'validacion_tomas.csv') else None))
+           fuentes=H0['fuentes'], fondo=H0['fondo'], validacion=(pd.read_csv(W + 'validacion_tomas.csv').to_dict('records') if os.path.exists(W + 'validacion_tomas.csv') else None),
+           calidad=(pd.read_csv(W + 'calidad_tomas.csv').round(3).to_dict('records') if os.path.exists(W + 'calidad_tomas.csv') else None))
 json.dump(out, open(OUT, 'w'), ensure_ascii=False, separators=(',', ':'))
 print('huella.json', round(os.path.getsize(OUT) / 1024), 'KB')

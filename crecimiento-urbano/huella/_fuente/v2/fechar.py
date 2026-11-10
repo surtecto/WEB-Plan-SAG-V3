@@ -34,7 +34,14 @@ for k, fc in META.items():
     if not fc or not fc.get('features'): continue
     rel, zn = k.split('|'); geoms, attrs = [], []
     for f in fc['features']:
-        try: g = shape(f['geometry'])
+        try:
+            gj = f['geometry']
+            def limpio(c):
+                if isinstance(c, list) and c and isinstance(c[0], list): return [y for y in (limpio(x) for x in c) if y]
+                return c[:2] if isinstance(c, list) and len(c) >= 2 and None not in c[:2] else None
+            gj = dict(type=gj['type'], coordinates=limpio(gj['coordinates']))
+            g = shape(gj).buffer(0)
+            if g.is_empty: continue
         except Exception: continue
         geoms.append(g); attrs.append((fecha_attr(f['properties']), f['properties'].get('SRC_RES'), f['properties'].get('NICE_DESC') or f['properties'].get('SRC_DESC')))
     idx[(int(rel), zn)] = (STRtree(geoms), geoms, attrs)
@@ -58,6 +65,17 @@ R['ty'] = R.tf.dt.year + (R.tf.dt.dayofyear - 1) / 365.25
 R = R.sort_values('rel').drop_duplicates(['id', 'toma'], keep='last')
 print('tomas distintas', R.toma.nunique(), sorted(R.toma.unique())[:20])
 
+# --- calidad de cada versión: una versión vieja puede estar remuestreada (borrosa) en el nivel 17 ---
+LSA = R.bid.map(S.set_index('id').ls_anio)
+R['pre06'] = (~R.testigo) & LSA.isin([1976, 1987, 2000, 2006]).values
+q = R.groupby(['rel', 'toma']).apply(lambda g: pd.Series(dict(n=int((~g.testigo).sum()), sdL_real=float(g[~g.testigo].sdL.median()), sdL_test=float(g[g.testigo].sdL.median()),
+                                                           dRGB=float(np.sqrt((g.R - g.Rr) ** 2 + (g.G - g.Gr) ** 2 + (g.B - g.Br) ** 2)[g.pre06].median()) if g.pre06.any() else np.nan)))
+print(q.sort_index(level=1).to_string())
+MALAS = set(q[(q.n >= 20) & ((q.sdL_real < 10) | (q.dRGB < 25))].index)
+print('tomas descartadas por calidad (borrosas en el nivel 17):', sorted(MALAS))
+R = R[~pd.MultiIndex.from_arrays([R.rel, R.toma]).isin(list(MALAS))].copy()
+pd.DataFrame(sorted(MALAS), columns=['rel', 'toma']).to_csv('tomas_descartadas.csv', index=False)
+
 # --- 2 · rasgos y detector ---
 L = (R.R + R.G + R.B) / 3; Lr = (R.Rr + R.Gr + R.Br) / 3
 X = pd.DataFrame({'veg': R.veg, 'vegR': R.vegR, 'dveg': R.vegR - R.veg, 'L': L, 'Lr': Lr, 'dL': L - Lr,
@@ -70,7 +88,7 @@ C = ctx.reindex(pd.MultiIndex.from_arrays([R.toma.values, R.zona.values])).reset
 for c in ['veg', 'vegR', 'L', 'Lr', 'exg', 'sdL', 'edge']: X['c_' + c] = C[c].values; X['r_' + c] = X[c].values - C[c].values
 X = X.reset_index(drop=True); R = R.reset_index(drop=True)
 ult = R.groupby('id').ty.transform('max') == R.ty
-casco = R.bid.map(S.set_index('id').ls_anio).values == 1976
+casco = R.bid.map(S.set_index('id').ls_anio).isin([1976, 1987, 2000, 2006]).values
 pos = (~R.testigo) & (ult | casco)
 lab = np.where(R.testigo, 0, np.where(pos, 1, -1))
 tr_m = lab >= 0
@@ -91,24 +109,30 @@ R['p'] = p
 TH = 0.5
 val = []
 for tk, g in R.groupby('toma'):
-    neg = g[g.testigo].p; cas = g[(~g.testigo) & (R.loc[g.index].bid.map(S.set_index('id').ls_anio) == 1976)].p; ul = g[(~g.testigo) & ult[g.index]].p
+    neg = g[g.testigo].p; cas = g[(~g.testigo) & (R.loc[g.index].bid.map(S.set_index('id').ls_anio).isin([1976, 1987, 2000, 2006]))].p; ul = g[(~g.testigo) & ult[g.index]].p
     val.append(dict(toma=tk, sensor=g.sensor.mode().iat[0] if g.sensor.notna().any() else None, res=g.res.median(), n_edif=int((~g.testigo).sum()), n_test=int(len(neg)),
                     falsos_pos=round(float((neg >= TH).mean()) * 100, 1) if len(neg) else None, aciertos_casco=round(float((cas >= TH).mean()) * 100, 1) if len(cas) else None,
                     aciertos_ultima=round(float((ul >= TH).mean()) * 100, 1) if len(ul) else None))
 V = pd.DataFrame(val); print(V.to_string())
 
-# --- 3 · fecha de aparición ---
+# --- 3 · fecha de aparición: punto de cambio (ausente → presente) de máxima verosimilitud ---
+# cada edificación tiene una secuencia de probabilidades de techo por toma; se elige la toma k que mejor separa
+# «ausente antes de k» de «presente desde k». Google la detectó antes de mayo de 2023, así que k no puede ser posterior
+# a la primera toma de mayo de 2023 en adelante. Si el techo no se ve en ninguna toma (p < 0,3 en todas), queda sin fecha.
 Rr = R[~R.testigo].sort_values(['id', 'ty'])
 res = []
 for bid, g in Rr.groupby('id'):
-    ty = g.ty.values; pr = g.p.values; ok = pr >= TH
-    primera = ty[0]
-    k = None
-    for i in range(len(ty)):
-        if ok[i] and ok[i:].mean() >= 0.75: k = i; break
-    if k is None: res.append((bid, np.nan, np.nan, primera, 'nunca', len(ty))); continue
-    if k == 0: res.append((bid, ty[0], np.nan, primera, 'ya_en_primera', len(ty))); continue
-    res.append((bid, ty[k], ty[k - 1], primera, 'aparece', len(ty)))
-F = pd.DataFrame(res, columns=['id', 'visto', 'ausente', 'primera_toma', 'estado', 'n_tomas'])
+    g = g.groupby('ty', as_index=False).p.mean()
+    ty = g.ty.values; pr = np.clip(g.p.values, 0.03, 0.97); n = len(ty)
+    if pr.max() < 0.3: res.append((bid, np.nan, np.nan, ty[0], 'nunca', n, float(pr.max()))); continue
+    kmax = next((i for i in range(n) if ty[i] >= 2023.38), n - 1)
+    la, lp = np.log(1 - pr), np.log(pr)
+    ll = [la[:k].sum() + lp[k:].sum() for k in range(kmax + 1)]
+    k = int(np.argmax(ll)); conf = float(np.exp(ll[k] - np.logaddexp.reduce(ll)))
+    if k == 0: res.append((bid, ty[0], np.nan, ty[0], 'ya_en_primera', n, conf))
+    else: res.append((bid, ty[k], ty[k - 1], ty[0], 'aparece', n, conf))
+F = pd.DataFrame(res, columns=['id', 'visto', 'ausente', 'primera_toma', 'estado', 'n_tomas', 'conf'])
 F.to_pickle('fechas_wayback.pkl'); R.to_pickle('filas_wayback.pkl'); V.to_csv('validacion_tomas.csv', index=False)
-print(F.estado.value_counts()); print(F.groupby(F.visto.round()).size())
+print(F.estado.value_counts()); print(F[F.estado == 'aparece'].visto.astype(int).value_counts().sort_index())
+print('confianza del punto de cambio: mediana', round(F.conf.median(), 3), '· < 0,6:', round(float((F.conf < 0.6).mean()) * 100, 1), '%')
+print('primera toma por zona', F.assign(z=zona[F.id.values]).groupby('z').primera_toma.agg(['min', 'median']).round(2).to_dict())

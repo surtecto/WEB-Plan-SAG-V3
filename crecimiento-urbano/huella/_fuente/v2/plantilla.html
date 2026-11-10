@@ -86,7 +86,7 @@ html.hz body { background: var(--hz-fondo); color: var(--hz-suelo); }
     <div>
       <h2>Qué se ve</h2>
       <p id="txtResumen"></p>
-      <p>En 1884 la planta urbana estaba trazada pero no ocupada: la mayor parte de sus lotes tenía alambrado o cerco, o estaba baldía. La animación arranca ahí, salta noventa y dos años sin imágenes, sigue con Landsat hasta 2006 y desde 2010 con las tomas de alta resolución, edificación por edificación. Antes de 2010 sólo se fecha lo que Landsat distinguía; un pueblo o un barrio arbolado aparece recién en la primera toma, y eso no quiere decir que antes no existiera.</p>
+      <p>En 1884 la planta urbana estaba trazada pero no ocupada: la mayor parte de sus lotes tenía alambrado o cerco, o estaba baldía. La animación arranca ahí, salta noventa y dos años sin imágenes, sigue con Landsat hasta 2011 y desde la primera toma de alta resolución utilizable (diciembre de 2013 en la Ciudad; 2010 en Solís y Villa Ruiz), edificación por edificación. Antes de esa toma sólo se fecha lo que Landsat distinguía: un barrio parque o una quinta entre árboles aparece recién en la primera toma, en lila, y eso no quiere decir que antes no existiera.</p>
     </div>
     <div class="hu-preg" id="pregunta"></div>
   </section>
@@ -96,7 +96,7 @@ html.hz body { background: var(--hz-fondo); color: var(--hz-suelo); }
     <div id="txtMetodo"></div>
     <h3>Cómo se comporta el detector de techos en cada toma</h3>
     <div class="hu-tabla"><table id="tablaVal"></table></div>
-    <p class="hu-nota">Testigos: la misma forma de cada edificación, corrida 32 a 48 m a un lugar donde Google no detecta nada; deberían dar «sin techo». Casco 1976: edificaciones dentro de lo que Landsat ya veía construido en 1976–1980; deberían dar «con techo» en todas las tomas (salvo demoliciones o reconstrucciones). Validación cruzada por grupos de teselas.</p>
+    <p class="hu-nota">Testigos: la misma forma de cada edificación, corrida 32 a 48 m a un lugar donde Google no detecta nada; deberían dar «sin techo». Ya construidas: edificaciones que Landsat fechaba antes de 2006; deberían dar «con techo» en todas las tomas (salvo demoliciones). Validación cruzada por grupos de teselas. Se descartaron por borrosas (remuestreadas en el nivel 17) la toma del 12/01/2010 de la Ciudad y tres más; ver la lista en la ficha.</p>
   </section>
 
   <section class="hu-sec">
@@ -105,13 +105,13 @@ html.hz body { background: var(--hz-fondo); color: var(--hz-suelo); }
     <p class="hu-nota" id="tablaNota"></p>
     <h3>Tierra urbana por habitante en la Ciudad</h3>
     <div class="hu-tabla"><table id="tablaHab"></table></div>
-    <p class="hu-nota">Huella fechada del año de cada censo, interpolada entre las dos fechas medidas más cercanas. Habitantes de la Ciudad según los radios censales repartidos por tejido urbano dentro de su límite (1991–2010 con los radios de la cabecera; 2022 con la cartografía corregida).</p>
+    <p class="hu-nota">Huella del año de cada censo, interpolada entre las dos fechas medidas más cercanas. Antes de diciembre de 2013 hay un rango: el valor bajo cuenta sólo lo que Landsat fechaba; el alto suma lo que ya estaba en la primera toma y Landsat no veía. Habitantes de la Ciudad según los radios censales repartidos por tejido urbano dentro de su límite (1991–2010 con los radios de la cabecera; 2022 con la cartografía corregida).</p>
   </section>
 
   <section class="hu-sec">
     <h2>De qué imagen y de qué fecha sale cada cosa</h2>
     <ul class="hu-fuentes" id="fuentes"></ul>
-    <p class="hu-nota">Los datos de la animación (polígonos por época, series, planta de 1884 y límites) están en <a href="huella.json" download>huella.json</a>, en coordenadas geográficas WGS 84.</p>
+    <p class="hu-nota">Datos: <a href="edificaciones_fechadas.csv" download>edificaciones_fechadas.csv</a> (cada una de las 20.930 edificaciones con su año, la fuente de la fecha, la toma en que se ve por primera vez, la anterior en que no estaba y la confianza) y <a href="huella.json" download>huella.json</a> (polígonos por época, series, calidad de cada toma, planta de 1884 y límites), en coordenadas geográficas WGS 84. El cálculo en el navegador está en <a href="trabajo/">trabajo/</a>.</p>
   </section>
 
   <p class="hu-cred">Arq. Juan Patricio Addesso, Asesor del Consejo Municipal para el Desarrollo y el Ordenamiento Territorial (CMDOT) · Plan de Ordenamiento Territorial «Sendas del Habitar» · <a href="../">Poblamiento y Vegetación</a> · <a href="../ciudad/">SIG de la Ciudad</a></p>
