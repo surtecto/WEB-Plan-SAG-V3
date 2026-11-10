@@ -4,7 +4,7 @@
 window.FW = { fase: 'inicio', log: [], prog: {}, t0: Date.now(), err: 0 };
 (async () => {
   const J = window.FW, log = m => J.log.push(((Date.now() - J.t0) / 1000).toFixed(0) + 's ' + m);
-  const BASE = 'https://surtecto.github.io/WEB-Plan-SAG-V3/crecimiento-urbano/huella/_trabajo/';
+  const BASE = 'https://surtecto.github.io/WEB-Plan-SAG-V3/crecimiento-urbano/huella/trabajo/';
   const fx = async (u, ms, tipo) => { const c = new AbortController(), t = setTimeout(() => c.abort(), ms || 20000); try { const r = await fetch(u, { signal: c.signal }); if (!r.ok) throw new Error('http ' + r.status); return tipo === 'buf' ? await r.arrayBuffer() : await r.json(); } finally { clearTimeout(t); } };
   const reint = async (f, n) => { for (let i = 0; i < (n || 3); i++) { try { return await f(); } catch (e) { if (i === (n || 3) - 1) throw e; } } };
   async function pool(items, n, fn, tag) { let k = 0, done = 0; J.prog[tag] = [0, items.length]; const w = async () => { while (k < items.length) { const i = k++; try { await fn(items[i], i); } catch (e) { J.err++; if (J.err < 40) log(tag + ' ' + i + ' ' + e.message); } done++; J.prog[tag] = [done, items.length]; } }; await Promise.all(Array.from({ length: n }, w)); }
