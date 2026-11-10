@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es" class="hz hz-crec">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fechado por edificación · La huella urbana · Plan SAG</title>
+<link rel="stylesheet" href="../../../css/horizonte.css?v=20261101k">
+<script src="../../../js/marco.js?v=20261109"></script>
+<style>
+html.hz body { background: var(--hz-fondo); color: var(--hz-suelo); }
+.fw { max-width: 760px; margin: 0 auto; padding: 32px max(16px, env(safe-area-inset-left)) 48px; }
+.fw h1 { font-weight: 800; letter-spacing: -.03em; font-size: clamp(1.6rem, 4vw, 2.3rem); margin: 0 0 10px; }
+.fw p { line-height: 1.6; color: var(--hz-g700); max-width: 68ch; }
+.fw button { font: 700 1rem/1 var(--hz-font); background: var(--hz-boton); color: #fff; border: 0; border-radius: 12px; padding: 14px 20px; cursor: pointer; }
+.fw button:disabled { opacity: .5; cursor: default; }
+.fw .est { margin-top: 18px; padding: 14px 16px; border: 1px solid var(--hz-borde); border-radius: var(--hz-r); background: var(--hz-blanco); font-variant-numeric: tabular-nums; }
+.fw progress { width: 100%; height: 12px; accent-color: var(--hz-cardo); }
+.fw small { color: var(--hz-g500); }
+</style>
+</head>
+<body>
+<main class="fw">
+  <p class="hz-kick" style="font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--hz-g300)">La huella urbana · trabajo</p>
+  <h1>Fechar cada edificación con las tomas de alta resolución</h1>
+  <p>Busca cada una de las 20.930 edificaciones de Google de la Ciudad y los pueblos en todas las tomas distintas de Esri Wayback desde 2010, mide si se ve su techo y lee el NDVI de Landsat de la Ciudad. Tarda unos 25 minutos; dejá la pestaña abierta y la computadora sin suspender. Al terminar se descarga <b>huella_wayback_SAG.zip</b> (unos 10 MB, sólo números, ninguna imagen): guardalo en <code>OneDrive\Muni SAG\SHP\JSON</code>. No envía datos a ningún lado.</p>
+  <button type="button" id="ir">Calcular</button>
+  <div class="est" id="est" aria-live="polite">Listo para empezar.</div>
+  <p><small>Fuente del cálculo: <a href="fechar_wayback.js">fechar_wayback.js</a> · entrada: <a href="entrada.json">entrada.json</a> · Arq. Juan Patricio Addesso, Asesor del Consejo Municipal para el Desarrollo y el Ordenamiento Territorial (CMDOT)</small></p>
+</main>
+<script>
+(function () {
+  var est = document.getElementById('est'), bt = document.getElementById('ir');
+  var NOM = { inicio: 'Preparando', teselas: 'Midiendo cada edificación en cada toma', metadatos: 'Leyendo las fechas de toma de Esri', landsat: 'Leyendo Landsat de la Ciudad', empaquetando: 'Armando el archivo', listo: 'Listo', error: 'Error' };
+  bt.onclick = function () {
+    bt.disabled = true; est.textContent = 'Cargando…';
+    fetch('fechar_wayback.js', { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (t) {
+      (0, eval)(t);
+      var iv = setInterval(function () {
+        var F = window.FW; if (!F) return;
+        var p = F.prog[F.fase] || [0, 1], pct = p[1] ? Math.round(p[0] / p[1] * 100) : 0, min = Math.round((Date.now() - F.t0) / 60000);
+        est.innerHTML = '<b>' + (NOM[F.fase] || F.fase) + '</b> · ' + (p[1] ? p[0] + ' de ' + p[1] : '') + ' · ' + min + ' min<br><progress max="100" value="' + pct + '"></progress>' + (F.err ? '<br><small>' + F.err + ' pedidos fallidos (se reintentan; unos pocos no afectan el resultado)</small>' : '');
+        if (F.fase === 'listo' && !F.bajado) { F.bajado = true; window.FW_BAJAR(); est.innerHTML = '<b>Listo.</b> Se descargó huella_wayback_SAG.zip (' + F.mb + ' MB). Guardalo en OneDrive\\Muni SAG\\SHP\\JSON y avisá en la conversación.'; clearInterval(iv); }
+        if (F.fase === 'error') { est.innerHTML = '<b>Error:</b> ' + F.log.slice(-1)[0]; clearInterval(iv); bt.disabled = false; }
+      }, 3000);
+    }).catch(function (e) { est.textContent = 'No se pudo cargar el cálculo: ' + e.message; bt.disabled = false; });
+  };
+})();
+</script>
+</body>
+</html>

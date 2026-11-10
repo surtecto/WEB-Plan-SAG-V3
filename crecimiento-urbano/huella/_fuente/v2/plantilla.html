@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="es" class="hz hz-crec">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>La huella urbana · Poblamiento y Vegetación · Plan SAG</title>
+<meta name="description" content="Animación de la ampliación de las áreas urbanas de San Andrés de Giles, 1884–2023: la huella de cada edificación fechada con Landsat y con las tomas de alta resolución de 2010 a 2025, en la Ciudad y siete pueblos.">
+<meta name="theme-color" content="#3A3027">
+<link rel="stylesheet" href="../../css/horizonte.css?v=20261101k">
+<script src="../../js/marco.js?v=20261109"></script>
+<style>
+html.hz body { background: var(--hz-fondo); color: var(--hz-suelo); }
+.sr { position: absolute; left: -9999px; top: 0; }
+.sr:focus { left: 16px; top: 8px; z-index: 60; background: var(--hz-boton); color: #fff; padding: 8px 12px; border-radius: 10px; }
+.hu-sec a, .hu-cred a { color: var(--hz-cardo); }
+.hu-w { max-width: 1240px; margin: 0 auto; padding: 0 max(16px, env(safe-area-inset-left)); }
+.hu-cab { padding: 28px 0 10px; }
+.hu-kick { font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--hz-g300); margin: 0 0 6px; }
+.hu-cab h1 { font-weight: 800; letter-spacing: -.035em; line-height: 1.04; font-size: clamp(1.8rem, 4vw, 2.9rem); margin: 0 0 10px; }
+.hu-cab .lead { max-width: 68ch; color: var(--hz-g500); font-size: 1.02rem; line-height: 1.55; margin: 0; }
+.hu-escena { margin: 18px 0 0; border: 1px solid var(--hz-borde); border-radius: var(--hz-r); overflow: hidden; background: var(--hz-blanco); box-shadow: var(--hz-sombra); }
+.hu-lienzo:fullscreen { width: 100vw; height: 100vh; object-fit: contain; background: var(--hz-blanco); }
+.hu-lienzo { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; background: var(--hz-g50); }
+.hu-ctl { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; padding: 12px 14px; border-top: 1px solid var(--hz-borde); }
+.hu-ctl button, .hu-ctl select { font: 600 .86rem/1 var(--hz-font); color: var(--hz-suelo); background: var(--hz-blanco); border: 1px solid var(--hz-borde); border-radius: 10px; padding: 9px 12px; min-height: 40px; cursor: pointer; }
+.hu-ctl button.prim { background: var(--hz-boton); color: #fff; border-color: var(--hz-boton); min-width: 104px; }
+.hu-ctl button:focus-visible, .hu-ctl select:focus-visible, .hu-ctl input:focus-visible, .hu-capas input:focus-visible { outline: 2px solid var(--hz-cardo); outline-offset: 2px; }
+.hu-ctl .regla { flex: 1 1 260px; display: flex; align-items: center; gap: 10px; min-width: 220px; }
+.hu-ctl .regla input { flex: 1; accent-color: var(--hz-cardo); }
+.hu-ctl .regla output { font: 700 .95rem var(--hz-font); font-variant-numeric: tabular-nums; min-width: 46px; text-align: right; }
+.hu-ctl label.sel { display: flex; align-items: center; gap: 6px; font-size: .82rem; color: var(--hz-g500); }
+.hu-ctl .dcha { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+.hu-capas { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 6px 18px; padding: 10px 14px 14px; border-top: 1px solid var(--hz-borde); background: var(--hz-g50); }
+.hu-capas .t { grid-column: 1 / -1; font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--hz-g300); }
+.hu-capa { display: grid; grid-template-columns: auto 1fr 88px; gap: 4px 8px; align-items: center; font-size: .84rem; }
+.hu-capa small { grid-column: 2 / 4; color: var(--hz-g300); font-size: .72rem; line-height: 1.3; }
+.hu-capa input[type=range] { width: 88px; accent-color: var(--hz-cardo); }
+.hu-estado { font-size: .78rem; color: var(--hz-g500); padding: 0 14px 10px; min-height: 1.2em; }
+.hu-sec { padding: 34px 0 6px; }
+.hu-sec h2 { font-weight: 800; letter-spacing: -.03em; font-size: clamp(1.35rem, 2.6vw, 1.8rem); margin: 0 0 10px; }
+.hu-sec h3 { font-weight: 700; font-size: 1.05rem; margin: 18px 0 6px; }
+.hu-sec p, .hu-sec li { max-width: 74ch; line-height: 1.6; color: var(--hz-g700); }
+.hu-dos { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 28px; }
+.hu-preg { border-left: 3px solid var(--hz-cardo); background: var(--hz-cardo-claro); padding: 14px 16px; border-radius: 0 var(--hz-r) var(--hz-r) 0; color: var(--hz-suelo); }
+.hu-preg p { color: var(--hz-suelo); margin: 0 0 8px; }
+.hu-tabla { overflow-x: auto; border: 1px solid var(--hz-borde); border-radius: var(--hz-r); }
+.hu-tabla table { border-collapse: collapse; width: 100%; font-size: .86rem; font-variant-numeric: tabular-nums; }
+.hu-tabla th, .hu-tabla td { padding: 8px 10px; border-bottom: 1px solid var(--hz-borde); text-align: right; white-space: nowrap; }
+.hu-tabla th:first-child, .hu-tabla td:first-child, .hu-tabla td.izq, .hu-tabla th.izq { text-align: left; }
+.hu-tabla thead th { background: var(--hz-g100); font-size: .74rem; letter-spacing: .04em; color: var(--hz-g500); font-weight: 700; white-space: normal; vertical-align: bottom; line-height: 1.25; }
+.hu-nota { font-size: .8rem; color: var(--hz-g300); }
+.hu-fuentes li { font-size: .88rem; }
+.hu-cred { margin: 26px 0 40px; padding-top: 14px; border-top: 1px solid var(--hz-borde); font-size: .84rem; color: var(--hz-g500); }
+@media (max-width: 820px) { .hu-dos { grid-template-columns: 1fr; } .hu-ctl .dcha { margin-left: 0; } }
+@media (prefers-reduced-motion: reduce) { .hu-lienzo { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<a class="sr" href="#contenido">Saltar al contenido</a>
+<main id="contenido">
+<div class="hu-w">
+  <header class="hu-cab">
+    <p class="hu-kick">San Andrés de Giles · 1884–2023 · Poblamiento y Vegetación</p>
+    <h1>La huella urbana del Partido</h1>
+    <p class="lead">La Ciudad desde la planta de 1884 y siete pueblos, con la huella de sus edificaciones fechada una por una: Landsat hasta 2006 y las tomas de alta resolución de 2010 a 2025. Cada color es un período de ampliación; la curva de abajo acumula la superficie.</p>
+  </header>
+
+  <figure class="hu-escena">
+    <canvas class="hu-lienzo" id="lienzo" width="1600" height="900" role="img" aria-label="Animación de la ampliación de las áreas urbanas de San Andrés de Giles entre 1884 y 2026"></canvas>
+    <div class="hu-ctl">
+      <button type="button" class="prim" id="btPlay" aria-pressed="false">▶ Reproducir</button>
+      <div class="regla"><input type="range" id="regla" min="0" max="1000" value="0" aria-label="Momento de la animación"><output id="anioOut">1884</output></div>
+      <label class="sel">Vista <select id="selVista"></select></label>
+      <label class="sel">Ritmo <select id="selRitmo"><option value="1.6">Lento</option><option value="1" selected>30 segundos</option><option value="0.6">Rápido</option></select></label>
+      <div class="dcha">
+        <button type="button" id="btGrabar">● Grabar video</button>
+        <button type="button" id="btPng">Guardar cuadro</button>
+        <button type="button" id="btPantalla">⤢ Pantalla completa</button>
+      </div>
+    </div>
+    <div class="hu-capas" id="capas"><span class="t">Capas</span></div>
+    <div class="hu-estado" id="estado" aria-live="polite"></div>
+  </figure>
+
+  <section class="hu-sec hu-dos">
+    <div>
+      <h2>Qué se ve</h2>
+      <p id="txtResumen"></p>
+      <p>En 1884 la planta urbana estaba trazada pero no ocupada: la mayor parte de sus lotes tenía alambrado o cerco, o estaba baldía. La animación arranca ahí, salta noventa y dos años sin imágenes, sigue con Landsat hasta 2006 y desde 2010 con las tomas de alta resolución, edificación por edificación. Antes de 2010 sólo se fecha lo que Landsat distinguía; un pueblo o un barrio arbolado aparece recién en la primera toma, y eso no quiere decir que antes no existiera.</p>
+    </div>
+    <div class="hu-preg" id="pregunta"></div>
+  </section>
+
+  <section class="hu-sec">
+    <h2>Qué se corrigió</h2>
+    <div id="txtMetodo"></div>
+    <h3>Cómo se comporta el detector de techos en cada toma</h3>
+    <div class="hu-tabla"><table id="tablaVal"></table></div>
+    <p class="hu-nota">Testigos: la misma forma de cada edificación, corrida 32 a 48 m a un lugar donde Google no detecta nada; deberían dar «sin techo». Casco 1976: edificaciones dentro de lo que Landsat ya veía construido en 1976–1980; deberían dar «con techo» en todas las tomas (salvo demoliciones o reconstrucciones). Validación cruzada por grupos de teselas.</p>
+  </section>
+
+  <section class="hu-sec">
+    <h2>Las áreas urbanas en números</h2>
+    <div class="hu-tabla"><table id="tabla"></table></div>
+    <p class="hu-nota" id="tablaNota"></p>
+    <h3>Tierra urbana por habitante en la Ciudad</h3>
+    <div class="hu-tabla"><table id="tablaHab"></table></div>
+    <p class="hu-nota">Huella fechada del año de cada censo, interpolada entre las dos fechas medidas más cercanas. Habitantes de la Ciudad según los radios censales repartidos por tejido urbano dentro de su límite (1991–2010 con los radios de la cabecera; 2022 con la cartografía corregida).</p>
+  </section>
+
+  <section class="hu-sec">
+    <h2>De qué imagen y de qué fecha sale cada cosa</h2>
+    <ul class="hu-fuentes" id="fuentes"></ul>
+    <p class="hu-nota">Los datos de la animación (polígonos por época, series, planta de 1884 y límites) están en <a href="huella.json" download>huella.json</a>, en coordenadas geográficas WGS 84.</p>
+  </section>
+
+  <p class="hu-cred">Arq. Juan Patricio Addesso, Asesor del Consejo Municipal para el Desarrollo y el Ordenamiento Territorial (CMDOT) · Plan de Ordenamiento Territorial «Sendas del Habitar» · <a href="../">Poblamiento y Vegetación</a> · <a href="../ciudad/">SIG de la Ciudad</a></p>
+</div>
+</main>
+<script>window.HUELLA=@@DATOS@@;</script>
+<script>
+@@JS@@
+</script>
+</body>
+</html>
